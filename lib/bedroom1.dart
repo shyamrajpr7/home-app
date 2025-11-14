@@ -260,3 +260,6 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
     );
   }
 }
+
+
+
