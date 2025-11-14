@@ -1,0 +1,43 @@
+name: my_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  image_picker: ^1.0.7
+  font_awesome_flutter: ^10.7.0
+  cupertino_icons: ^1.0.8
+  material_design_icons_flutter: ^7.0.7296
+  sleek_circular_slider: ^2.0.1
+  flutter_vlc_player: ^7.4.1
+  camera: ^0.11.0+1
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/abc.jpeg
+    - images/def.jpg
+    - images/jkl.jpeg
+    - images/living.jpg
+    - images/bedroom1.jpg
+    - images/bedroom2.jpg
+    - images/dining.jpeg
+    - images/kitchen.jpeg
+    - images/outside.avif
+    - images/forgot.webp
+    - images/signup.jpeg
+    - images/home.avif
