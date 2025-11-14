@@ -29,7 +29,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
       ),
       body: Stack(
         children: [
-          // ✅ Background Image
+          // Background Image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -43,7 +43,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
             ),
           ),
 
-          // ✅ Foreground (Cards)
+          // Foreground (Cards)
           SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
