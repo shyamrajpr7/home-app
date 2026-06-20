@@ -46,7 +46,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnim,
@@ -59,11 +59,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppTheme.accentTeal,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.accentTeal.withAlpha(60),
+                        color: Theme.of(context).colorScheme.primary.withAlpha(60),
                         blurRadius: 30,
                         spreadRadius: 5,
                       ),
@@ -89,7 +89,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 const Text(
                   'Smart Living, Simplified',
                   style: TextStyle(
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                     fontSize: 14,
                     letterSpacing: 0.5,
                   ),

@@ -152,7 +152,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Add Device'),
         leading: IconButton(
@@ -192,12 +192,12 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              color: AppTheme.accentTeal.withAlpha(20),
+              color: Theme.of(context).colorScheme.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(24),
             ),
             child: const Icon(
               Icons.bluetooth_searching,
-              color: AppTheme.accentTeal,
+              color: Theme.of(context).colorScheme.primary,
               size: 48,
             ),
           ),
@@ -205,7 +205,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
           const Text(
             'Prepare Your Device',
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 22,
               fontWeight: FontWeight.w700,
             ),
@@ -246,7 +246,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
           const Text(
             'Select Your Device',
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 22,
               fontWeight: FontWeight.w700,
             ),
@@ -255,7 +255,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
           const Text(
             'Choose your ESP32 device from the list below',
             style: TextStyle(
-              color: AppTheme.textSecondary,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               fontSize: 14,
             ),
           ),
@@ -279,18 +279,18 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.statusRed.withAlpha(15),
+                color: Theme.of(context).colorScheme.error.withAlpha(15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
                   const Icon(Icons.error_outline,
-                      color: AppTheme.statusRed, size: 20),
+                      color: Theme.of(context).colorScheme.error, size: 20),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _scanError!,
-                      style: const TextStyle(color: AppTheme.statusRed),
+                      style: TextStyle(color: Theme.of(context).colorScheme.error),
                     ),
                   ),
                 ],
@@ -305,7 +305,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                           ? 'Searching for nearby devices...'
                           : 'No devices found. Tap Scan to search.',
                       style: TextStyle(
-                        color: AppTheme.textSecondary.withAlpha(120),
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
                       ),
                     ),
                   )
@@ -319,12 +319,12 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                         margin: const EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppTheme.accentTeal.withAlpha(20)
-                              : AppTheme.surfaceColor,
+                              ? Theme.of(context).colorScheme.primary.withAlpha(20)
+                              : Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? AppTheme.accentTeal
+                                ? Theme.of(context).colorScheme.primary
                                 : Colors.transparent,
                             width: 1.5,
                           ),
@@ -333,32 +333,32 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppTheme.accentTeal.withAlpha(20),
+                              color: Theme.of(context).colorScheme.primary.withAlpha(20),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
                               Icons.memory,
-                              color: AppTheme.accentTeal,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           title: Text(
                             device.name,
                             style: const TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
                             'Signal: ${device.rssi} dBm',
                             style: const TextStyle(
-                              color: AppTheme.textSecondary,
+                              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                               fontSize: 12,
                             ),
                           ),
                           trailing: Radio<String>(
                             value: device.id,
                             groupValue: _selectedDevice?.id,
-                            activeColor: AppTheme.accentTeal,
+                            activeColor: Theme.of(context).colorScheme.primary,
                             onChanged: (_) {
                               setState(() => _selectedDevice = device);
                             },
@@ -391,7 +391,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
           const Text(
             'Wi-Fi Setup',
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 22,
               fontWeight: FontWeight.w700,
             ),
@@ -400,7 +400,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
           const Text(
             'Enter your home Wi-Fi credentials',
             style: TextStyle(
-              color: AppTheme.textSecondary,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               fontSize: 14,
             ),
           ),
@@ -465,14 +465,14 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             child: CircularProgressIndicator(
               strokeWidth: 4,
               valueColor:
-                  AlwaysStoppedAnimation<Color>(AppTheme.accentTeal),
+                  AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
             ),
           ),
           const SizedBox(height: 32),
           const Text(
             'Connecting Device',
             style: TextStyle(
-              color: AppTheme.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 22,
               fontWeight: FontWeight.w700,
             ),
@@ -482,7 +482,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             'Your device is connecting to Wi-Fi.\nThis may take up to 30 seconds.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppTheme.textSecondary,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               fontSize: 14,
               height: 1.5,
             ),
@@ -492,12 +492,12 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.statusRed.withAlpha(15),
+                color: Theme.of(context).colorScheme.error.withAlpha(15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 _connectError!,
-                style: const TextStyle(color: AppTheme.statusRed),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
             const SizedBox(height: 16),
@@ -511,8 +511,8 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               icon: const Icon(Icons.refresh),
               label: const Text('Retry'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppTheme.accentTeal,
-                side: const BorderSide(color: AppTheme.accentTeal),
+                foregroundColor: Theme.of(context).colorScheme.primary,
+                side: BorderSide(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           ] else ...[
@@ -520,7 +520,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             Text(
               'Attempt ${_connectAttempts + 1}',
               style: const TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 12,
               ),
             ),
@@ -572,7 +572,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             child: Text(
               'Device Connected!',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
               ),
@@ -597,7 +597,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               const DropdownMenuItem(
                 value: '',
                 child: Text('Select a room',
-                    style: TextStyle(color: AppTheme.textSecondary)),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150))),
               ),
               ...roomsAsync.valueOrNull?.map((room) =>
                       DropdownMenuItem(
@@ -607,7 +607,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                   [],
             ],
             onChanged: (v) => setState(() => _selectedRoom = v ?? ''),
-            dropdownColor: AppTheme.surfaceColor,
+            dropdownColor: Theme.of(context).colorScheme.surface,
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<DeviceType>(
@@ -627,7 +627,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               );
             }).toList(),
             onChanged: (v) => setState(() => _selectedType = v ?? DeviceType.light),
-            dropdownColor: AppTheme.surfaceColor,
+            dropdownColor: Theme.of(context).colorScheme.surface,
           ),
           const Spacer(),
           SizedBox(
@@ -678,8 +678,8 @@ class _StepIndicator extends StatelessWidget {
                   height: 28,
                   decoration: BoxDecoration(
                     color: isActive
-                        ? AppTheme.accentTeal
-                        : AppTheme.surfaceColor,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.surface,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -688,7 +688,7 @@ class _StepIndicator extends StatelessWidget {
                       style: TextStyle(
                         color: isActive
                             ? const Color(0xFF1A1B2F)
-                            : AppTheme.textSecondary,
+                            : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -700,8 +700,8 @@ class _StepIndicator extends StatelessWidget {
                     child: Container(
                       height: 2,
                       color: isActive
-                          ? AppTheme.accentTeal
-                          : AppTheme.textSecondary.withAlpha(40),
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface.withAlpha(40),
                     ),
                   ),
               ],
@@ -729,14 +729,14 @@ class _InstructionStep extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: AppTheme.accentTeal.withAlpha(20),
+              color: Theme.of(context).colorScheme.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Text(
                 '$number',
                 style: const TextStyle(
-                  color: AppTheme.accentTeal,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -747,7 +747,7 @@ class _InstructionStep extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 15,
               ),
             ),

@@ -16,7 +16,7 @@ class SettingsScreen extends ConsumerWidget {
     final isDark = ref.watch(isDarkModeProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -27,7 +27,7 @@ class SettingsScreen extends ConsumerWidget {
               const Text(
                 'Profile',
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),
@@ -39,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
@@ -56,7 +56,7 @@ class SettingsScreen extends ConsumerWidget {
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            color: AppTheme.accentTeal.withAlpha(20),
+                            color: Theme.of(context).colorScheme.primary.withAlpha(20),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: user?.photoUrl != null
@@ -69,7 +69,7 @@ class SettingsScreen extends ConsumerWidget {
                                 )
                               : const Icon(
                                   Icons.person_outline,
-                                  color: AppTheme.accentTeal,
+                                  color: Theme.of(context).colorScheme.primary,
                                   size: 32,
                                 ),
                         ),
@@ -82,7 +82,7 @@ class SettingsScreen extends ConsumerWidget {
                             Text(
                               user?.name ?? 'User',
                               style: const TextStyle(
-                                color: AppTheme.textPrimary,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -91,7 +91,7 @@ class SettingsScreen extends ConsumerWidget {
                             Text(
                               user?.email ?? '',
                               style: const TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                                 fontSize: 13,
                               ),
                             ),
@@ -100,7 +100,7 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                       const Icon(
                         Icons.edit_outlined,
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                         size: 20,
                       ),
                     ],
@@ -109,7 +109,7 @@ class SettingsScreen extends ConsumerWidget {
                 loading: () => Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
@@ -118,7 +118,7 @@ class SettingsScreen extends ConsumerWidget {
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: AppTheme.textSecondary.withAlpha(30),
+                          color: Theme.of(context).colorScheme.onSurface.withAlpha(30),
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
@@ -130,7 +130,7 @@ class SettingsScreen extends ConsumerWidget {
                             width: 120,
                             height: 14,
                             decoration: BoxDecoration(
-                              color: AppTheme.textSecondary.withAlpha(30),
+                              color: Theme.of(context).colorScheme.onSurface.withAlpha(30),
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -139,7 +139,7 @@ class SettingsScreen extends ConsumerWidget {
                             width: 180,
                             height: 12,
                             decoration: BoxDecoration(
-                              color: AppTheme.textSecondary.withAlpha(20),
+                              color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -154,7 +154,7 @@ class SettingsScreen extends ConsumerWidget {
               const Text(
                 'Settings',
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -173,7 +173,7 @@ class SettingsScreen extends ConsumerWidget {
                 trailing: Switch(
                   value: true,
                   onChanged: (_) {},
-                  activeTrackColor: AppTheme.accentTeal,
+                  activeTrackColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
               _SettingsTile(
@@ -188,7 +188,7 @@ class SettingsScreen extends ConsumerWidget {
                     ref.read(themeModeProvider.notifier).state =
                         v ? ThemeMode.dark : ThemeMode.light;
                   },
-                  activeTrackColor: AppTheme.accentTeal,
+                  activeTrackColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
               _SettingsTile(
@@ -208,8 +208,8 @@ class SettingsScreen extends ConsumerWidget {
                   icon: const Icon(Icons.logout),
                   label: const Text('Sign Out'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.statusRed,
-                    side: const BorderSide(color: AppTheme.statusRed),
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                    side: BorderSide(color: Theme.of(context).colorScheme.error),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
@@ -242,22 +242,22 @@ class _SettingsTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceColor,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppTheme.accentTeal.withAlpha(20),
+            color: Theme.of(context).colorScheme.primary.withAlpha(20),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: AppTheme.accentTeal, size: 20),
+          child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
         ),
         title: Text(
           title,
           style: const TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w500,
             fontSize: 15,
           ),
@@ -265,7 +265,7 @@ class _SettingsTile extends StatelessWidget {
         subtitle: Text(
           subtitle,
           style: const TextStyle(
-            color: AppTheme.textSecondary,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             fontSize: 12,
           ),
         ),

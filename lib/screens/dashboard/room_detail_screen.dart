@@ -16,7 +16,7 @@ class RoomDetailScreen extends ConsumerWidget {
     final devicesAsync = ref.watch(devicesStreamProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(room.name),
         actions: [
@@ -38,14 +38,14 @@ class RoomDetailScreen extends ConsumerWidget {
                 children: [
                   Icon(
                     Icons.devices_outlined,
-                    color: AppTheme.textSecondary.withAlpha(80),
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(80),
                     size: 64,
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     'No devices in this room',
                     style: TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 16,
                     ),
                   ),
@@ -98,7 +98,7 @@ class RoomDetailScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, __) => const Center(
           child: Text('Failed to load devices',
-              style: TextStyle(color: AppTheme.textSecondary)),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
         ),
       ),
     );

@@ -150,6 +150,7 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
+      scaffoldBackgroundColor: const Color(0xFFF5F5F7),
       colorScheme: const ColorScheme.light(
         primary: accentTeal,
         secondary: accentAmber,
@@ -161,12 +162,33 @@ class AppTheme {
         onError: Colors.white,
       ),
       textTheme: GoogleFonts.interTextTheme(
-        ThemeData.light().textTheme,
+        ThemeData.light().textTheme.copyWith(
+              displayLarge: const TextStyle(color: Color(0xFF1A1B2F)),
+              displayMedium: const TextStyle(color: Color(0xFF1A1B2F)),
+              displaySmall: const TextStyle(color: Color(0xFF1A1B2F)),
+              headlineLarge: const TextStyle(color: Color(0xFF1A1B2F)),
+              headlineMedium: const TextStyle(color: Color(0xFF1A1B2F)),
+              headlineSmall: const TextStyle(color: Color(0xFF1A1B2F)),
+              titleLarge: const TextStyle(color: Color(0xFF1A1B2F)),
+              titleMedium: const TextStyle(color: Color(0xFF1A1B2F)),
+              titleSmall: const TextStyle(color: Color(0xFF1A1B2F)),
+              bodyLarge: const TextStyle(color: Color(0xFF1A1B2F)),
+              bodyMedium: const TextStyle(color: Color(0xFF6B7280)),
+              bodySmall: const TextStyle(color: Color(0xFF6B7280)),
+              labelLarge: const TextStyle(color: Color(0xFF1A1B2F)),
+              labelMedium: const TextStyle(color: Color(0xFF6B7280)),
+              labelSmall: const TextStyle(color: Color(0xFF6B7280)),
+            ),
       ),
       cardTheme: CardThemeData(
+        color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+        ),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 4,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -178,6 +200,79 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFFF0F0F3),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: accentTeal, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: statusRed, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: statusRed, width: 2),
+        ),
+        labelStyle: const TextStyle(color: Color(0xFF6B7280)),
+        hintStyle: const TextStyle(color: Color(0xFF6B7280)),
+        errorStyle: const TextStyle(color: statusRed),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.white,
+        selectedItemColor: accentTeal,
+        unselectedItemColor: Color(0xFF6B7280),
+        type: BottomNavigationBarType.fixed,
+        elevation: 8,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Color(0xFF1A1B2F)),
+        titleTextStyle: TextStyle(
+          color: Color(0xFF1A1B2F),
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: Colors.white,
+        contentTextStyle: const TextStyle(color: Color(0xFF1A1B2F)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((s) {
+          if (s.contains(WidgetState.selected)) return accentTeal;
+          return const Color(0xFF6B7280);
+        }),
+        trackColor: WidgetStateProperty.resolveWith((s) {
+          if (s.contains(WidgetState.selected)) return accentTeal.withAlpha(80);
+          return const Color(0xFF6B7280).withAlpha(40);
+        }),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

@@ -41,8 +41,8 @@ class _DeviceCardState extends State<DeviceCard> {
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
             color: device.isOn
-                ? AppTheme.surfaceColor
-                : AppTheme.surfaceColor.withAlpha(180),
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context).colorScheme.surface.withAlpha(180),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isOnline
@@ -53,7 +53,7 @@ class _DeviceCardState extends State<DeviceCard> {
             boxShadow: [
               BoxShadow(
                 color: device.isOn
-                    ? AppTheme.accentTeal.withAlpha(15)
+                    ? Theme.of(context).colorScheme.primary.withAlpha(15)
                     : Colors.black.withAlpha(20),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
@@ -76,7 +76,7 @@ class _DeviceCardState extends State<DeviceCard> {
                       shape: BoxShape.circle,
                       color: isOnline
                           ? AppTheme.statusGreen
-                          : AppTheme.statusRed,
+                          : Theme.of(context).colorScheme.error,
                     ),
                   ),
                 ],
@@ -85,7 +85,7 @@ class _DeviceCardState extends State<DeviceCard> {
               Text(
                 device.name,
                 style: const TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
@@ -100,8 +100,8 @@ class _DeviceCardState extends State<DeviceCard> {
                     device.isOn ? 'On' : 'Off',
                     style: TextStyle(
                       color: device.isOn
-                          ? AppTheme.accentTeal
-                          : AppTheme.textSecondary,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
@@ -121,7 +121,7 @@ class _DeviceCardState extends State<DeviceCard> {
   }
 
   Widget _deviceIcon(DeviceType type, bool isOn) {
-    final color = isOn ? AppTheme.accentTeal : AppTheme.textSecondary;
+    final color = isOn ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150);
     IconData icon;
     switch (type) {
       case DeviceType.light:
@@ -170,7 +170,7 @@ class RoomCard extends StatelessWidget {
         width: 140,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -186,14 +186,14 @@ class RoomCard extends StatelessWidget {
           children: [
             Icon(
               _iconFromString(icon),
-              color: AppTheme.accentTeal,
+              color: Theme.of(context).colorScheme.primary,
               size: 28,
             ),
             const SizedBox(height: 12),
             Text(
               name,
               style: const TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
               ),
@@ -204,7 +204,7 @@ class RoomCard extends StatelessWidget {
             Text(
               '$deviceCount devices',
               style: const TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 12,
               ),
             ),

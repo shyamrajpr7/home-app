@@ -32,8 +32,8 @@ class CustomSlider extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               label!,
-              style: const TextStyle(
-                color: AppTheme.textSecondary,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 12,
               ),
             ),
@@ -67,8 +67,8 @@ class CustomSlider extends StatelessWidget {
               width: 36,
               child: Text(
                 value.toInt().toString(),
-                style: const TextStyle(
-                  color: AppTheme.textPrimary,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.right,
@@ -97,7 +97,7 @@ class CustomBrightnessSlider extends StatelessWidget {
       value: value,
       onChanged: onChanged,
       label: 'Brightness',
-      activeColor: AppTheme.accentAmber,
+      activeColor: Theme.of(context).colorScheme.secondary,
     );
   }
 }
@@ -121,7 +121,7 @@ class CustomSpeedSlider extends StatelessWidget {
       max: 5,
       divisions: 4,
       label: 'Speed',
-      activeColor: AppTheme.accentTeal,
+      activeColor: Theme.of(context).colorScheme.primary,
     );
   }
 }

@@ -28,12 +28,12 @@ class EmptyStateWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppTheme.accentTeal.withAlpha(15),
+                color: Theme.of(context).colorScheme.primary.withAlpha(15),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(
                 icon,
-                color: AppTheme.accentTeal,
+                color: Theme.of(context).colorScheme.primary,
                 size: 56,
               ),
             ),
@@ -41,7 +41,7 @@ class EmptyStateWidget extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -52,7 +52,7 @@ class EmptyStateWidget extends StatelessWidget {
               Text(
                 subtitle,
                 style: const TextStyle(
-                  color: AppTheme.textSecondary,
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                   fontSize: 14,
                 ),
                 textAlign: TextAlign.center,

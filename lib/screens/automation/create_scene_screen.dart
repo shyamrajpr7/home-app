@@ -94,7 +94,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
     final devicesAsync = ref.watch(devicesStreamProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Create Scene'),
         actions: [
@@ -104,8 +104,8 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
               'Save',
               style: TextStyle(
                 color: _isSaving
-                    ? AppTheme.textSecondary
-                    : AppTheme.accentTeal,
+                    ? Theme.of(context).colorScheme.onSurface.withAlpha(150)
+                    : Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -129,7 +129,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
             const Text(
               'Trigger',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
               ),
@@ -161,7 +161,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                         builder: (context, child) => Theme(
                           data: ThemeData.dark().copyWith(
                             colorScheme: const ColorScheme.dark(
-                              primary: AppTheme.accentTeal,
+                              primary: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           child: child!,
@@ -180,19 +180,19 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.accentTeal.withAlpha(15),
+                  color: Theme.of(context).colorScheme.primary.withAlpha(15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.schedule,
-                        color: AppTheme.accentTeal, size: 18),
+                    Icon(Icons.schedule,
+                        color: Theme.of(context).colorScheme.primary, size: 18),
                     const SizedBox(width: 8),
                     Text(
                       'Triggers at ${_selectedTime!.format(context)}',
-                      style: const TextStyle(
-                        color: AppTheme.accentTeal,
-                        fontSize: 13,
+style: TextStyle(
+                         color: Theme.of(context).colorScheme.primary,
+                         fontSize: 13,
                       ),
                     ),
                   ],
@@ -203,7 +203,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
             const Text(
               'Devices',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
               ),
@@ -212,7 +212,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
             const Text(
               'Select devices and set their desired state',
               style: TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 13,
               ),
             ),
@@ -223,13 +223,13 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                   return Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: AppTheme.surfaceColor,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Center(
                       child: Text(
                         'Add devices first',
-                        style: TextStyle(color: AppTheme.textSecondary),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
                       ),
                     ),
                   );
@@ -246,12 +246,12 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                       margin: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppTheme.accentTeal.withAlpha(10)
-                            : AppTheme.surfaceColor,
+                            ? Theme.of(context).colorScheme.primary.withAlpha(10)
+                            : Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
-                              ? AppTheme.accentTeal.withAlpha(60)
+                              ? Theme.of(context).colorScheme.primary.withAlpha(60)
                               : Colors.transparent,
                         ),
                       ),
@@ -276,12 +276,12 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.accentTeal.withAlpha(20),
+                                  color: Theme.of(context).colorScheme.primary.withAlpha(20),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: const Icon(
                                   Icons.devices_outlined,
-                                  color: AppTheme.accentTeal,
+                                  color: Theme.of(context).colorScheme.primary,
                                   size: 20,
                                 ),
                               ),
@@ -290,7 +290,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                                 child: Text(
                                   device.name,
                                   style: const TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -302,7 +302,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                                     Text(
                                       'ON',
                                       style: TextStyle(
-                                        color: AppTheme.accentTeal,
+                                        color: Theme.of(context).colorScheme.primary,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -327,7 +327,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: AppTheme.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                                     ),
                                   ),
                                 ),
@@ -372,18 +372,18 @@ class _TriggerOption extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppTheme.accentTeal.withAlpha(20)
-              : AppTheme.surfaceColor,
+              ? Theme.of(context).colorScheme.primary.withAlpha(20)
+              : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppTheme.accentTeal : Colors.transparent,
+            color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
           ),
         ),
         child: Column(
           children: [
             Icon(
               icon,
-              color: isSelected ? AppTheme.accentTeal : AppTheme.textSecondary,
+              color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150),
               size: 28,
             ),
             const SizedBox(height: 8),
@@ -391,8 +391,8 @@ class _TriggerOption extends StatelessWidget {
               label,
               style: TextStyle(
                 color: isSelected
-                    ? AppTheme.accentTeal
-                    : AppTheme.textPrimary,
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
               ),

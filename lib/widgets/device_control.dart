@@ -27,7 +27,7 @@ class DeviceControlRow extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceColor,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
@@ -48,7 +48,7 @@ class DeviceControlRow extends StatelessWidget {
                         Text(
                           device.name,
                           style: const TextStyle(
-                            color: AppTheme.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
                           ),
@@ -58,8 +58,8 @@ class DeviceControlRow extends StatelessWidget {
                           device.isOn ? 'On' : 'Off',
                           style: TextStyle(
                             color: device.isOn
-                                ? AppTheme.accentTeal
-                                : AppTheme.textSecondary,
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                             fontSize: 12,
                           ),
                         ),
@@ -119,10 +119,10 @@ class DeviceControlRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppTheme.accentTeal.withAlpha(20),
+        color: Theme.of(context).colorScheme.primary.withAlpha(20),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Icon(icon, color: AppTheme.accentTeal, size: 22),
+      child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 22),
     );
   }
 
@@ -132,9 +132,9 @@ class DeviceControlRow extends StatelessWidget {
       case DeviceStatus.online:
         color = AppTheme.statusGreen;
       case DeviceStatus.offline:
-        color = AppTheme.statusRed;
+        color = Theme.of(context).colorScheme.error;
       case DeviceStatus.error:
-        color = AppTheme.accentAmber;
+        color = Theme.of(context).colorScheme.secondary;
     }
     return Container(
       width: 8,
@@ -163,7 +163,7 @@ class _TemperatureStepper extends StatelessWidget {
         const Text(
           'Temperature',
           style: TextStyle(
-            color: AppTheme.textSecondary,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             fontSize: 12,
           ),
         ),
@@ -176,7 +176,7 @@ class _TemperatureStepper extends StatelessWidget {
         Text(
           '${value.toInt()}°C',
           style: const TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -204,10 +204,10 @@ class _TempButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color: AppTheme.accentTeal.withAlpha(20),
+          color: Theme.of(context).colorScheme.primary.withAlpha(20),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, color: AppTheme.accentTeal, size: 18),
+        child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 18),
       ),
     );
   }

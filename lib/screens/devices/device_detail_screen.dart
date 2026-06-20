@@ -29,7 +29,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
     final isOnline = device.status == DeviceStatus.online;
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(device.name),
         actions: [
@@ -48,7 +48,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.surfaceColor,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -58,15 +58,15 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                     height: 80,
                     decoration: BoxDecoration(
                       color: device.isOn
-                          ? AppTheme.accentTeal.withAlpha(25)
-                          : AppTheme.textSecondary.withAlpha(15),
+                          ? Theme.of(context).colorScheme.primary.withAlpha(25)
+                          : Theme.of(context).colorScheme.onSurface.withAlpha(15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Icon(
                       _deviceIcon(device.type),
                       color: device.isOn
-                          ? AppTheme.accentTeal
-                          : AppTheme.textSecondary,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       size: 40,
                     ),
                   ),
@@ -75,8 +75,8 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                     device.isOn ? 'On' : 'Off',
                     style: TextStyle(
                       color: device.isOn
-                          ? AppTheme.accentTeal
-                          : AppTheme.textSecondary,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -103,7 +103,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                           shape: BoxShape.circle,
                           color: isOnline
                               ? AppTheme.statusGreen
-                              : AppTheme.statusRed,
+                              : Theme.of(context).colorScheme.error,
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -112,7 +112,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                         style: TextStyle(
                           color: isOnline
                               ? AppTheme.statusGreen
-                              : AppTheme.statusRed,
+                              : Theme.of(context).colorScheme.error,
                           fontSize: 13,
                         ),
                       ),
@@ -130,7 +130,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: CustomBrightnessSlider(
@@ -148,7 +148,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: CustomSpeedSlider(
@@ -166,7 +166,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -175,7 +175,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                       const Text(
                         'Temperature',
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                           fontSize: 12,
                         ),
                       ),
@@ -196,14 +196,14 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                                   );
                             },
                             icon: const Icon(Icons.remove_circle_outline),
-                            color: AppTheme.accentTeal,
+                            color: Theme.of(context).colorScheme.primary,
                             iconSize: 32,
                           ),
                           const SizedBox(width: 20),
                           Text(
                             '${device.targetTemperature.toInt()}°C',
                             style: const TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 36,
                               fontWeight: FontWeight.w700,
                             ),
@@ -222,7 +222,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                                   );
                             },
                             icon: const Icon(Icons.add_circle_outline),
-                            color: AppTheme.accentTeal,
+                            color: Theme.of(context).colorScheme.primary,
                             iconSize: 32,
                           ),
                         ],
@@ -236,7 +236,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
             // Tabs: Schedule, Usage, Info
             Container(
               decoration: BoxDecoration(
-                color: AppTheme.surfaceColor,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -279,10 +279,10 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppTheme.statusRed.withAlpha(15),
+                  color: Theme.of(context).colorScheme.error.withAlpha(15),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppTheme.statusRed.withAlpha(40),
+                    color: Theme.of(context).colorScheme.error.withAlpha(40),
                   ),
                 ),
                 child: Column(
@@ -290,7 +290,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                     const Text(
                       'Remove this device?',
                       style: TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -302,9 +302,9 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                             onPressed: () => setState(
                                 () => _showDeleteConfirm = false),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: AppTheme.textSecondary,
-                              side: const BorderSide(
-                                  color: AppTheme.textSecondary),
+                              foregroundColor: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                              side: BorderSide(
+                                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
                             ),
                             child: const Text('Cancel'),
                           ),
@@ -319,7 +319,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                               if (mounted) context.pop();
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.statusRed,
+                              backgroundColor: Theme.of(context).colorScheme.error,
                             ),
                             child: const Text('Remove'),
                           ),
@@ -355,12 +355,12 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
         Row(
           children: [
             const Icon(Icons.schedule_outlined,
-                color: AppTheme.accentTeal, size: 20),
+                color: Theme.of(context).colorScheme.primary, size: 20),
             const SizedBox(width: 8),
             const Text(
               'Schedule',
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
               ),
@@ -377,7 +377,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.primaryBg,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -388,7 +388,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   const Text(
                     '07:00',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -396,7 +396,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   Text(
                     'Turn On',
                     style: TextStyle(
-                      color: AppTheme.textSecondary.withAlpha(150),
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 12,
                     ),
                   ),
@@ -407,13 +407,13 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppTheme.accentTeal.withAlpha(20),
+                  color: Theme.of(context).colorScheme.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Text(
                   'Mon-Fri',
                   style: TextStyle(
-                    color: AppTheme.accentTeal,
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 11,
                   ),
                 ),
@@ -431,7 +431,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.primaryBg,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -442,7 +442,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   const Text(
                     '23:00',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -450,7 +450,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   Text(
                     'Turn Off',
                     style: TextStyle(
-                      color: AppTheme.textSecondary.withAlpha(150),
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 12,
                     ),
                   ),
@@ -461,13 +461,13 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppTheme.accentTeal.withAlpha(20),
+                  color: Theme.of(context).colorScheme.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Text(
                   'Everyday',
                   style: TextStyle(
-                    color: AppTheme.accentTeal,
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 11,
                   ),
                 ),
@@ -492,7 +492,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
         const Text(
           'Daily Usage (hours)',
           style: TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w600,
             fontSize: 15,
           ),
@@ -509,7 +509,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
                       '${rod.toY.toInt()}h',
-                      const TextStyle(color: AppTheme.textPrimary),
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
                     );
                   },
                 ),
@@ -525,7 +525,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                         return Text(
                           days[value.toInt()],
                           style: const TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                             fontSize: 10,
                           ),
                         );
@@ -550,7 +550,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                 horizontalInterval: 6,
                 getDrawingHorizontalLine: (value) {
                   return FlLine(
-                    color: AppTheme.textSecondary.withAlpha(20),
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
                     strokeWidth: 1,
                   );
                 },
@@ -578,7 +578,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
       barRods: [
         BarChartRodData(
           toY: y,
-          color: AppTheme.accentTeal,
+          color: Theme.of(context).colorScheme.primary,
           width: 16,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(6),
@@ -671,7 +671,7 @@ class _TabButton extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: isActive ? AppTheme.accentTeal : Colors.transparent,
+                color: isActive ? Theme.of(context).colorScheme.primary : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -680,7 +680,7 @@ class _TabButton extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isActive ? AppTheme.accentTeal : AppTheme.textSecondary,
+              color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150),
               fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
               fontSize: 14,
             ),
@@ -705,14 +705,14 @@ class _InfoRow extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            color: AppTheme.textSecondary,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             fontSize: 13,
           ),
         ),
         Text(
           value,
           style: const TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),

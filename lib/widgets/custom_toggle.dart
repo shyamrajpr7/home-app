@@ -74,14 +74,14 @@ class _CustomToggleState extends State<CustomToggle>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(height / 2),
               color: Color.lerp(
-                AppTheme.textSecondary.withAlpha(60),
-                AppTheme.accentTeal,
+                Theme.of(context).colorScheme.onSurface.withAlpha(60),
+                Theme.of(context).colorScheme.primary,
                 _positionAnim.value,
               ),
               boxShadow: [
                 if (_glowAnim.value > 0)
                   BoxShadow(
-                    color: AppTheme.accentTeal.withAlpha(
+                    color: Theme.of(context).colorScheme.primary.withAlpha(
                       (40 * _glowAnim.value).toInt(),
                     ),
                     blurRadius: 12 * _glowAnim.value,

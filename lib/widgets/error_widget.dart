@@ -22,12 +22,12 @@ class AppErrorWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppTheme.statusRed.withAlpha(20),
+                color: Theme.of(context).colorScheme.error.withAlpha(20),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.error_outline,
-                color: AppTheme.statusRed,
+                color: Theme.of(context).colorScheme.error,
                 size: 48,
               ),
             ),
@@ -35,8 +35,8 @@ class AppErrorWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppTheme.textPrimary,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 16,
               ),
             ),

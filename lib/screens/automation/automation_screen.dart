@@ -14,7 +14,7 @@ class AutomationScreen extends ConsumerWidget {
     final scenesAsync = ref.watch(scenesStreamProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Automation'),
         actions: [
@@ -34,12 +34,12 @@ class AutomationScreen extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: AppTheme.accentTeal.withAlpha(15),
+                      color: Theme.of(context).colorScheme.primary.withAlpha(15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Icon(
                       Icons.auto_awesome_outlined,
-                      color: AppTheme.accentTeal,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 56,
                     ),
                   ),
@@ -47,7 +47,7 @@ class AutomationScreen extends ConsumerWidget {
                   const Text(
                     'No Scenes Yet',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -56,7 +56,7 @@ class AutomationScreen extends ConsumerWidget {
                   const Text(
                     'Create scenes to automate your home',
                     style: TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 14,
                     ),
                   ),
@@ -83,7 +83,7 @@ class AutomationScreen extends ConsumerWidget {
         error: (_, __) => const Center(
           child: Text(
             'Failed to load scenes',
-            style: TextStyle(color: AppTheme.textSecondary),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
           ),
         ),
       ),
@@ -101,7 +101,7 @@ class _SceneCard extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceColor,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
@@ -115,15 +115,15 @@ class _SceneCard extends ConsumerWidget {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: scene.isActive
-                      ? AppTheme.accentTeal.withAlpha(20)
-                      : AppTheme.textSecondary.withAlpha(15),
+                      ? Theme.of(context).colorScheme.primary.withAlpha(20)
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(150).withAlpha(15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   _sceneIcon(scene.name),
                   color: scene.isActive
-                      ? AppTheme.accentTeal
-                      : AppTheme.textSecondary,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                   size: 24,
                 ),
               ),
@@ -135,7 +135,7 @@ class _SceneCard extends ConsumerWidget {
                     Text(
                       scene.name,
                       style: const TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
                       ),
@@ -144,7 +144,7 @@ class _SceneCard extends ConsumerWidget {
                     Text(
                       '${scene.actions.length} devices',
                       style: const TextStyle(
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                         fontSize: 12,
                       ),
                     ),
@@ -160,14 +160,14 @@ class _SceneCard extends ConsumerWidget {
                           .read(firestoreServiceProvider)
                           .updateScene(scene.id, {'isActive': value});
                     },
-                    activeTrackColor: AppTheme.accentTeal,
+                    activeTrackColor: Theme.of(context).colorScheme.primary,
                   ),
                   Text(
                     scene.trigger.type == SceneTriggerType.time
                         ? scene.trigger.timeOfDay ?? ''
                         : 'Manual',
                     style: const TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 10,
                     ),
                   ),

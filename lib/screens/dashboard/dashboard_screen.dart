@@ -24,7 +24,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final deviceCount = ref.watch(deviceCountProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
@@ -39,7 +39,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   data: (user) => Text(
                     'Hello, ${user?.name ?? 'there'}!',
                     style: const TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
@@ -47,7 +47,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   loading: () => const Text(
                     'Hello!',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
@@ -55,7 +55,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   error: (_, __) => const Text(
                     'Hello!',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
@@ -65,7 +65,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 const Text(
                   'Control your home',
                   style: TextStyle(
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                     fontSize: 15,
                   ),
                 ),
@@ -93,7 +93,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     const Text(
                       'Rooms',
                       style: TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
@@ -102,7 +102,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       onPressed: () {},
                       child: const Text(
                         'See All',
-                        style: TextStyle(color: AppTheme.accentTeal),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ],
@@ -116,7 +116,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             child: Text(
                               'No rooms yet',
                               style: TextStyle(
-                                color: AppTheme.textSecondary.withAlpha(120),
+                                color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
                               ),
                             ),
                           )
@@ -163,7 +163,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     const Text(
                       'Quick Access',
                       style: TextStyle(
-                        color: AppTheme.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
@@ -172,7 +172,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       onPressed: () {},
                       child: const Text(
                         'See All',
-                        style: TextStyle(color: AppTheme.accentTeal),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ],
@@ -184,21 +184,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       return Container(
                         padding: const EdgeInsets.all(32),
                         decoration: BoxDecoration(
-                          color: AppTheme.surfaceColor,
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Column(
                           children: [
                             Icon(
                               Icons.add_circle_outline,
-                              color: AppTheme.accentTeal.withAlpha(100),
+                              color: Theme.of(context).colorScheme.primary.withAlpha(100),
                               size: 48,
                             ),
                             const SizedBox(height: 12),
                             const Text(
                               'No devices yet',
                               style: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                                 fontSize: 15,
                               ),
                             ),
@@ -278,7 +278,7 @@ class _StatusCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -286,12 +286,12 @@ class _StatusCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: AppTheme.accentTeal.withAlpha(20),
+                color: Theme.of(context).colorScheme.primary.withAlpha(20),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: AppTheme.accentTeal,
+                color: Theme.of(context).colorScheme.primary,
                 size: 22,
               ),
             ),
@@ -302,7 +302,7 @@ class _StatusCard extends StatelessWidget {
                 Text(
                   value,
                   style: TextStyle(
-                    color: valueColor ?? AppTheme.textPrimary,
+                    color: valueColor ?? Theme.of(context).colorScheme.onSurface,
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                   ),
@@ -310,7 +310,7 @@ class _StatusCard extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                     fontSize: 12,
                   ),
                 ),
@@ -335,10 +335,10 @@ class AppErrorWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.error_outline,
-              color: AppTheme.statusRed, size: 48),
+              color: Theme.of(context).colorScheme.error, size: 48),
           const SizedBox(height: 12),
           Text(message,
-              style: const TextStyle(color: AppTheme.textSecondary)),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150))),
         ],
       ),
     );

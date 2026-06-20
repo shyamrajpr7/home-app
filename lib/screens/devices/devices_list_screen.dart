@@ -13,7 +13,7 @@ class DevicesListScreen extends ConsumerWidget {
     final devicesAsync = ref.watch(devicesStreamProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.primaryBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Devices'),
         actions: [
@@ -33,12 +33,12 @@ class DevicesListScreen extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: AppTheme.accentTeal.withAlpha(15),
+                      color: Theme.of(context).colorScheme.primary.withAlpha(15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Icon(
                       Icons.devices_outlined,
-                      color: AppTheme.accentTeal,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 56,
                     ),
                   ),
@@ -46,7 +46,7 @@ class DevicesListScreen extends ConsumerWidget {
                   const Text(
                     'No Devices Yet',
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -55,7 +55,7 @@ class DevicesListScreen extends ConsumerWidget {
                   const Text(
                     'Add your first smart device',
                     style: TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 14,
                     ),
                   ),
@@ -109,7 +109,7 @@ class DevicesListScreen extends ConsumerWidget {
         error: (_, __) => const Center(
           child: Text(
             'Failed to load devices',
-            style: TextStyle(color: AppTheme.textSecondary),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
           ),
         ),
       ),

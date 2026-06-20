@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
+          color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(40),
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: _currentIndex == 0
           ? FloatingActionButton(
               onPressed: () => context.push('/add-device'),
-              backgroundColor: AppTheme.accentTeal,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               child: const Icon(Icons.add, color: Color(0xFF1A1B2F)),
             )
           : null,
@@ -135,7 +135,7 @@ class _NavItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
           color: isActive
-              ? AppTheme.accentTeal.withAlpha(15)
+              ? Theme.of(context).colorScheme.primary.withAlpha(15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -144,7 +144,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive ? AppTheme.accentTeal : AppTheme.textSecondary,
+              color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150),
               size: 22,
             ),
             const SizedBox(height: 4),
@@ -152,7 +152,7 @@ class _NavItem extends StatelessWidget {
               label,
               style: TextStyle(
                 color:
-                    isActive ? AppTheme.accentTeal : AppTheme.textSecondary,
+                    isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 10,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
               ),

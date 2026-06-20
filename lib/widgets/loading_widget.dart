@@ -18,7 +18,7 @@ class LoadingWidget extends StatelessWidget {
             child: CircularProgressIndicator(
               strokeWidth: 3,
               valueColor:
-                  AlwaysStoppedAnimation<Color>(AppTheme.accentTeal),
+                  AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
             ),
           ),
           if (message != null) ...[
@@ -26,7 +26,7 @@ class LoadingWidget extends StatelessWidget {
             Text(
               message!,
               style: const TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 14,
               ),
             ),
@@ -84,9 +84,9 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
             borderRadius: BorderRadius.circular(widget.borderRadius),
             gradient: LinearGradient(
               colors: [
-                AppTheme.surfaceColor,
-                AppTheme.surfaceColor.withAlpha(150),
-                AppTheme.surfaceColor,
+                Theme.of(context).colorScheme.surface,
+                Theme.of(context).colorScheme.surface.withAlpha(150),
+                Theme.of(context).colorScheme.surface,
               ],
               stops: [
                 _controller.value - 0.3,
