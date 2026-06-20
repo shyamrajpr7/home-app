@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "620303359377",
+    "project_id": "homeautomation-55779",
+    "storage_bucket": "homeautomation-55779.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620303359377:android:270b7867ddded32a7e0e30",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDil8jQqQ88YE9-lV9GKrxVWblEQVTsekU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620303359377:android:e69c614d5daac0ea7e0e30",
+        "android_client_info": {
+          "package_name": "com.homeauto.home_auto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDil8jQqQ88YE9-lV9GKrxVWblEQVTsekU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620303359377:android:4562b1a767c8a1f97e0e30",
+        "android_client_info": {
+          "package_name": "home.auto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDil8jQqQ88YE9-lV9GKrxVWblEQVTsekU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

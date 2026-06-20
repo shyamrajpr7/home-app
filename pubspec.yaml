@@ -1,0 +1,65 @@
+name: home_auto
+description: "Professional smart home automation app for ESP32"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Firebase
+  firebase_core: ^3.12.1
+  firebase_auth: ^5.5.1
+  cloud_firestore: ^5.6.5
+
+  # MQTT
+  mqtt_client: ^10.5.1
+
+  # BLE
+  flutter_blue_plus: ^1.35.3
+
+  # Secure storage
+  flutter_secure_storage: ^9.2.4
+
+  # Charts
+  fl_chart: ^0.70.2
+
+  # Notifications
+  flutter_local_notifications: ^18.0.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Google Fonts
+  google_fonts: ^6.2.1
+
+  # Google Sign-In
+  google_sign_in: ^6.2.2
+
+  # Image picker for avatar
+  image_picker: ^1.1.2
+
+  # Time utilities
+  intl: ^0.20.2
+
+  # Connectivity
+  connectivity_plus: ^6.1.2
+
+  # UUID generation
+  uuid: ^4.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
