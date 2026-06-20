@@ -203,7 +203,7 @@ class SettingsScreen extends ConsumerWidget {
                 child: OutlinedButton.icon(
                   onPressed: () async {
                     await ref.read(authServiceProvider).signOut();
-                    if (context.mounted) context.go('/login');
+                    if (context.mounted) context.go('/');
                   },
                   icon: const Icon(Icons.logout),
                   label: const Text('Sign Out'),

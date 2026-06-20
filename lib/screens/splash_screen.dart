@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../providers/auth_provider.dart';
 import '../config/theme.dart';
-import '../config/constants.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -33,21 +30,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
     );
     _controller.forward();
-    _checkAuth();
-  }
 
-  Future<void> _checkAuth() async {
-    if (AppConstants.devBypass) {
-      final storage = const FlutterSecureStorage();
-      final devAuth = await storage.read(key: 'dev_authenticated');
-      if (mounted) {
-        context.go(devAuth == 'true' ? '/home' : '/onboarding');
-      }
-      return;
-    }
-
-    Future.delayed(const Duration(seconds: 5), () {
-      if (mounted) context.go('/onboarding');
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) context.go('/home');
     });
   }
 
@@ -59,20 +44,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (!AppConstants.devBypass) {
-      ref.listen(authStateProvider, (prev, next) {
-        next.whenData((user) {
-          if (user != null) {
-            context.go('/home');
-          } else {
-            context.go('/onboarding');
-          }
-        });
-        next.whenError((error, stack) {
-          if (mounted) context.go('/onboarding');
-        });
-      });
-    }
 
     return Scaffold(
       backgroundColor: AppTheme.primaryBg,

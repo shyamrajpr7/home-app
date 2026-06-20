@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/splash_screen.dart';
-import '../screens/onboarding_screen.dart';
-import '../screens/login_screen.dart';
-import '../screens/signup_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/dashboard/room_detail_screen.dart';
 import '../screens/devices/add_device_screen.dart';
@@ -20,18 +17,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         builder: (context, state) => const SplashScreen(),
-      ),
-      GoRoute(
-        path: '/onboarding',
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: '/signup',
-        builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
         path: '/home',
