@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../config/theme.dart';
 
 class AppErrorWidget extends StatelessWidget {
   final String message;

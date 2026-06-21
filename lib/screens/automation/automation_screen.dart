@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../config/theme.dart';
 import '../../models/scene.dart';
 import '../../providers/scene_provider.dart';
 import '../../providers/device_provider.dart';
@@ -37,14 +36,14 @@ class AutomationScreen extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.primary.withAlpha(15),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.auto_awesome_outlined,
                       color: Theme.of(context).colorScheme.primary,
                       size: 56,
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'No Scenes Yet',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -53,7 +52,7 @@ class AutomationScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'Create scenes to automate your home',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -80,7 +79,7 @@ class AutomationScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(
+        error: (_, __) => Center(
           child: Text(
             'Failed to load scenes',
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
@@ -134,7 +133,7 @@ class _SceneCard extends ConsumerWidget {
                   children: [
                     Text(
                       scene.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
@@ -143,7 +142,7 @@ class _SceneCard extends ConsumerWidget {
                     const SizedBox(height: 4),
                     Text(
                       '${scene.actions.length} devices',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                         fontSize: 12,
                       ),
@@ -166,7 +165,7 @@ class _SceneCard extends ConsumerWidget {
                     scene.trigger.type == SceneTriggerType.time
                         ? scene.trigger.timeOfDay ?? ''
                         : 'Manual',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                       fontSize: 10,
                     ),

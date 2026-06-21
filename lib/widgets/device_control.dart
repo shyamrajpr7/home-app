@@ -39,7 +39,7 @@ class DeviceControlRow extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  _deviceIcon(device.type),
+                  _deviceIcon(context, device.type),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -47,7 +47,7 @@ class DeviceControlRow extends StatelessWidget {
                       children: [
                         Text(
                           device.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
@@ -66,7 +66,7 @@ class DeviceControlRow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  _statusDot(device.status),
+                  _statusDot(context, device.status),
                   const SizedBox(width: 12),
                   CustomToggle(
                     value: device.isOn,
@@ -100,7 +100,7 @@ class DeviceControlRow extends StatelessWidget {
     );
   }
 
-  Widget _deviceIcon(DeviceType type) {
+  Widget _deviceIcon(BuildContext context, DeviceType type) {
     IconData icon;
     switch (type) {
       case DeviceType.light:
@@ -126,7 +126,7 @@ class DeviceControlRow extends StatelessWidget {
     );
   }
 
-  Widget _statusDot(DeviceStatus status) {
+  Widget _statusDot(BuildContext context, DeviceStatus status) {
     Color color;
     switch (status) {
       case DeviceStatus.online:
@@ -160,7 +160,7 @@ class _TemperatureStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text(
+        Text(
           'Temperature',
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -175,7 +175,7 @@ class _TemperatureStepper extends StatelessWidget {
         const SizedBox(width: 16),
         Text(
           '${value.toInt()}°C',
-          style: const TextStyle(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,

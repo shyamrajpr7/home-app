@@ -84,7 +84,7 @@ class _DeviceCardState extends State<DeviceCard> {
               const SizedBox(height: 12),
               Text(
                 device.name,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -192,7 +192,7 @@ class RoomCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               name,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
@@ -203,7 +203,7 @@ class RoomCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '$deviceCount devices',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 12,
               ),

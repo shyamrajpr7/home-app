@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../config/theme.dart';
 
 class LoadingWidget extends StatelessWidget {
   final String? message;
@@ -12,7 +11,7 @@ class LoadingWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
+          SizedBox(
             width: 40,
             height: 40,
             child: CircularProgressIndicator(
@@ -25,7 +24,7 @@ class LoadingWidget extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               message!,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 14,
               ),

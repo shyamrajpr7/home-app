@@ -195,14 +195,14 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               color: Theme.of(context).colorScheme.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(24),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.bluetooth_searching,
               color: Theme.of(context).colorScheme.primary,
               size: 48,
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
+          Text(
             'Prepare Your Device',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -243,7 +243,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Select Your Device',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -252,7 +252,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Choose your ESP32 device from the list below',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -284,7 +284,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.error_outline,
+                  Icon(Icons.error_outline,
                       color: Theme.of(context).colorScheme.error, size: 20),
                   const SizedBox(width: 8),
                   Expanded(
@@ -336,21 +336,21 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                               color: Theme.of(context).colorScheme.primary.withAlpha(20),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.memory,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           title: Text(
                             device.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
                             'Signal: ${device.rssi} dBm',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                               fontSize: 12,
                             ),
@@ -388,7 +388,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Wi-Fi Setup',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -397,7 +397,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Enter your home Wi-Fi credentials',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -459,7 +459,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
+          SizedBox(
             width: 80,
             height: 80,
             child: CircularProgressIndicator(
@@ -469,7 +469,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
+          Text(
             'Connecting Device',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -478,7 +478,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          const Text(
+          Text(
             'Your device is connecting to Wi-Fi.\nThis may take up to 30 seconds.',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -519,7 +519,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             const SizedBox(height: 24),
             Text(
               'Attempt ${_connectAttempts + 1}',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 fontSize: 12,
               ),
@@ -568,7 +568,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          const Center(
+          Center(
             child: Text(
               'Device Connected!',
               style: TextStyle(
@@ -594,7 +594,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
               prefixIcon: Icon(Icons.room_outlined),
             ),
             items: [
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: '',
                 child: Text('Select a room',
                     style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150))),
@@ -735,7 +735,7 @@ class _InstructionStep extends StatelessWidget {
             child: Center(
               child: Text(
                 '$number',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
@@ -746,7 +746,7 @@ class _InstructionStep extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 15,
               ),

@@ -30,7 +30,6 @@ class FirestoreService {
   }
 
   Future<HomeUser?> getUserProfile() async {
-    if (_uid == null) return null;
     final doc = await _db.collection('users').doc(_uid).get();
     if (!doc.exists) return null;
     return HomeUser.fromJson(doc.id, doc.data() as Map<String, dynamic>);

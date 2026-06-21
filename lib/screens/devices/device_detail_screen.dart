@@ -172,7 +172,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Temperature',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -202,7 +202,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                           const SizedBox(width: 20),
                           Text(
                             '${device.targetTemperature.toInt()}°C',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 36,
                               fontWeight: FontWeight.w700,
@@ -287,7 +287,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'Remove this device?',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
@@ -354,10 +354,10 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
       children: [
         Row(
           children: [
-            const Icon(Icons.schedule_outlined,
+            Icon(Icons.schedule_outlined,
                 color: Theme.of(context).colorScheme.primary, size: 20),
             const SizedBox(width: 8),
-            const Text(
+            Text(
               'Schedule',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
@@ -385,7 +385,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     '07:00',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -410,7 +410,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   color: Theme.of(context).colorScheme.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Text(
+                child: Text(
                   'Mon-Fri',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
@@ -439,7 +439,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     '23:00',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -464,7 +464,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                   color: Theme.of(context).colorScheme.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Text(
+                child: Text(
                   'Everyday',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
@@ -489,7 +489,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Daily Usage (hours)',
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
@@ -524,7 +524,7 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                       if (value.toInt() < days.length) {
                         return Text(
                           days[value.toInt()],
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                             fontSize: 10,
                           ),
@@ -704,14 +704,14 @@ class _InfoRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             fontSize: 13,
           ),
         ),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
             fontSize: 13,
             fontWeight: FontWeight.w500,

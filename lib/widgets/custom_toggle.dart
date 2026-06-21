@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../config/theme.dart';
 
 class CustomToggle extends StatefulWidget {
   final bool value;

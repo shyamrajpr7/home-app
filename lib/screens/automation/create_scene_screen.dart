@@ -126,7 +126,7 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Trigger',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
@@ -160,9 +160,9 @@ class _CreateSceneScreenState extends ConsumerState<CreateSceneScreen> {
                         initialTime: TimeOfDay.now(),
                         builder: (context, child) => Theme(
                           data: ThemeData.dark().copyWith(
-                            colorScheme: const ColorScheme.dark(
-                              primary: Theme.of(context).colorScheme.primary,
-                            ),
+                          colorScheme: ColorScheme.dark(
+                            primary: Theme.of(context).colorScheme.primary,
+                          ),
                           ),
                           child: child!,
                         ),
@@ -200,7 +200,7 @@ style: TextStyle(
               ),
             ],
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Devices',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
@@ -209,7 +209,7 @@ style: TextStyle(
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Select devices and set their desired state',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -226,7 +226,7 @@ style: TextStyle(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'Add devices first',
                         style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
@@ -279,7 +279,7 @@ style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary.withAlpha(20),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.devices_outlined,
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 20,
@@ -289,7 +289,7 @@ style: TextStyle(
                               Expanded(
                                 child: Text(
                                   device.name,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Theme.of(context).colorScheme.onSurface,
                                     fontWeight: FontWeight.w500,
                                   ),

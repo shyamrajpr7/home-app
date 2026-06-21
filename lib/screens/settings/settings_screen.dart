@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../config/theme.dart';
 import '../../config/constants.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
@@ -24,7 +23,7 @@ class SettingsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Profile',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
@@ -67,7 +66,7 @@ class SettingsScreen extends ConsumerWidget {
                                     fit: BoxFit.cover,
                                   ),
                                 )
-                              : const Icon(
+                              : Icon(
                                   Icons.person_outline,
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 32,
@@ -81,7 +80,7 @@ class SettingsScreen extends ConsumerWidget {
                           children: [
                             Text(
                               user?.name ?? 'User',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -90,7 +89,7 @@ class SettingsScreen extends ConsumerWidget {
                             const SizedBox(height: 4),
                             Text(
                               user?.email ?? '',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                                 fontSize: 13,
                               ),
@@ -98,7 +97,7 @@ class SettingsScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.edit_outlined,
                         color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                         size: 20,
@@ -151,7 +150,7 @@ class SettingsScreen extends ConsumerWidget {
                 error: (_, __) => Container(),
               ),
               const SizedBox(height: 24),
-              const Text(
+              Text(
                 'Settings',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
@@ -256,7 +255,7 @@ class _SettingsTile extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w500,
             fontSize: 15,
@@ -264,7 +263,7 @@ class _SettingsTile extends StatelessWidget {
         ),
         subtitle: Text(
           subtitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             fontSize: 12,
           ),

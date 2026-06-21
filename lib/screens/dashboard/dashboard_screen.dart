@@ -38,13 +38,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 userAsync.when(
                   data: (user) => Text(
                     'Hello, ${user?.name ?? 'there'}!',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  loading: () => const Text(
+                  loading: () => Text(
                     'Hello!',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -52,7 +52,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  error: (_, __) => const Text(
+                  error: (_, __) => Text(
                     'Hello!',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -62,7 +62,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
+                Text(
                   'Control your home',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -90,7 +90,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Rooms',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
@@ -100,7 +100,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'See All',
                         style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ),
@@ -160,7 +160,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Quick Access',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
@@ -170,7 +170,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'See All',
                         style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ),
@@ -195,7 +195,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               size: 48,
                             ),
                             const SizedBox(height: 12),
-                            const Text(
+                            Text(
                               'No devices yet',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -309,7 +309,7 @@ class _StatusCard extends StatelessWidget {
                 ),
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                     fontSize: 12,
                   ),
@@ -334,7 +334,7 @@ class AppErrorWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline,
+          Icon(Icons.error_outline,
               color: Theme.of(context).colorScheme.error, size: 48),
           const SizedBox(height: 12),
           Text(message,

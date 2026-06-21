@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../config/theme.dart';
 import '../../providers/device_provider.dart';
 import '../../widgets/device_control.dart';
 
@@ -36,14 +35,14 @@ class DevicesListScreen extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.primary.withAlpha(15),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.devices_outlined,
                       color: Theme.of(context).colorScheme.primary,
                       size: 56,
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'No Devices Yet',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
@@ -52,7 +51,7 @@ class DevicesListScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'Add your first smart device',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -106,7 +105,7 @@ class DevicesListScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(
+        error: (_, __) => Center(
           child: Text(
             'Failed to load devices',
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),

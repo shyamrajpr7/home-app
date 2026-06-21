@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../config/theme.dart';
 import '../../models/room.dart';
 import '../../providers/device_provider.dart';
 import '../../widgets/device_control.dart';
@@ -42,7 +41,7 @@ class RoomDetailScreen extends ConsumerWidget {
                     size: 64,
                   ),
                   const SizedBox(height: 16),
-                  const Text(
+                  Text(
                     'No devices in this room',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
@@ -96,9 +95,10 @@ class RoomDetailScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(
+        error: (_, __) => Center(
           child: Text('Failed to load devices',
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
+          ),
         ),
       ),
     );

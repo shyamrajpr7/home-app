@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../config/theme.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'automation/automation_screen.dart';
 import 'devices/devices_list_screen.dart';

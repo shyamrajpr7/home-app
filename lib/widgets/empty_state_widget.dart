@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../config/theme.dart';
 
 class EmptyStateWidget extends StatelessWidget {
   final IconData icon;
@@ -40,7 +39,7 @@ class EmptyStateWidget extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -51,7 +50,7 @@ class EmptyStateWidget extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                   fontSize: 14,
                 ),
