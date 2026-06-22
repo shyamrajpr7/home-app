@@ -12,6 +12,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(userProfileProvider);
+    final user = userAsync.valueOrNull;
     final isDark = ref.watch(isDarkModeProvider);
 
     return Scaffold(
@@ -170,8 +171,13 @@ class SettingsScreen extends ConsumerWidget {
                 title: 'Notifications',
                 subtitle: 'Push alert preferences',
                 trailing: Switch(
-                  value: true,
-                  onChanged: (_) {},
+                  value: user?.notificationsEnabled ?? true,
+                  onChanged: (v) async {
+                    await ref.read(firestoreServiceProvider).updateUserProfile({
+                      'notificationsEnabled': v,
+                    });
+                    ref.invalidate(userProfileProvider);
+                  },
                   activeTrackColor: Theme.of(context).colorScheme.primary,
                 ),
               ),

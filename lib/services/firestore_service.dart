@@ -35,6 +35,10 @@ class FirestoreService {
     return HomeUser.fromJson(doc.id, doc.data() as Map<String, dynamic>);
   }
 
+  Future<void> updateUserProfile(Map<String, dynamic> data) async {
+    await _db.collection('users').doc(_uid).update(data);
+  }
+
   // Devices
   Stream<List<Device>> getDevices() {
     return _devices.snapshots().map(
