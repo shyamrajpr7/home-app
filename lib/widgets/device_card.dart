@@ -19,8 +19,29 @@ class DeviceCard extends StatefulWidget {
   State<DeviceCard> createState() => _DeviceCardState();
 }
 
-class _DeviceCardState extends State<DeviceCard> {
+class _DeviceCardState extends State<DeviceCard>
+    with SingleTickerProviderStateMixin {
   bool _isPressed = false;
+  late AnimationController _glowController;
+  late Animation<double> _glowAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    )..repeat(reverse: true);
+    _glowAnim = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,29 +142,106 @@ class _DeviceCardState extends State<DeviceCard> {
   }
 
   Widget _deviceIcon(DeviceType type, bool isOn) {
-    final color = isOn ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withAlpha(150);
-    IconData icon;
+    final color = isOn
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onSurface.withAlpha(150);
+
+    Widget iconWidget;
     switch (type) {
       case DeviceType.light:
-        icon = Icons.lightbulb_outline;
+        iconWidget = isOn
+            ? Icon(Icons.lightbulb, color: Color(0xFFFFD54F), size: 24)
+            : Icon(Icons.lightbulb_outline, color: color, size: 24);
       case DeviceType.fan:
-        icon = Icons.air;
+        iconWidget = _FanIcon(color: color, isOn: isOn);
       case DeviceType.ac:
-        icon = Icons.ac_unit;
+        iconWidget = Icon(Icons.ac_unit, color: color, size: 24);
       case DeviceType.sensor:
-        icon = Icons.sensors;
+        iconWidget = Icon(Icons.sensors, color: color, size: 24);
       case DeviceType.outlet:
-        icon = Icons.power_settings_new;
+        iconWidget = Icon(Icons.power_settings_new, color: color, size: 24);
       case DeviceType.lock:
-        icon = Icons.lock_outline;
+        iconWidget = Icon(Icons.lock_outline, color: color, size: 24);
     }
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: color.withAlpha(20),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Icon(icon, color: color, size: 24),
+
+    return AnimatedBuilder(
+      animation: _glowAnim,
+      builder: (context, child) {
+        return Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withAlpha(20),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: isOn && type == DeviceType.light
+                ? [
+                    BoxShadow(
+                      color: Color(0xFFFFD54F).withAlpha((80 * _glowAnim.value).toInt()),
+                      blurRadius: 12 * _glowAnim.value,
+                      spreadRadius: 3 * _glowAnim.value,
+                    ),
+                  ]
+                : null,
+          ),
+          child: iconWidget,
+        );
+      },
+    );
+  }
+}
+
+class _FanIcon extends StatefulWidget {
+  final Color color;
+  final bool isOn;
+
+  const _FanIcon({required this.color, required this.isOn});
+
+  @override
+  State<_FanIcon> createState() => _FanIconState();
+}
+
+class _FanIconState extends State<_FanIcon>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _spinController;
+
+  @override
+  void initState() {
+    super.initState();
+    _spinController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    if (widget.isOn) _spinController.repeat();
+  }
+
+  @override
+  void didUpdateWidget(_FanIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isOn != oldWidget.isOn) {
+      if (widget.isOn) {
+        _spinController.repeat();
+      } else {
+        _spinController.stop();
+        _spinController.reset();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _spinController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _spinController,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _spinController.value * 6.2832,
+          child: Icon(Icons.air, color: widget.color, size: 24),
+        );
+      },
     );
   }
 }

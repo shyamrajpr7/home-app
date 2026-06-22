@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 import '../../config/theme.dart';
+import '../../models/device.dart';
+import '../../models/room.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/device_provider.dart';
 import '../../providers/room_provider.dart';
@@ -15,6 +18,369 @@ class DashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  final _uuid = const Uuid();
+
+  static const _roomIcons = [
+    'living_room', 'bedroom', 'kitchen', 'bathroom',
+    'garage', 'office', 'outdoor', 'home',
+  ];
+
+  void _showAddRoomSheet() {
+    final nameCtrl = TextEditingController();
+    var selectedIcon = 'living_room';
+    final formKey = GlobalKey<FormState>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        bool saving = false;
+        return StatefulBuilder(
+          builder: (ctx, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(ctx).viewInsets.bottom,
+                left: 24,
+                right: 24,
+                top: 24,
+              ),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Add Room',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: nameCtrl,
+                      decoration: const InputDecoration(
+                        labelText: 'Room Name',
+                        prefixIcon: Icon(Icons.room_outlined),
+                      ),
+                      validator: (v) =>
+                          v == null || v.trim().isEmpty ? 'Enter a room name' : null,
+                      autofocus: true,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Icon',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 80,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _roomIcons.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 8),
+                        itemBuilder: (_, i) {
+                          final iconName = _roomIcons[i];
+                          final selected = selectedIcon == iconName;
+                          return GestureDetector(
+                            onTap: () => setSheetState(() => selectedIcon = iconName),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: selected
+                                    ? Theme.of(context).colorScheme.primary.withAlpha(25)
+                                    : Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: selected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.transparent,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Icon(
+                                _roomIconData(iconName),
+                                color: selected
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                                size: 28,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: saving
+                            ? null
+                            : () async {
+                                if (!formKey.currentState!.validate()) return;
+                                setSheetState(() => saving = true);
+                                final room = Room(
+                                  id: _uuid.v4(),
+                                  name: nameCtrl.text.trim(),
+                                  icon: selectedIcon,
+                                );
+                                await ref.read(firestoreServiceProvider).addRoom(room);
+                                setSheetState(() => saving = false);
+                                if (ctx.mounted) Navigator.pop(ctx);
+                              },
+                        child: saving
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Text('Add Room'),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showAddDeviceSheet() {
+    DeviceType deviceType = DeviceType.light;
+    String selectedRoom = '';
+    final formKey = GlobalKey<FormState>();
+    final nameCtrl = TextEditingController();
+    final roomsAsync = ref.read(roomsStreamProvider);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        bool saving = false;
+        final rooms = roomsAsync.valueOrNull ?? [];
+        return StatefulBuilder(
+          builder: (ctx, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(ctx).viewInsets.bottom,
+                left: 24,
+                right: 24,
+                top: 24,
+              ),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Add Device',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: nameCtrl,
+                      decoration: const InputDecoration(
+                        labelText: 'Device Name',
+                        prefixIcon: Icon(Icons.label_outline),
+                      ),
+                      validator: (v) =>
+                          v == null || v.trim().isEmpty ? 'Enter a name' : null,
+                      autofocus: true,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Type',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: DeviceType.values
+                          .where((t) => t == DeviceType.light || t == DeviceType.fan || t == DeviceType.ac || t == DeviceType.outlet)
+                          .map((type) {
+                        final selected = deviceType == type;
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              right: type == DeviceType.light ? 6 : (type == DeviceType.fan ? 6 : (type == DeviceType.ac ? 6 : 0)),
+                            ),
+                            child: GestureDetector(
+                              onTap: () => setSheetState(() => deviceType = type),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: selected
+                                      ? Theme.of(context).colorScheme.primary.withAlpha(25)
+                                      : Theme.of(context).colorScheme.surface,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: selected
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.transparent,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      _deviceTypeIcon(type),
+                                      color: selected
+                                          ? Theme.of(context).colorScheme.primary
+                                          : Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                                      size: 28,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      type.name[0].toUpperCase() + type.name.substring(1),
+                                      style: TextStyle(
+                                        color: selected
+                                            ? Theme.of(context).colorScheme.primary
+                                            : Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedRoom.isEmpty ? null : selectedRoom,
+                      decoration: const InputDecoration(
+                        labelText: 'Room',
+                        prefixIcon: Icon(Icons.room_outlined),
+                      ),
+                      items: [
+                        if (rooms.isEmpty)
+                          const DropdownMenuItem(
+                            value: '',
+                            child: Text('No rooms — create one first'),
+                          ),
+                        ...rooms.map(
+                          (r) => DropdownMenuItem(
+                            value: r.name,
+                            child: Text(r.name),
+                          ),
+                        ),
+                      ],
+                      onChanged: (v) => setSheetState(() => selectedRoom = v ?? ''),
+                      dropdownColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: saving || selectedRoom.isEmpty
+                            ? null
+                            : () async {
+                                if (!formKey.currentState!.validate()) return;
+                                setSheetState(() => saving = true);
+                                final device = Device(
+                                  id: _uuid.v4(),
+                                  name: nameCtrl.text.trim(),
+                                  room: selectedRoom,
+                                  type: deviceType,
+                                  status: DeviceStatus.online,
+                                  lastSeen: DateTime.now(),
+                                );
+                                await ref.read(firestoreServiceProvider).addDevice(device);
+                                setSheetState(() => saving = false);
+                                if (ctx.mounted) Navigator.pop(ctx);
+                              },
+                        child: saving
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Text('Add Device'),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  IconData _roomIconData(String icon) {
+    switch (icon) {
+      case 'living_room': return Icons.weekend;
+      case 'bedroom': return Icons.bed;
+      case 'kitchen': return Icons.kitchen;
+      case 'bathroom': return Icons.bathtub;
+      case 'garage': return Icons.garage;
+      case 'office': return Icons.desk;
+      case 'outdoor': return Icons.grass;
+      default: return Icons.home;
+    }
+  }
+
+  IconData _deviceTypeIcon(DeviceType type) {
+    switch (type) {
+      case DeviceType.light: return Icons.lightbulb_outline;
+      case DeviceType.fan: return Icons.air;
+      case DeviceType.ac: return Icons.ac_unit;
+      case DeviceType.outlet: return Icons.power_settings_new;
+      default: return Icons.devices_other;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userAsync = ref.watch(userProfileProvider);
@@ -98,12 +464,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'See All',
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ),
+                    Row(
+                      children: [
+                        TextButton.icon(
+                          onPressed: _showAddRoomSheet,
+                          icon: const Icon(Icons.add, size: 18),
+                          label: const Text('Add'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -122,8 +490,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           )
                         : ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: rooms.length,
+                            itemCount: rooms.length + 1,
                             itemBuilder: (context, index) {
+                              if (index == rooms.length) {
+                                return _AddRoomCard(onTap: _showAddRoomSheet);
+                              }
                               final room = rooms[index];
                               final devices = ref
                                   .watch(devicesStreamProvider)
@@ -168,12 +539,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'See All',
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ),
+                    TextButton.icon(
+                      onPressed: _showAddDeviceSheet,
+                      icon: const Icon(Icons.add, size: 18),
+                      label: const Text('Add'),
                     ),
                   ],
                 ),
@@ -204,8 +573,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () =>
-                                  context.push('/add-device'),
+                              onPressed: _showAddDeviceSheet,
                               child: const Text('Add Device'),
                             ),
                           ],
@@ -340,6 +708,51 @@ class AppErrorWidget extends StatelessWidget {
           Text(message,
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(150))),
         ],
+      ),
+    );
+  }
+}
+
+class _AddRoomCard extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _AddRoomCard({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 140,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface.withAlpha(120),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary.withAlpha(40),
+            width: 1.5,
+            strokeAlign: BorderSide.strokeAlignInside,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.add_rounded,
+              color: Theme.of(context).colorScheme.primary,
+              size: 32,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Add Room',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
