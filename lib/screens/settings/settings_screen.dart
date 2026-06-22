@@ -3,12 +3,117 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../config/constants.dart';
+import '../../models/home_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/device_provider.dart';
 import '../../providers/theme_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
+
+  void _showEditProfileSheet(BuildContext context, WidgetRef ref, HomeUser? user) {
+    if (user == null) return;
+    final nameController = TextEditingController(text: user.name);
+    final formKey = GlobalKey<FormState>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        bool saving = false;
+        return StatefulBuilder(
+          builder: (ctx, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(ctx).viewInsets.bottom,
+                left: 24,
+                right: 24,
+                top: 24,
+              ),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Edit Profile',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          icon: Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      validator: (v) =>
+                          v == null || v.trim().isEmpty ? 'Name is required' : null,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      user.email,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: saving
+                            ? null
+                            : () async {
+                                if (!formKey.currentState!.validate()) return;
+                                setSheetState(() => saving = true);
+                                await ref
+                                    .read(firestoreServiceProvider)
+                                    .updateUserProfile({
+                                  'name': nameController.text.trim(),
+                                });
+                                ref.invalidate(userProfileProvider);
+                                setSheetState(() => saving = false);
+                                if (ctx.mounted) Navigator.pop(ctx);
+                              },
+                        child: saving
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Text('Save'),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,10 +204,13 @@ class SettingsScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      Icon(
-                        Icons.edit_outlined,
-                        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-                        size: 20,
+                      GestureDetector(
+                        onTap: () => _showEditProfileSheet(context, ref, user),
+                        child: Icon(
+                          Icons.edit_outlined,
+                          color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                          size: 20,
+                        ),
                       ),
                     ],
                   ),
