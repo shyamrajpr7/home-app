@@ -1,3 +1,5 @@
+import 'device_schedule.dart';
+
 enum DeviceType { light, fan, ac, sensor, outlet, lock }
 
 enum DeviceStatus { online, offline, error }
@@ -18,6 +20,7 @@ class Device {
   final String? localIp;
   final DateTime lastSeen;
   final int signalStrength;
+  final List<DeviceSchedule> schedules;
   final DateTime createdAt;
 
   Device({
@@ -36,6 +39,7 @@ class Device {
     this.localIp,
     DateTime? lastSeen,
     this.signalStrength = 0,
+    this.schedules = const [],
     DateTime? createdAt,
   })  : lastSeen = lastSeen ?? DateTime.now(),
         createdAt = createdAt ?? DateTime.now();
@@ -55,6 +59,7 @@ class Device {
     String? localIp,
     DateTime? lastSeen,
     int? signalStrength,
+    List<DeviceSchedule>? schedules,
   }) {
     return Device(
       id: id,
@@ -72,6 +77,7 @@ class Device {
       localIp: localIp ?? this.localIp,
       lastSeen: lastSeen ?? this.lastSeen,
       signalStrength: signalStrength ?? this.signalStrength,
+      schedules: schedules ?? this.schedules,
       createdAt: createdAt,
     );
   }
@@ -92,6 +98,7 @@ class Device {
       'localIp': localIp,
       'lastSeen': lastSeen.toIso8601String(),
       'signalStrength': signalStrength,
+      'schedules': schedules.map((s) => s.toJson()).toList(),
       'createdAt': createdAt.toIso8601String(),
     };
   }
@@ -121,6 +128,10 @@ class Device {
           ? DateTime.parse(json['lastSeen'] as String)
           : DateTime.now(),
       signalStrength: (json['signalStrength'] as num?)?.toInt() ?? 0,
+      schedules: (json['schedules'] as List<dynamic>?)
+              ?.map((s) => DeviceSchedule.fromJson(s as Map<String, dynamic>))
+              .toList() ??
+          [],
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'] as String)
           : DateTime.now(),
