@@ -28,7 +28,7 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/outside.avif"),
+                image: AssetImage("images/outside.jpeg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.3),

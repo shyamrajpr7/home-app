@@ -1,5 +1,6 @@
 //HOME PAGE
 import 'package:flutter/material.dart';
+import 'package:my_app/forgotpassword.dart';
 import 'Aboutus.dart';
 import 'profile.dart';
 import 'settings.dart';
@@ -10,7 +11,7 @@ import 'dining.dart';
 import 'kitchen.dart';
 import 'outsidelight.dart';
 import 'livingroom.dart';
-import 'cctv.dart'; // ✅ new CCTV page
+import 'cctv.dart';
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -105,7 +106,7 @@ class homePageState extends State<homePage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/home.avif"), // <-- your background
+                image: AssetImage("images/home.jpeg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -141,8 +142,7 @@ class homePageState extends State<homePage> {
                   Icons.lightbulb,
                   const OutsideLightsPage(),
                 ),
-
-                // ✅ New CCTV widget
+                
                 _buildRoomButton("CCTV", Icons.videocam, const CCTVPage()),
               ],
             ),

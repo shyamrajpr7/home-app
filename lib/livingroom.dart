@@ -1,7 +1,6 @@
-// LIVINGROOM PAGE
+// LIVINGROOM PAGE — 4 LEDs via Firebase RTDB
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class LivingRoomPage extends StatefulWidget {
   const LivingRoomPage({super.key});
@@ -11,11 +10,20 @@ class LivingRoomPage extends StatefulWidget {
 }
 
 class _LivingRoomPageState extends State<LivingRoomPage> {
-  bool _lightOn = false;
-  bool _fanOn = false;
+  bool _led1 = false;
+  bool _led2 = false;
+  bool _led3 = false;
+  bool _led4 = false;
 
-  double _lightIntensity = 50; // Light intensity %
-  double _fanSpeed = 2; // Fan speed level (0–5)
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref("/leds");
+
+  Future<void> _setLed(String led, bool state) async {
+    try {
+      await _dbRef.child(led).set(state);
+    } catch (e) {
+      print("Error setting $led: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,6 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
       ),
       body: Stack(
         children: [
-          // Background Image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -49,207 +56,120 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
               ),
             ),
           ),
-
-          // Controls
-          Padding(
+          SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
                 const SizedBox(height: 20),
-
-                // Light Control Card
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 10,
-                  shadowColor: Colors.black.withOpacity(0.3),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 8,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: _lightOn
-                          ? Colors.yellow.shade200
-                          : Colors.grey.shade200,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  _lightOn
-                                      ? Icons.lightbulb
-                                      : Icons.lightbulb_outline,
-                                  color: _lightOn
-                                      ? Colors.yellow.shade800
-                                      : Colors.grey,
-                                  size: 36,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  "Light",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: _lightOn
-                                        ? Colors.black87
-                                        : Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Switch(
-                              value: _lightOn,
-                              activeColor: Colors.deepPurple,
-                              onChanged: (value) {
-                                setState(() {
-                                  _lightOn = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-
-                        // Light intensity knob
-                        if (_lightOn) ...[
-                          const SizedBox(height: 12),
-                          Text("Intensity: ${_lightIntensity.toInt()}%"),
-                          const SizedBox(height: 8),
-                          SleekCircularSlider(
-                            min: 0,
-                            max: 100,
-                            initialValue: _lightIntensity,
-                            appearance: CircularSliderAppearance(
-                              size: 120,
-                              customColors: CustomSliderColors(
-                                progressBarColor: Colors.yellow.shade700,
-                                trackColor: Colors.yellow.shade100,
-                                dotColor: Colors.orange,
-                              ),
-                              customWidths: CustomSliderWidths(
-                                progressBarWidth: 8,
-                                trackWidth: 4,
-                                handlerSize: 12,
-                              ),
-                            ),
-                            onChange: (val) {
-                              setState(() {
-                                _lightIntensity = val;
-                              });
-                            },
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
+                _buildLedCard(
+                  title: "LED 1",
+                  subtitle: "D1 — Pin 5",
+                  isOn: _led1,
+                  color: Colors.yellow,
+                  onChanged: (val) {
+                    setState(() => _led1 = val);
+                    _setLed("led1", val);
+                  },
                 ),
-
-                // Fan Control Card
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 10,
-                  shadowColor: Colors.black.withOpacity(0.3),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 8,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: _fanOn
-                          ? Colors.blue.shade200
-                          : Colors.grey.shade200,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.fan,
-                                  color: _fanOn
-                                      ? Colors.blue.shade700
-                                      : Colors.grey,
-                                  size: 36,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  "Fan",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: _fanOn
-                                        ? Colors.black87
-                                        : Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Switch(
-                              value: _fanOn,
-                              activeColor: Colors.deepPurple,
-                              onChanged: (value) {
-                                setState(() {
-                                  _fanOn = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-
-                        // Fan speed knob
-                        if (_fanOn) ...[
-                          const SizedBox(height: 12),
-                          Text("Speed: ${_fanSpeed.toInt()}"),
-                          const SizedBox(height: 8),
-                          SleekCircularSlider(
-                            min: 0,
-                            max: 5,
-                            initialValue: _fanSpeed,
-                            appearance: CircularSliderAppearance(
-                              size: 120,
-                              customColors: CustomSliderColors(
-                                progressBarColor: Colors.blue.shade700,
-                                trackColor: Colors.blue.shade100,
-                                dotColor: Colors.blueAccent,
-                              ),
-                              infoProperties: InfoProperties(
-                                modifier: (val) => val.toStringAsFixed(0),
-                              ),
-                            ),
-                            onChange: (val) {
-                              setState(() {
-                                _fanSpeed = val;
-                              });
-                            },
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
+                const SizedBox(height: 16),
+                _buildLedCard(
+                  title: "LED 2",
+                  subtitle: "D2 — Pin 4",
+                  isOn: _led2,
+                  color: Colors.blue,
+                  onChanged: (val) {
+                    setState(() => _led2 = val);
+                    _setLed("led2", val);
+                  },
+                ),
+                const SizedBox(height: 16),
+                _buildLedCard(
+                  title: "LED 3",
+                  subtitle: "D5 — Pin 14",
+                  isOn: _led3,
+                  color: Colors.green,
+                  onChanged: (val) {
+                    setState(() => _led3 = val);
+                    _setLed("led3", val);
+                  },
+                ),
+                const SizedBox(height: 16),
+                _buildLedCard(
+                  title: "LED 4",
+                  subtitle: "D6 — Pin 12",
+                  isOn: _led4,
+                  color: Colors.deepPurple,
+                  onChanged: (val) {
+                    setState(() => _led4 = val);
+                    _setLed("led4", val);
+                  },
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLedCard({
+    required String title,
+    required String subtitle,
+    required bool isOn,
+    required MaterialColor color,
+    required Function(bool) onChanged,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 10,
+      shadowColor: Colors.black.withOpacity(0.3),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: isOn ? color.shade200 : Colors.grey.shade200,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  isOn ? Icons.lightbulb : Icons.lightbulb_outline,
+                  color: isOn ? color.shade800 : Colors.grey,
+                  size: 36,
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: isOn ? Colors.black87 : Colors.black54,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isOn ? Colors.black54 : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Switch(
+              value: isOn,
+              activeColor: Colors.deepPurple,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
       ),
     );
   }
