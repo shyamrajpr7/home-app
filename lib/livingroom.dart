@@ -325,14 +325,18 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
   }) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 10,
-      shadowColor: Colors.black.withOpacity(0.3),
+      elevation: isOn ? 14 : 10,
+      shadowColor: isOn ? color.withValues(alpha: 0.5) : Colors.black.withOpacity(0.3),
       margin: const EdgeInsets.symmetric(horizontal: 8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: isOn ? color.shade200 : Colors.grey.shade200,
+          border: Border.all(
+            color: isOn ? color.shade400 : Colors.transparent,
+            width: 1.5,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,7 +373,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
             ),
             Switch(
               value: isOn,
-              activeColor: Colors.deepPurple,
+              activeThumbColor: Colors.deepPurple,
               onChanged: onChanged,
             ),
           ],
