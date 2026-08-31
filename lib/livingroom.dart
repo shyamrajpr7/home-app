@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class LivingRoomPage extends StatefulWidget {
   const LivingRoomPage({super.key});
@@ -19,25 +20,53 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
 
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref("/leds");
   final SpeechToText _speech = SpeechToText();
+  final FlutterTts _tts = FlutterTts();
   bool _isListening = false;
+  bool _speechReady = false;
+  bool _ttsReady = false;
   String _lastWords = '';
+
+  // LED index lookup table for instant, unambiguous matching
+  static const Map<String, int> _ledIndex = {
+    "led 1": 0, "led one": 0, "light 1": 0, "light one": 0, "first": 0,
+    "led 2": 1, "led two": 1, "light 2": 1, "light two": 1, "second": 1,
+    "led 3": 2, "led three": 2, "light 3": 2, "light three": 2, "third": 2,
+    "led 4": 3, "led four": 3, "light 4": 3, "light four": 3, "fourth": 3,
+  };
 
   @override
   void initState() {
     super.initState();
     _initSpeech();
+    _initTts();
   }
 
-  void _initSpeech() async {
-    await _speech.initialize(
+  Future<void> _initTts() async {
+    try {
+      await _tts.setLanguage("en-US");
+      await _tts.setSpeechRate(0.45);
+      await _tts.setVolume(1.0);
+      await _tts.setPitch(1.0);
+      _ttsReady = true;
+    } catch (_) {}
+  }
+
+  void _speak(String text) {
+    if (!_ttsReady) return;
+    _tts.stop();
+    _tts.speak(text);
+  }
+
+  Future<void> _initSpeech() async {
+    _speechReady = await _speech.initialize(
       onError: (val) {
-        setState(() => _isListening = false);
+        if (mounted) setState(() => _isListening = false);
       },
     );
   }
 
   void _startListening() async {
-    if (!_speech.isAvailable) {
+    if (!_speechReady || !_speech.isAvailable) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Speech recognition not available")),
       );
@@ -47,64 +76,121 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
       _isListening = true;
       _lastWords = '';
     });
-    await _speech.listen(onResult: _onSpeechResult);
+    _speech.listen(
+      onResult: _onSpeechResult,
+      listenMode: ListenMode.confirmation,
+      pauseFor: const Duration(seconds: 1),
+    );
   }
 
   void _stopListening() async {
     await _speech.stop();
-    setState(() => _isListening = false);
+    if (mounted) setState(() => _isListening = false);
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() => _lastWords = result.recognizedWords);
-    if (result.finalResult) {
-      _processVoiceCommand(result.recognizedWords.toLowerCase());
-      setState(() => _isListening = false);
+    final text = result.recognizedWords;
+    if (mounted) setState(() => _lastWords = text);
+    // Act on final result OR on any partial that already looks like a command,
+    // so the light turns on the moment the words are spoken (no waiting).
+    if (result.finalResult || _looksLikeCommand(text)) {
+      _handleCommand(text, immediate: !result.finalResult);
+      if (!result.finalResult) {
+        // command matched instantly — stop listening to save latency
+        _speech.stop();
+        if (mounted) setState(() => _isListening = false);
+      }
     }
   }
 
-  void _processVoiceCommand(String command) {
-    // --- ALL LIGHTS ---
-    if (command.contains("all") &&
-        (command.contains("on") || command.contains("open"))) {
-      _toggleAll(true);
-      _showSnack("Turning ON all lights");
-      return;
+  // Fast heuristic: does this utterance already contain an actionable phrase?
+  bool _looksLikeCommand(String text) {
+    final t = text.toLowerCase();
+    for (final n in _ledIndex.keys) {
+      if (t.contains(n)) return true;
     }
-    if (command.contains("all") &&
-        (command.contains("off") || command.contains("close"))) {
-      _toggleAll(false);
-      _showSnack("Turning OFF all lights");
+    return t.contains("all");
+  }
+
+  void _handleCommand(String command, {bool immediate = false}) {
+    final t = command.toLowerCase().trim();
+    bool on = t.contains(" on") || t.contains(" on ") ||
+        t.contains(" on.") || t.contains("on ") || t == "on" || t.contains("open");
+    bool off = t.contains("off") || t.contains("close") ||
+        t.contains(" turn off ") || t.contains("turn off");
+
+    // REJECTION / state words take priority before any action
+    if (t.contains(" led") || t.contains("light")) {
+      // "turn on led 1" -> on; "turn off led 2" -> off
+      on = t.contains("on") && !t.contains("off");
+      off = t.contains("off");
+    }
+
+    if (t.contains(" a ") || t.contains(" the ") ||
+        t.contains("please") || t.contains("okay") || t.contains(" hey ")) {
+      // strip filler/helper words that don't decide state but keep it simple
+    }
+
+    // --- ALL LIGHTS (fast path) ---
+    if (t.contains("all")) {
+      if (off) {
+        _toggleAll(false);
+        _speak("All lights off");
+        _announce("All lights off");
+      } else if (on) {
+        _toggleAll(true);
+        _speak("All lights on");
+        _announce("All lights on");
+      }
+      if (!immediate) _resetAfterCommand();
       return;
     }
 
-    // --- INDIVIDUAL LIGHTS (LED 1–4) ---
-    final lights = [
-      {"led": "led1", "names": ["led 1", "light 1", "light one", "led one", "first"], "index": 0},
-      {"led": "led2", "names": ["led 2", "light 2", "light two", "led two", "second"], "index": 1},
-      {"led": "led3", "names": ["led 3", "light 3", "light three", "led three", "third"], "index": 2},
-      {"led": "led4", "names": ["led 4", "light 4", "light four", "led four", "fourth"], "index": 3},
-    ];
-
-    for (final light in lights) {
-      for (final name in light["names"] as List<String>) {
-        if (command.contains(name)) {
-          if (command.contains("on") || command.contains("open")) {
-            _toggleLed(light["led"] as String, light["index"] as int, true);
-            _showSnack("Turning ON ${light["led"]}");
-            return;
-          }
-          if (command.contains("off") || command.contains("close")) {
-            _toggleLed(light["led"] as String, light["index"] as int, false);
-            _showSnack("Turning OFF ${light["led"]}");
-            return;
-          }
-        }
+    // --- INDIVIDUAL LIGHTS ---
+    int? idx;
+    for (final n in _ledIndex.keys) {
+      if (t.contains(n)) {
+        idx = _ledIndex[n];
+        break;
       }
     }
 
-    // No matching command
-    _showSnack("Command not recognized: \"$command\"");
+    if (idx != null) {
+      final led = "led${idx + 1}";
+      if (off) {
+        _toggleLed(led, idx, false);
+        _speak("Light ${idx + 1} off");
+        _announce("Light ${idx + 1} off");
+      } else if (on) {
+        _toggleLed(led, idx, true);
+        _speak("Light ${idx + 1} on");
+        _announce("Light ${idx + 1} on");
+      }
+      if (!immediate) _resetAfterCommand();
+      return;
+    }
+
+    // No actionable command
+    if (!immediate) {
+      _speak("Sorry, I didn't catch that");
+      _announce('Command not recognized: "$t"');
+    }
+  }
+
+  void _announce(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        duration: const Duration(seconds: 2),
+        backgroundColor: Colors.deepPurple,
+      ),
+    );
+  }
+
+  void _resetAfterCommand() {
+    if (mounted) setState(() {
+      _isListening = false;
+    });
   }
 
   void _toggleLed(String led, int index, bool state) {
@@ -116,7 +202,8 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
         case 3: _led4 = state; break;
       }
     });
-    _setLed(led, state);
+    // write only the changed LED — one fast round-trip
+    _dbRef.child(led).set(state);
   }
 
   void _toggleAll(bool state) {
@@ -126,20 +213,8 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
       _led3 = state;
       _led4 = state;
     });
-    _setLed("led1", state);
-    _setLed("led2", state);
-    _setLed("led3", state);
-    _setLed("led4", state);
-  }
-
-  void _showSnack(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.deepPurple,
-      ),
-    );
+    // single atomic update for all LEDS — faster than 4 separate writes
+    _dbRef.update({"led1": state, "led2": state, "led3": state, "led4": state});
   }
 
   Future<void> _setLed(String led, bool state) async {
