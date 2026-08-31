@@ -33,6 +33,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
     "led 3": 2, "led three": 2, "light 3": 2, "light three": 2, "third": 2,
     "led 4": 3, "led four": 3, "light 4": 3, "light four": 3, "fourth": 3,
   };
+  static const List<String> _ledNames = ["led1", "led2", "led3", "led4"];
 
   @override
   void initState() {
@@ -91,109 +92,81 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
   void _onSpeechResult(SpeechRecognitionResult result) {
     final text = result.recognizedWords;
     if (mounted) setState(() => _lastWords = text);
-    // Act on final result OR on any partial that already looks like a command,
-    // so the light turns on the moment the words are spoken (no waiting).
-    if (result.finalResult || _looksLikeCommand(text)) {
-      _handleCommand(text, immediate: !result.finalResult);
-      if (!result.finalResult) {
-        // command matched instantly — stop listening to save latency
-        _speech.stop();
-        if (mounted) setState(() => _isListening = false);
-      }
+    if (result.finalResult) {
+      _handleCommand(text);
+      if (mounted) setState(() => _isListening = false);
     }
   }
 
-  // Fast heuristic: does this utterance already contain an actionable phrase?
-  bool _looksLikeCommand(String text) {
-    final t = text.toLowerCase();
-    for (final n in _ledIndex.keys) {
-      if (t.contains(n)) return true;
-    }
-    return t.contains("all");
-  }
-
-  void _handleCommand(String command, {bool immediate = false}) {
+  // Parse a spoken command into "which light" + "on/off".
+  // Returns immediately once a clear action is found.
+  void _handleCommand(String command) {
     final t = command.toLowerCase().trim();
-    bool on = t.contains(" on") || t.contains(" on ") ||
-        t.contains(" on.") || t.contains("on ") || t == "on" || t.contains("open");
-    bool off = t.contains("off") || t.contains("close") ||
-        t.contains(" turn off ") || t.contains("turn off");
 
-    // REJECTION / state words take priority before any action
-    if (t.contains(" led") || t.contains("light")) {
-      // "turn on led 1" -> on; "turn off led 2" -> off
-      on = t.contains("on") && !t.contains("off");
+    // Determine desired state from clear keywords only.
+    bool off = t.contains("off") || t.contains("close") ||
+        t.contains(" switch off");
+    bool on = t.contains(" on ") || t.contains(" on.") ||
+        t.contains(" on,") || t.endsWith(" on") || t.contains("open") ||
+        t.contains("switch on") || t.contains("turn on");
+
+    // If neither detected, default based on presence of "on/off" anywhere.
+    if (!on && !off) {
+      on = t.contains(" on") && !t.contains(" off");
       off = t.contains("off");
     }
 
-    if (t.contains(" a ") || t.contains(" the ") ||
-        t.contains("please") || t.contains("okay") || t.contains(" hey ")) {
-      // strip filler/helper words that don't decide state but keep it simple
-    }
-
-    // --- ALL LIGHTS (fast path) ---
+    // --- ALL LIGHTS ---
     if (t.contains("all")) {
       if (off) {
         _toggleAll(false);
-        _speak("All lights off");
-        _announce("All lights off");
-      } else if (on) {
+        _voicesay("All lights off");
+      } else {
         _toggleAll(true);
-        _speak("All lights on");
-        _announce("All lights on");
+        _voicesay("All lights on");
       }
-      if (!immediate) _resetAfterCommand();
       return;
     }
 
     // --- INDIVIDUAL LIGHTS ---
-    int? idx;
+    int idx = -1;
     for (final n in _ledIndex.keys) {
       if (t.contains(n)) {
-        idx = _ledIndex[n];
+        idx = _ledIndex[n] as int;
         break;
       }
     }
 
-    if (idx != null) {
-      final led = "led${idx + 1}";
+    if (idx >= 0) {
+      final led = _ledNames[idx];
       if (off) {
-        _toggleLed(led, idx, false);
-        _speak("Light ${idx + 1} off");
-        _announce("Light ${idx + 1} off");
-      } else if (on) {
-        _toggleLed(led, idx, true);
-        _speak("Light ${idx + 1} on");
-        _announce("Light ${idx + 1} on");
+        _toggleLed(idx, false);
+        _voicesay("$led off");
+      } else {
+        _toggleLed(idx, true);
+        _voicesay("$led on");
       }
-      if (!immediate) _resetAfterCommand();
       return;
     }
 
     // No actionable command
-    if (!immediate) {
-      _speak("Sorry, I didn't catch that");
-      _announce('Command not recognized: "$t"');
-    }
+    _voicesay("Sorry, I didn't catch that");
   }
 
-  void _announce(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.deepPurple,
-      ),
-    );
+  void _voicesay(String msg) {
+    _speak(msg);
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(msg),
+          duration: const Duration(seconds: 2),
+          backgroundColor: Colors.deepPurple,
+        ),
+      );
   }
 
-  void _resetAfterCommand() {
-    if (mounted) setState(() {
-      _isListening = false;
-    });
-  }
-
-  void _toggleLed(String led, int index, bool state) {
+  void _toggleLed(int index, bool state) {
     setState(() {
       switch (index) {
         case 0: _led1 = state; break;
@@ -203,7 +176,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
       }
     });
     // write only the changed LED — one fast round-trip
-    _dbRef.child(led).set(state);
+    _dbRef.child(_ledNames[index]).set(state);
   }
 
   void _toggleAll(bool state) {
