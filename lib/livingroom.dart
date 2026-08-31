@@ -317,15 +317,20 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                 ),
               ),
             ),
-          FloatingActionButton(
-            onPressed: _isListening ? _stopListening : _startListening,
-            backgroundColor: _isListening
-                ? Colors.red
-                : const Color.fromARGB(255, 244, 82, 82),
-            child: Icon(
-              _isListening ? Icons.mic : Icons.mic_none,
-              color: Colors.white,
-              size: 28,
+          AnimatedScale(
+            scale: _isListening ? 1.12 : 1.0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            child: FloatingActionButton(
+              onPressed: _isListening ? _stopListening : _startListening,
+              backgroundColor: _isListening
+                  ? Colors.redAccent
+                  : const Color.fromARGB(255, 244, 82, 82),
+              child: Icon(
+                _isListening ? Icons.mic : Icons.mic_none,
+                color: Colors.white,
+                size: 28,
+              ),
             ),
           ),
         ],
