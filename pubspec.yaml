@@ -22,7 +22,7 @@ dependencies:
   flutter_vlc_player: ^7.4.1
   camera: ^0.11.0+1
   http: ^1.2.2
-  
+  speech_to_text: ^7.0.1
 
 dev_dependencies:
   flutter_test:
