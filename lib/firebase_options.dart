@@ -31,10 +31,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -62,5 +59,16 @@ class DefaultFirebaseOptions {
         'https://homeautomation-55779-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'homeautomation-55779.firebasestorage.app',
     measurementId: 'G-5YQBWNGEGX',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAkUbXluy_z2IcF0b0R0vyx-Rnknp-jYTM',
+    appId: '1:620303359377:ios:e54dac959f45acfb7e0e30',
+    messagingSenderId: '620303359377',
+    projectId: 'homeautomation-55779',
+    authDomain: 'homeautomation-55779.firebaseapp.com',
+    databaseURL:
+        'https://homeautomation-55779-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'homeautomation-55779.firebasestorage.app',
   );
 }

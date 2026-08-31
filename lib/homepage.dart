@@ -1,10 +1,9 @@
-//HOME PAGE
+// HOME PAGE
 import 'package:flutter/material.dart';
 import 'package:my_app/forgotpassword.dart';
 import 'Aboutus.dart';
 import 'profile.dart';
 import 'settings.dart';
-import 'main.dart';
 import 'bedroom1.dart';
 import 'bedroom2.dart';
 import 'dining.dart';

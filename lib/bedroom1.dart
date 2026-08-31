@@ -192,7 +192,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                 ),
                 Switch(
                   value: isOn,
-                  activeColor: Colors.deepPurple,
+                  activeThumbColor: Colors.deepPurple,
                   onChanged: onChanged,
                 ),
               ],

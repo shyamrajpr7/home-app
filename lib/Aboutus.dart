@@ -1,6 +1,7 @@
 /////////////////////////
 // Extra Pages
 /////////////////////////
+library;
 //ABOUT APP
 import 'package:flutter/material.dart';
 
