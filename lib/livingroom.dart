@@ -220,13 +220,15 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(182, 3, 3, 9),
+            color: Colors.white,
             letterSpacing: 1.2,
           ),
         ),
         backgroundColor: const Color.fromARGB(255, 244, 82, 82),
         centerTitle: true,
         elevation: 6,
+        iconTheme: const IconThemeData(color: Colors.white),
+        foregroundColor: Colors.white,
       ),
       body: Stack(
         children: [
