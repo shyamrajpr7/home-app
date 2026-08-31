@@ -296,6 +296,30 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                     _toast("LED 4 ${val ? 'on' : 'off'}");
                   },
                 ),
+                const SizedBox(height: 24),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.45),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.record_voice_over,
+                          color: Colors.white, size: 20),
+                      SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          "Tap the mic and say: \"Turn on light 1\"",
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
