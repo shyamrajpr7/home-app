@@ -153,6 +153,19 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
     _voicesay("Sorry, I didn't catch that");
   }
 
+  void _toast(String msg) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(msg),
+          duration: const Duration(milliseconds: 1500),
+          backgroundColor: Colors.black87,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
   void _voicesay(String msg) {
     _speak(msg);
     ScaffoldMessenger.of(context)
@@ -242,6 +255,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                   onChanged: (val) {
                     setState(() => _led1 = val);
                     _setLed("led1", val);
+                    _toast("LED 1 ${val ? 'on' : 'off'}");
                   },
                 ),
                 const SizedBox(height: 16),
@@ -253,6 +267,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                   onChanged: (val) {
                     setState(() => _led2 = val);
                     _setLed("led2", val);
+                    _toast("LED 2 ${val ? 'on' : 'off'}");
                   },
                 ),
                 const SizedBox(height: 16),
@@ -264,6 +279,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                   onChanged: (val) {
                     setState(() => _led3 = val);
                     _setLed("led3", val);
+                    _toast("LED 3 ${val ? 'on' : 'off'}");
                   },
                 ),
                 const SizedBox(height: 16),
@@ -275,6 +291,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                   onChanged: (val) {
                     setState(() => _led4 = val);
                     _setLed("led4", val);
+                    _toast("LED 4 ${val ? 'on' : 'off'}");
                   },
                 ),
               ],
