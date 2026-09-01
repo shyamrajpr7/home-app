@@ -422,6 +422,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
             Switch(
               value: isOn,
               activeThumbColor: Colors.deepPurple,
+              activeTrackColor: color.shade300,
               onChanged: onChanged,
             ),
           ],
