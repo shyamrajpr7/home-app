@@ -118,6 +118,7 @@ class homePageState extends State<homePage> {
               padding: const EdgeInsets.all(20),
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
+              childAspectRatio: 1.05,
               children: [
                 _buildRoomButton(
                   "Living Room",
