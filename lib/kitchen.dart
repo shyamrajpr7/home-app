@@ -233,6 +233,7 @@ class _KitchenPageState extends State<KitchenPage> {
             Switch(
               value: isOn,
               activeThumbColor: Colors.deepPurple,
+              activeTrackColor: Colors.amber.shade300,
               onChanged: onChanged,
             ),
           ],
