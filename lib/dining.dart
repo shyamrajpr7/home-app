@@ -228,6 +228,7 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
             Switch(
               value: isOn,
               activeThumbColor: Colors.deepPurple,
+              activeTrackColor: Colors.amber.shade300,
               onChanged: onChanged,
             ),
           ],
