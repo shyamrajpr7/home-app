@@ -348,6 +348,9 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
             child: FloatingActionButton(
+              tooltip: _isListening
+                  ? 'Stop listening'
+                  : 'Voice control',
               onPressed: _isListening ? _stopListening : _startListening,
               backgroundColor: _isListening
                   ? Colors.redAccent
