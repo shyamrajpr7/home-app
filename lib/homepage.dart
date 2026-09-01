@@ -142,7 +142,6 @@ class homePageState extends State<homePage> {
                   Icons.lightbulb,
                   const OutsideLightsPage(),
                 ),
-                
                 _buildRoomButton("CCTV", Icons.videocam, const CCTVPage()),
               ],
             ),
