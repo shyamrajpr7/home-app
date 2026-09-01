@@ -170,6 +170,7 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
             Switch(
               value: isOn,
               activeThumbColor: Colors.deepPurple,
+              activeTrackColor: Colors.amber.shade300,
               onChanged: onChanged,
             ),
           ],
