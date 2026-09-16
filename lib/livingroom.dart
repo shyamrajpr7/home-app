@@ -298,17 +298,20 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                 ),
                 const SizedBox(height: 24),
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.45),
-                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.black.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.record_voice_over,
-                          color: Colors.white, size: 20),
-                      SizedBox(width: 8),
+                          color: Color(0xFFFFD54F), size: 20),
+                      SizedBox(width: 10),
                       Flexible(
                         child: Text(
                           "Tap the mic and say: \"Turn on light 1\"",
@@ -347,18 +350,27 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
             scale: _isListening ? 1.12 : 1.0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
-            child: FloatingActionButton(
-              tooltip: _isListening
-                  ? 'Stop listening'
-                  : 'Voice control',
-              onPressed: _isListening ? _stopListening : _startListening,
-              backgroundColor: _isListening
-                  ? Colors.redAccent
-                  : const Color.fromARGB(255, 244, 82, 82),
-              child: Icon(
-                _isListening ? Icons.mic : Icons.mic_none,
-                color: Colors.white,
-                size: 28,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              padding: _isListening ? const EdgeInsets.all(6) : EdgeInsets.zero,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _isListening
+                    ? Colors.red.withValues(alpha: 0.35)
+                    : Colors.transparent,
+              ),
+              child: FloatingActionButton(
+                tooltip: _isListening ? 'Stop listening' : 'Voice control',
+                onPressed: _isListening ? _stopListening : _startListening,
+                backgroundColor: _isListening
+                    ? Colors.redAccent
+                    : const Color.fromARGB(255, 244, 82, 82),
+                elevation: 8,
+                child: Icon(
+                  _isListening ? Icons.mic : Icons.mic_none,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
             ),
           ),
@@ -374,58 +386,100 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
     required MaterialColor color,
     required Function(bool) onChanged,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: isOn ? 14 : 10,
-      shadowColor: isOn ? color.withValues(alpha: 0.5) : Colors.black.withOpacity(0.3),
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: isOn ? color.shade200 : Colors.grey.shade200,
-          border: Border.all(
-            color: isOn ? color.shade400 : Colors.transparent,
-            width: 1.5,
+    final accent = isOn ? Color(color.shade600.value) : Colors.grey;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: isOn
+                ? color.withValues(alpha: 0.3)
+                : Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
+        ],
+        border: Border.all(
+          color: isOn
+              ? color.withValues(alpha: 0.45)
+              : Colors.black.withValues(alpha: 0.04),
+          width: 1.5,
         ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(
-                  isOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                  color: isOn ? color.shade800 : Colors.grey,
-                  size: 36,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: isOn
+                    ? color.withValues(alpha: 0.18)
+                    : Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: isOn ? color.withValues(alpha: 0.4) : Colors.transparent,
                 ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: isOn ? Colors.black87 : Colors.black54,
-                      ),
+              ),
+              child: Icon(
+                isOn ? Icons.lightbulb_rounded : Icons.lightbulb_outline_rounded,
+                color: isOn ? accent : Colors.grey.shade400,
+                size: 30,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: isOn ? Colors.black87 : Colors.black54,
                     ),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isOn ? Colors.black54 : Colors.grey,
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 220),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isOn ? accent : Colors.grey.shade400,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          subtitle,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isOn
+                                ? Colors.black54
+                                : Colors.grey.shade500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Switch(
               value: isOn,
-              activeThumbColor: Colors.deepPurple,
+              activeThumbColor: Colors.white,
               activeTrackColor: color.shade300,
+              inactiveThumbColor: Colors.white,
+              inactiveTrackColor: Colors.grey.shade300,
               onChanged: onChanged,
             ),
           ],
