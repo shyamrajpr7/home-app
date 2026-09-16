@@ -38,18 +38,16 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
             ),
           ),
 
-          // Controls
+          // Outside Lights
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
                 _buildControlCard(
                   title: "Gate Light",
-                  icon: Icon(
-                    _gateLightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: _gateLightOn ? Colors.yellow.shade800 : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Main entrance",
+                  icon: Icons.doorbell_rounded,
+                  accent: const Color(0xFFFF8F00),
                   isOn: _gateLightOn,
                   onChanged: (val) {
                     setState(() => _gateLightOn = val);
@@ -61,13 +59,9 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 const SizedBox(height: 16),
                 _buildControlCard(
                   title: "Garden Light",
-                  icon: Icon(
-                    _gardenLightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: _gardenLightOn
-                        ? Colors.yellow.shade800
-                        : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Garden path & lawn",
+                  icon: Icons.yard_rounded,
+                  accent: const Color(0xFF43A047),
                   isOn: _gardenLightOn,
                   onChanged: (val) {
                     setState(() => _gardenLightOn = val);
@@ -81,13 +75,9 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 const SizedBox(height: 16),
                 _buildControlCard(
                   title: "Garage Light",
-                  icon: Icon(
-                    _garageLightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: _garageLightOn
-                        ? Colors.yellow.shade800
-                        : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Garage bay",
+                  icon: Icons.directions_car_filled_rounded,
+                  accent: const Color(0xFF1E88E5),
                   isOn: _garageLightOn,
                   onChanged: (val) {
                     setState(() => _garageLightOn = val);
@@ -101,13 +91,9 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 const SizedBox(height: 16),
                 _buildControlCard(
                   title: "Balcony Light",
-                  icon: Icon(
-                    _balconyLightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: _balconyLightOn
-                        ? Colors.yellow.shade800
-                        : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Terrace accent",
+                  icon: Icons.park_rounded,
+                  accent: const Color(0xFF8E24AA),
                   isOn: _balconyLightOn,
                   onChanged: (val) {
                     setState(() => _balconyLightOn = val);
@@ -129,48 +115,109 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
   /// Reusable Control Card
   Widget _buildControlCard({
     required String title,
-    required Widget icon,
+    required String subtitle,
+    required IconData icon,
+    required Color accent,
     required bool isOn,
     required Function(bool) onChanged,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 12,
-      shadowColor: Colors.black.withOpacity(0.5),
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: isOn
-                ? [Colors.yellow.shade200, Colors.orange.shade300]
-                : [Colors.grey.shade200, Colors.grey.shade100],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: isOn
+                ? accent.withValues(alpha: 0.3)
+                : Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
+        ],
+        border: Border.all(
+          color: isOn
+              ? accent.withValues(alpha: 0.45)
+              : Colors.black.withValues(alpha: 0.04),
+          width: 1.5,
         ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                icon,
-                const SizedBox(width: 12),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isOn ? Colors.black87 : Colors.black54,
-                  ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: isOn
+                    ? accent.withValues(alpha: 0.15)
+                    : Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: isOn
+                      ? accent.withValues(alpha: 0.35)
+                      : Colors.transparent,
                 ),
-              ],
+              ),
+              child: Icon(
+                icon,
+                color: isOn ? accent : Colors.grey.shade400,
+                size: 30,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: isOn ? Colors.black87 : Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 220),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isOn
+                              ? const Color(0xFF4CAF50)
+                              : Colors.grey.shade400,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          subtitle,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isOn
+                                ? Colors.black54
+                                : Colors.grey.shade500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Switch(
               value: isOn,
-              activeThumbColor: Colors.deepPurple,
-              activeTrackColor: Colors.amber.shade300,
+              activeThumbColor: Colors.white,
+              activeTrackColor: accent,
+              inactiveThumbColor: Colors.white,
+              inactiveTrackColor: Colors.grey.shade300,
               onChanged: onChanged,
             ),
           ],
