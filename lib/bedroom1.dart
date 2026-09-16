@@ -1,6 +1,5 @@
 // BEDROOM1 PAGE with Background Image + Rotating Controls
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class Bedroom1Page extends StatefulWidget {
@@ -45,17 +44,15 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
 
           // Foreground (Cards)
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
                 // Light
                 _buildControlCard(
                   title: "Light",
-                  icon: Icon(
-                    _lightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: _lightOn ? Colors.yellow.shade800 : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Ceiling lamp",
+                  icon: Icons.lightbulb_rounded,
+                  accent: const Color(0xFFFFB300),
                   isOn: _lightOn,
                   onChanged: (value) {
                     setState(() => _lightOn = value);
@@ -63,10 +60,6 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                       _lightOn ? "💡 Light turned ON" : "💡 Light turned OFF",
                     );
                   },
-                  activeColors: [
-                    Colors.yellow.shade200,
-                    Colors.orange.shade300,
-                  ],
                   extraWidget: _lightOn
                       ? _buildCircularSlider(
                           min: 0,
@@ -74,6 +67,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                           value: _lightIntensity,
                           label: "Intensity",
                           unit: "%",
+                          color: const Color(0xFFFFB300),
                           onChange: (val) =>
                               setState(() => _lightIntensity = val),
                         )
@@ -84,11 +78,9 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                 // Fan
                 _buildControlCard(
                   title: "Fan",
-                  icon: FaIcon(
-                    FontAwesomeIcons.fan,
-                    color: _fanOn ? Colors.blue.shade700 : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Ceiling fan",
+                  icon: Icons.mode_fan_off_rounded,
+                  accent: const Color(0xFF1E88E5),
                   isOn: _fanOn,
                   onChanged: (value) {
                     setState(() => _fanOn = value);
@@ -96,7 +88,6 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                       _fanOn ? "🌀 Fan turned ON" : "🌀 Fan turned OFF",
                     );
                   },
-                  activeColors: [Colors.blue.shade200, Colors.blue.shade400],
                   extraWidget: _fanOn
                       ? _buildCircularSlider(
                           min: 0,
@@ -104,6 +95,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                           value: _fanSpeed,
                           label: "Speed",
                           unit: "lvl",
+                          color: const Color(0xFF1E88E5),
                           onChange: (val) => setState(() => _fanSpeed = val),
                         )
                       : null,
@@ -113,11 +105,9 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                 // AC
                 _buildControlCard(
                   title: "Air Conditioner",
-                  icon: Icon(
-                    _acOn ? Icons.ac_unit : Icons.ac_unit_outlined,
-                    color: _acOn ? Colors.cyan.shade700 : Colors.grey,
-                    size: 36,
-                  ),
+                  subtitle: "Cooling & heating",
+                  icon: Icons.ac_unit_rounded,
+                  accent: const Color(0xFF00ACC1),
                   isOn: _acOn,
                   onChanged: (value) {
                     setState(() => _acOn = value);
@@ -125,7 +115,6 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                       _acOn ? "❄️ AC turned ON" : "❄️ AC turned OFF",
                     );
                   },
-                  activeColors: [Colors.cyan.shade200, Colors.cyan.shade400],
                   extraWidget: _acOn
                       ? _buildCircularSlider(
                           min: 16,
@@ -133,6 +122,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                           value: _acTemp,
                           label: "Temp",
                           unit: "°C",
+                          color: const Color(0xFF00ACC1),
                           onChange: (val) => setState(() => _acTemp = val),
                         )
                       : null,
@@ -148,61 +138,128 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
   /// Reusable Control Card with optional extraWidget
   Widget _buildControlCard({
     required String title,
-    required Widget icon,
+    required String subtitle,
+    required IconData icon,
+    required Color accent,
     required bool isOn,
     required Function(bool) onChanged,
-    required List<Color> activeColors,
     Widget? extraWidget,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 12,
-      shadowColor: Colors.black.withOpacity(0.5),
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: isOn
-                ? activeColors
-                : [Colors.grey.shade200, Colors.grey.shade100],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: isOn
+                ? accent.withValues(alpha: 0.25)
+                : Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
+        ],
+        border: Border.all(
+          color: isOn
+              ? accent.withValues(alpha: 0.4)
+              : Colors.black.withValues(alpha: 0.04),
+          width: 1.5,
         ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(18),
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    icon,
-                    const SizedBox(width: 12),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: isOn ? Colors.black87 : Colors.black54,
-                      ),
+                // Icon badge
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 220),
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: isOn
+                        ? accent.withValues(alpha: 0.15)
+                        : Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: isOn
+                          ? accent.withValues(alpha: 0.35)
+                          : Colors.transparent,
                     ),
-                  ],
+                  ),
+                  child: Icon(
+                    icon,
+                    color: isOn ? accent : Colors.grey.shade400,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: isOn ? Colors.black87 : Colors.black54,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isOn
+                                  ? const Color(0xFF4CAF50)
+                                  : Colors.grey.shade400,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            subtitle,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isOn
+                                  ? Colors.black54
+                                  : Colors.grey.shade500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Switch(
                   value: isOn,
-                  activeThumbColor: Colors.deepPurple,
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: accent,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.grey.shade300,
                   onChanged: onChanged,
                 ),
               ],
             ),
-            if (extraWidget != null) ...[
-              const SizedBox(height: 12),
-              extraWidget,
-            ],
+          ),
+          if (extraWidget != null) ...[
+            Container(
+              margin: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: extraWidget,
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
@@ -214,6 +271,7 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
     required double value,
     required String label,
     required String unit,
+    required Color color,
     required Function(double) onChange,
   }) {
     return SleekCircularSlider(
@@ -221,23 +279,26 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
       max: max,
       initialValue: value,
       appearance: CircularSliderAppearance(
-        size: 120,
+        size: 130,
         customWidths: CustomSliderWidths(progressBarWidth: 12, trackWidth: 6),
         customColors: CustomSliderColors(
-          progressBarColor: Colors.deepPurple,
-          dotColor: Colors.deepPurpleAccent,
+          progressBarColor: color,
+          shadowColor: color.withValues(alpha: 0.35),
+          dotColor: color,
           trackColor: Colors.grey.shade300,
         ),
         infoProperties: InfoProperties(
-          mainLabelStyle: const TextStyle(
-            fontSize: 20,
+          mainLabelStyle: TextStyle(
+            fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
           modifier: (val) => "${val.toInt()} $unit",
           topLabelText: label,
-          topLabelStyle: const TextStyle(
+          topLabelStyle: TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
+            color: Colors.black54,
           ),
         ),
       ),
