@@ -52,6 +52,7 @@ class homePageState extends State<homePage> {
         actions: [
           PopupMenuButton<int>(
             onSelected: _onMenuSelected,
+            icon: const Icon(Icons.menu_rounded),
             itemBuilder: (BuildContext context) {
               return [
                 const PopupMenuItem(
@@ -107,104 +108,277 @@ class homePageState extends State<homePage> {
               image: DecorationImage(
                 image: AssetImage("images/home.jpeg"),
                 fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Color(0x660F0F1A),
+                  BlendMode.darken,
+                ),
               ),
             ),
           ),
 
-          // Foreground content
-          Center(
-            child: GridView.count(
-              crossAxisCount: 2,
-              padding: const EdgeInsets.all(20),
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.05,
-              children: [
-                _buildRoomButton(
-                  "Living Room",
-                  Icons.weekend,
-                  const LivingRoomPage(),
+          Column(
+            children: [
+              const SizedBox(height: 18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 7,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.14),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.25),
+                        ),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.auto_awesome_rounded,
+                            size: 16,
+                            color: Color(0xFFFFD54F),
+                          ),
+                          SizedBox(width: 7),
+                          Text(
+                            "12 devices online",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.14),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.25),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.notifications_none_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ],
                 ),
-                _buildRoomButton("Bedroom 1", Icons.bed, const Bedroom1Page()),
-                _buildRoomButton(
-                  "Bedroom 2",
-                  Icons.bed_outlined,
-                  const Bedroom2Page(),
+              ),
+              const Spacer(),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 1.02,
+                  physics: const BouncingScrollPhysics(),
+                  children: const [
+                    _RoomTile(
+                      title: "Living Room",
+                      icon: Icons.weekend_rounded,
+                      page: LivingRoomPage(),
+                      colors: [Color(0xFF6C63FF), Color(0xFF4A90D9)],
+                    ),
+                    _RoomTile(
+                      title: "Bedroom 1",
+                      icon: Icons.bed_rounded,
+                      page: Bedroom1Page(),
+                      colors: [Color(0xFF9C27B0), Color(0xFF673AB7)],
+                    ),
+                    _RoomTile(
+                      title: "Bedroom 2",
+                      icon: Icons.bedroom_parent_rounded,
+                      page: Bedroom2Page(),
+                      colors: [Color(0xFF00897B), Color(0xFF4DB6AC)],
+                    ),
+                    _RoomTile(
+                      title: "Dining Room",
+                      icon: Icons.table_bar_rounded,
+                      page: DiningRoomPage(),
+                      colors: [Color(0xFFFF8F00), Color(0xFFFFB300)],
+                    ),
+                    _RoomTile(
+                      title: "Kitchen",
+                      icon: Icons.kitchen_rounded,
+                      page: KitchenPage(),
+                      colors: [Color(0xFFE53935), Color(0xFFFF7043)],
+                    ),
+                    _RoomTile(
+                      title: "Outside Lights",
+                      icon: Icons.light_mode_rounded,
+                      page: OutsideLightsPage(),
+                      colors: [Color(0xFF0288D1), Color(0xFF00BCD4)],
+                    ),
+                    _RoomTile(
+                      title: "CCTV",
+                      icon: Icons.videocam_rounded,
+                      page: CCTVPage(),
+                      colors: [Color(0xFF37474F), Color(0xFF546E7A)],
+                    ),
+                  ],
                 ),
-                _buildRoomButton(
-                  "Dining Room",
-                  Icons.table_bar,
-                  const DiningRoomPage(),
-                ),
-                _buildRoomButton("Kitchen", Icons.kitchen, const KitchenPage()),
-                _buildRoomButton(
-                  "Outside Lights",
-                  Icons.lightbulb,
-                  const OutsideLightsPage(),
-                ),
-                _buildRoomButton("CCTV", Icons.videocam, const CCTVPage()),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildRoomButton(String title, IconData icon, Widget page) {
+class _RoomTile extends StatefulWidget {
+  final String title;
+  final IconData icon;
+  final Widget page;
+  final List<Color> colors;
+
+  const _RoomTile({
+    required this.title,
+    required this.icon,
+    required this.page,
+    required this.colors,
+  });
+
+  @override
+  State<_RoomTile> createState() => _RoomTileState();
+}
+
+class _RoomTileState extends State<_RoomTile> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapCancel: () => setState(() => _pressed = false),
+      onTapUp: (_) => setState(() => _pressed = false),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => widget.page),
+        );
       },
-      child: Container(
-        width: 150,
-        height: 150,
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: [
-              Colors.white.withOpacity(0.25),
-              Colors.white.withOpacity(0.05),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              blurRadius: 8,
-              offset: const Offset(4, 4),
+      child: AnimatedScale(
+        scale: _pressed ? 0.94 : 1.0,
+        duration: const Duration(milliseconds: 140),
+        curve: Curves.easeOut,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOut,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: LinearGradient(
+              colors: widget.colors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 42,
-              color: const Color.fromARGB(255, 243, 243, 246),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                shadows: [
-                  Shadow(
-                    color: Colors.black45,
-                    blurRadius: 4,
-                    offset: Offset(1, 1),
-                  ),
-                ],
+            boxShadow: [
+              BoxShadow(
+                color: widget.colors.first.withValues(alpha: 0.45),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
               ),
-              textAlign: TextAlign.center,
+            ],
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.25),
+              width: 1.2,
             ),
-          ],
+          ),
+          child: Stack(
+            children: [
+              // Decorative highlight blob
+              Positioned(
+                top: -24,
+                right: -24,
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.12),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -30,
+                left: -20,
+                child: Container(
+                  width: 110,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.06),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 54,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Icon(
+                        widget.icon,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      widget.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        height: 1.15,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Row(
+                      children: [
+                        Text(
+                          "Tap to control",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(width: 4),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white70,
+                          size: 14,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
