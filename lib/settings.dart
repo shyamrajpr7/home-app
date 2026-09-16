@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/forgotpassword.dart';
 import 'profile.dart';
-import 'main.dart';
 
 // ─────────────────────────────────────────────
 // THEME NOTIFIER — controls app-wide dark mode
@@ -122,7 +121,7 @@ class _SettingsPageState extends State<SettingsPage>
         final accent = const Color(0xFF6C63FF);
         final divColor = isDark
             ? Colors.white12
-            : Colors.black.withOpacity(0.07);
+            : Colors.black.withValues(alpha: 0.07);
 
         return Scaffold(
           backgroundColor: bg,
@@ -168,7 +167,7 @@ class _SettingsPageState extends State<SettingsPage>
                             height: 140,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(0.07),
+                              color: Colors.white.withValues(alpha: 0.07),
                             ),
                           ),
                         ),
@@ -180,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage>
                             height: 80,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(0.05),
+                              color: Colors.white.withValues(alpha: 0.05),
                             ),
                           ),
                         ),
@@ -192,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage>
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.15),
+                                  color: Colors.white.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                                 child: const Icon(
@@ -218,7 +217,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   Text(
                                     "Manage your preferences",
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.75),
+                                      color: Colors.white.withValues(alpha: 0.75),
                                       fontSize: 13,
                                     ),
                                   ),
@@ -525,37 +524,69 @@ class _EspStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final connectedColor = Colors.green;
+    final disconnectedColor = Colors.red;
+    final accent = connected ? connectedColor : disconnectedColor;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: connected
-            ? Colors.green.withOpacity(isDark ? 0.15 : 0.1)
-            : Colors.red.withOpacity(isDark ? 0.15 : 0.1),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: connected
-              ? Colors.green.withOpacity(0.4)
-              : Colors.red.withOpacity(0.4),
-        ),
+        color: accent.withValues(alpha: isDark ? 0.14 : 0.08),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: accent.withValues(alpha: 0.35)),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 8,
-            height: 8,
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.15),
               shape: BoxShape.circle,
-              color: connected ? Colors.green : Colors.red,
+            ),
+            child: Icon(
+              connected ? Icons.router_rounded : Icons.router_outlined,
+              color: accent,
+              size: 20,
             ),
           ),
-          const SizedBox(width: 10),
-          Text(
-            connected ? "ESP32 Connected" : "ESP32 Offline",
-            style: TextStyle(
-              color: connected ? Colors.green : Colors.red,
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  connected ? "ESP32 Connected" : "ESP32 Offline",
+                  style: TextStyle(
+                    color: accent,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  connected
+                      ? "Hub is responding normally"
+                      : "Check power & WiFi connection",
+                  style: TextStyle(
+                    color: isDark ? Colors.white54 : Colors.black54,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: accent,
+              boxShadow: [
+                BoxShadow(
+                  color: accent.withValues(alpha: 0.7),
+                  blurRadius: 8,
+                ),
+              ],
             ),
           ),
         ],
@@ -605,8 +636,8 @@ class _SettingsCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isDark
-                ? Colors.black.withOpacity(0.3)
-                : Colors.black.withOpacity(0.06),
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.black.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -656,7 +687,7 @@ class _SwitchTile extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: iconBg.withOpacity(0.15),
+                  color: iconBg.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, color: iconBg, size: 22),
@@ -735,7 +766,7 @@ class _NavTile extends StatelessWidget {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    color: iconBg.withOpacity(0.15),
+                    color: iconBg.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: iconBg, size: 22),
@@ -773,7 +804,7 @@ class _NavTile extends StatelessWidget {
         if (showDivider)
           Divider(
             height: 1,
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             indent: 72,
             endIndent: 16,
           ),
@@ -813,7 +844,7 @@ class _InfoTile extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: iconBg.withOpacity(0.15),
+                  color: iconBg.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, color: iconBg, size: 22),
@@ -843,7 +874,7 @@ class _InfoTile extends StatelessWidget {
         if (showDivider)
           Divider(
             height: 1,
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             indent: 72,
             endIndent: 16,
           ),
@@ -859,27 +890,46 @@ class _LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: onTap,
-        icon: const Icon(Icons.logout_rounded, color: Colors.white),
-        label: const Text(
-          "Logout",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFE53935), Color(0xFFB71C1C)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.red.withValues(alpha: 0.35),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red.shade600,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.logout_rounded, color: Colors.white, size: 20),
+                SizedBox(width: 10),
+                Text(
+                  "Logout",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
           ),
-          elevation: 0,
         ),
       ),
     );
