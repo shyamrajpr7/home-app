@@ -49,6 +49,46 @@ class _KitchenPageState extends State<KitchenPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
+                // ── Device Stats Summary ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.monitor_heart_rounded,
+                        color: Color(0xFFFFD54F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "${_countDevicesOn()} of 5 devices ON",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      _buildStatusDot(_light1On),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_light2On),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_fanOn),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_fridgeOn),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_ovenOn),
+                    ],
+                  ),
+                ),
                 // 🔆 Light 1
                 _buildControlCard(
                   title: "Light 1",
@@ -326,6 +366,38 @@ class _KitchenPageState extends State<KitchenPage> {
         ),
       ),
       onChange: onChanged,
+    );
+  }
+
+  int _countDevicesOn() {
+    return [
+      _light1On,
+      _light2On,
+      _fanOn,
+      _fridgeOn,
+      _ovenOn,
+    ].where((on) => on).length;
+  }
+
+  Widget _buildStatusDot(bool isOn) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 220),
+      width: 9,
+      height: 9,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isOn
+            ? const Color(0xFF4CAF50)
+            : Colors.white.withValues(alpha: 0.22),
+        boxShadow: isOn
+            ? [
+                BoxShadow(
+                  color: const Color(0xFF4CAF50).withValues(alpha: 0.6),
+                  blurRadius: 6,
+                ),
+              ]
+            : null,
+      ),
     );
   }
 
