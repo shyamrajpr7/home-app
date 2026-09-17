@@ -43,6 +43,45 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
+                // ── Lights On Count ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.light_mode_rounded,
+                        color: Color(0xFFFFD54F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "${_countLightsOn()} of 4 lights on",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      _buildStatusDot(_gateLightOn),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_gardenLightOn),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_garageLightOn),
+                      const SizedBox(width: 5),
+                      _buildStatusDot(_balconyLightOn),
+                    ],
+                  ),
+                ),
                 _buildControlCard(
                   title: "Gate Light",
                   subtitle: "Main entrance",
@@ -222,6 +261,35 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  int _countLightsOn() {
+    return [
+      _gateLightOn,
+      _gardenLightOn,
+      _garageLightOn,
+      _balconyLightOn,
+    ].where((on) => on).length;
+  }
+
+  Widget _buildStatusDot(bool isOn) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 220),
+      width: 9,
+      height: 9,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isOn ? const Color(0xFF4CAF50) : Colors.white.withValues(alpha: 0.22),
+        boxShadow: isOn
+            ? [
+                BoxShadow(
+                  color: const Color(0xFF4CAF50).withValues(alpha: 0.6),
+                  blurRadius: 6,
+                ),
+              ]
+            : null,
       ),
     );
   }
