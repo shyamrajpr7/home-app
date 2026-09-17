@@ -49,6 +49,49 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
+                // ── Lights Summary ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.lightbulb_rounded,
+                        color: Color(0xFFFFD54F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "${_countLightsOn()} of 3 lights on",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Fan: ${_fanOn ? "ON" : "OFF"}",
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // 🔆 Light 1
                 _buildControlCard(
                   title: "Light 1",
@@ -322,6 +365,10 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
       ),
       onChange: onChanged,
     );
+  }
+
+  int _countLightsOn() {
+    return [_light1On, _light2On, _light3On].where((on) => on).length;
   }
 
   /// Snackbar helper
