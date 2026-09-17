@@ -47,6 +47,64 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
+                // ── Quick Actions ──
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.bolt_rounded,
+                        color: Color(0xFFFFD54F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        "Quick Actions",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      _buildQuickButton(
+                        label: "All On",
+                        icon: Icons.power_settings_new_rounded,
+                        color: const Color(0xFF4CAF50),
+                        onTap: () {
+                          setState(() {
+                            _lightOn = true;
+                            _fanOn = true;
+                            _acOn = true;
+                          });
+                          _showSnackBar("All devices turned ON");
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      _buildQuickButton(
+                        label: "All Off",
+                        icon: Icons.power_off_rounded,
+                        color: const Color(0xFFEF5350),
+                        onTap: () {
+                          setState(() {
+                            _lightOn = false;
+                            _fanOn = false;
+                            _acOn = false;
+                          });
+                          _showSnackBar("All devices turned OFF");
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 // Light
                 _buildControlCard(
                   title: "Light",
@@ -303,6 +361,41 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
         ),
       ),
       onChange: onChange,
+    );
+  }
+
+  /// Quick Action Button
+  Widget _buildQuickButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.18),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 5),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
