@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 class CCTVPage extends StatelessWidget {
   const CCTVPage({super.key});
 
+  static const List<Map<String, String>> _cameraLocations = [
+    {"name": "Camera 1", "location": "Front Door"},
+    {"name": "Camera 2", "location": "Backyard"},
+    {"name": "Camera 3", "location": "Garage"},
+    {"name": "Camera 4", "location": "Hallway"},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +93,11 @@ class CCTVPage extends StatelessWidget {
               ),
               itemCount: 4,
               itemBuilder: (context, index) {
-                return CCTVFeedTile(cameraName: "Camera ${index + 1}");
+                final cam = _cameraLocations[index];
+                return CCTVFeedTile(
+                  cameraName: cam["name"]!,
+                  location: cam["location"]!,
+                );
               },
             ),
           ),
@@ -98,8 +109,13 @@ class CCTVPage extends StatelessWidget {
 
 class CCTVFeedTile extends StatelessWidget {
   final String cameraName;
+  final String location;
 
-  const CCTVFeedTile({super.key, required this.cameraName});
+  const CCTVFeedTile({
+    super.key,
+    required this.cameraName,
+    required this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +124,10 @@ class CCTVFeedTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => CCTVFullScreen(cameraName: cameraName),
+            builder: (_) => CCTVFullScreen(
+              cameraName: cameraName,
+              location: location,
+            ),
           ),
         );
       },
@@ -206,25 +225,56 @@ class CCTVFeedTile extends StatelessWidget {
               ),
             ),
 
-            // Bottom label + fullscreen
+            // Bottom label + fullscreen + location
             Positioned(
               left: 8,
               bottom: 8,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.65),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white12),
-                ),
-                child: Text(
-                  cameraName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.65),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cameraName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_rounded,
+                              color: Colors.white54,
+                              size: 11,
+                            ),
+                            const SizedBox(width: 3),
+                            Text(
+                              location,
+                              style: const TextStyle(
+                                color: Colors.white54,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             Positioned(
@@ -252,15 +302,30 @@ class CCTVFeedTile extends StatelessWidget {
 
 class CCTVFullScreen extends StatelessWidget {
   final String cameraName;
+  final String location;
 
-  const CCTVFullScreen({super.key, required this.cameraName});
+  const CCTVFullScreen({
+    super.key,
+    required this.cameraName,
+    required this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(cameraName),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(cameraName),
+            Text(
+              location,
+              style: const TextStyle(fontSize: 12, color: Colors.white54),
+            ),
+          ],
+        ),
         backgroundColor: Colors.black,
         actions: [
           Container(
