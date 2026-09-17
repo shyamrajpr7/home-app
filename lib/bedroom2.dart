@@ -47,6 +47,122 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
+                // ── Quick Actions ──
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.bolt_rounded,
+                        color: Color(0xFFFFD54F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        "Quick Actions",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _lightOn = true;
+                            _fanOn = true;
+                            _acOn = true;
+                          });
+                          _showSnackBar("All devices turned ON");
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: const Color(0xFF4CAF50).withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.power_settings_new_rounded,
+                                size: 14,
+                                color: Color(0xFF4CAF50),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "All On",
+                                style: TextStyle(
+                                  color: Color(0xFF4CAF50),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _lightOn = false;
+                            _fanOn = false;
+                            _acOn = false;
+                          });
+                          _showSnackBar("All devices turned OFF");
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEF5350).withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: const Color(0xFFEF5350).withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.power_off_rounded,
+                                size: 14,
+                                color: Color(0xFFEF5350),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "All Off",
+                                style: TextStyle(
+                                  color: Color(0xFFEF5350),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // 🔆 Light Control
                 _buildControlCard(
                   title: "Light",
