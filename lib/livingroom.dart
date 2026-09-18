@@ -356,29 +356,53 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
               ),
             ),
           AnimatedScale(
-            scale: _isListening ? 1.12 : 1.0,
+            scale: _isListening ? 1.15 : 1.0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-              padding: _isListening ? const EdgeInsets.all(6) : EdgeInsets.zero,
+              padding: _isListening ? const EdgeInsets.all(8) : EdgeInsets.zero,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _isListening
-                    ? Colors.red.withValues(alpha: 0.35)
-                    : Colors.transparent,
+                boxShadow: _isListening
+                    ? [
+                        BoxShadow(
+                          color: Colors.redAccent.withValues(alpha: 0.55),
+                          blurRadius: 28,
+                          spreadRadius: 6,
+                        )
+                      ]
+                    : [],
+                color: Colors.transparent,
               ),
-              child: FloatingActionButton(
-                tooltip: _isListening ? 'Stop listening' : 'Voice control',
-                onPressed: _isListening ? _stopListening : _startListening,
-                backgroundColor: _isListening
-                    ? Colors.redAccent
-                    : const Color.fromARGB(255, 244, 82, 82),
-                elevation: 8,
-                child: Icon(
-                  _isListening ? Icons.mic : Icons.mic_none,
-                  color: Colors.white,
-                  size: 28,
+              child: Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: _isListening
+                        ? [Colors.redAccent, Colors.deepOrange]
+                        : [const Color(0xFFE53935), const Color(0xFFFF6F00)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.red.withValues(alpha: 0.4),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  tooltip: _isListening ? 'Stop listening' : 'Voice control',
+                  onPressed: _isListening ? _stopListening : _startListening,
+                  icon: Icon(
+                    _isListening ? Icons.mic : Icons.mic_none,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
               ),
             ),
