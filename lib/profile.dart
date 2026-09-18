@@ -109,14 +109,35 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: isEditing ? pickImage : null,
                     child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 52,
-                          backgroundColor: Colors.white.withValues(alpha: 0.25),
-                          backgroundImage: profileImage != null
-                              ? FileImage(profileImage!)
-                              : const AssetImage(
-                                        "images/Untitled106_20250821114107.jpg")
-                                    as ImageProvider,
+                        // Outer glow ring
+                        Container(
+                          width: 116,
+                          height: 116,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFFFD54F), Color(0xFF6C63FF)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF6C63FF).withValues(alpha: 0.5),
+                                blurRadius: 20,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(3),
+                          child: CircleAvatar(
+                            radius: 52,
+                            backgroundColor: Colors.white.withValues(alpha: 0.25),
+                            backgroundImage: profileImage != null
+                                ? FileImage(profileImage!)
+                                : const AssetImage(
+                                          "images/Untitled106_20250821114107.jpg")
+                                      as ImageProvider,
+                          ),
                         ),
                         if (isEditing)
                           Positioned(
