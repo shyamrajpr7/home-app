@@ -390,21 +390,23 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isOn
+            ? color.withValues(alpha: 0.13)
+            : Colors.black.withValues(alpha: 0.38),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: isOn
-                ? color.withValues(alpha: 0.3)
-                : Colors.black.withValues(alpha: 0.08),
-            blurRadius: 18,
+                ? color.withValues(alpha: 0.35)
+                : Colors.black.withValues(alpha: 0.28),
+            blurRadius: 22,
             offset: const Offset(0, 8),
           ),
         ],
         border: Border.all(
           color: isOn
-              ? color.withValues(alpha: 0.45)
-              : Colors.black.withValues(alpha: 0.04),
+              ? color.withValues(alpha: 0.55)
+              : Colors.white.withValues(alpha: 0.12),
           width: 1.5,
         ),
       ),
@@ -441,7 +443,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
-                      color: isOn ? Colors.black87 : Colors.black54,
+                      color: isOn ? Colors.white : Colors.white70,
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -464,8 +466,8 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                           style: TextStyle(
                             fontSize: 12,
                             color: isOn
-                                ? Colors.black54
-                                : Colors.grey.shade500,
+                                ? Colors.white60
+                                : Colors.white38,
                           ),
                         ),
                       ),
