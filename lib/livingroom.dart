@@ -307,26 +307,49 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                 ),
                 const SizedBox(height: 24),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(18),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withValues(alpha: 0.55),
+                        const Color(0xFFE53935).withValues(alpha: 0.18),
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.15),
+                      color: const Color(0xFFE53935).withValues(alpha: 0.35),
+                      width: 1.2,
                     ),
                   ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
-                      Icon(Icons.record_voice_over,
-                          color: Color(0xFFFFD54F), size: 20),
-                      SizedBox(width: 10),
-                      Flexible(
-                        child: Text(
-                          "Tap the mic and say: \"Turn on light 1\"",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                          textAlign: TextAlign.center,
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.record_voice_over,
+                              color: Color(0xFFFFD54F), size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            "Voice Control Active",
+                            style: TextStyle(
+                              color: Color(0xFFFFD54F),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        "\"Turn on light 1\" · \"All lights off\"",
+                        style: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 12,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
