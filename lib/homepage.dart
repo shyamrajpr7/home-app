@@ -429,22 +429,37 @@ class _RoomTileState extends State<_RoomTile> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Row(
-                      children: [
-                        Text(
-                          "Tap to control",
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.35),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Open",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 4),
-                        Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white70,
-                          size: 14,
-                        ),
-                      ],
+                          SizedBox(width: 3),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
