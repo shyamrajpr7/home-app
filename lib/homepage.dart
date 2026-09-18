@@ -423,14 +423,22 @@ class _RoomTileState extends State<_RoomTile> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      width: 54,
-                      height: 54,
+                      width: 56,
+                      height: 56,
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.18),
-                        borderRadius: BorderRadius.circular(18),
+                        color: Colors.white.withValues(alpha: 0.22),
+                        shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.3),
+                          color: Colors.white.withValues(alpha: 0.45),
+                          width: 1.5,
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withValues(alpha: 0.15),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
                       child: Icon(
                         widget.icon,
