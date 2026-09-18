@@ -55,7 +55,29 @@ class homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("SMART HOME"),
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "SMART HOME",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 3.0,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Control Panel",
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 1.5,
+                color: Colors.white60,
+              ),
+            ),
+          ],
+        ),
         actions: [
           PopupMenuButton<int>(
             onSelected: _onMenuSelected,
