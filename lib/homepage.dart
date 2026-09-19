@@ -167,13 +167,13 @@ class homePageState extends State<homePage> {
                       child: const Row(
                         children: [
                           Icon(
-                            Icons.auto_awesome_rounded,
+                            Icons.wifi_rounded,
                             size: 16,
                             color: Color(0xFFFFD54F),
                           ),
                           SizedBox(width: 7),
                           Text(
-                            "12 devices online",
+                            "8 devices online",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
