@@ -227,7 +227,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFE53935), Color(0xFFFF6F00)],
+              colors: [Color(0xFF6C63FF), Color(0xFF4A90D9)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
