@@ -82,15 +82,22 @@ class homePageState extends State<homePage> {
           PopupMenuButton<int>(
             onSelected: _onMenuSelected,
             icon: const Icon(Icons.menu_rounded),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 8,
             itemBuilder: (BuildContext context) {
               return [
                 const PopupMenuItem(
                   value: 0,
                   child: Row(
                     children: [
-                      Icon(Icons.home, color: Colors.blue),
-                      SizedBox(width: 10),
-                      Text("Home"),
+                      Icon(Icons.home_rounded, color: Color(0xFF6C63FF), size: 20),
+                      SizedBox(width: 12),
+                      Text(
+                        "Home",
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
                     ],
                   ),
                 ),
@@ -98,9 +105,12 @@ class homePageState extends State<homePage> {
                   value: 1,
                   child: Row(
                     children: [
-                      Icon(Icons.person, color: Colors.green),
-                      SizedBox(width: 10),
-                      Text("Profile"),
+                      Icon(Icons.person_rounded, color: Color(0xFF26A69A), size: 20),
+                      SizedBox(width: 12),
+                      Text(
+                        "Profile",
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
                     ],
                   ),
                 ),
@@ -108,9 +118,12 @@ class homePageState extends State<homePage> {
                   value: 2,
                   child: Row(
                     children: [
-                      Icon(Icons.settings, color: Colors.deepPurple),
-                      SizedBox(width: 10),
-                      Text("Settings"),
+                      Icon(Icons.settings_rounded, color: Color(0xFFAB47BC), size: 20),
+                      SizedBox(width: 12),
+                      Text(
+                        "Settings",
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
                     ],
                   ),
                 ),
@@ -118,9 +131,12 @@ class homePageState extends State<homePage> {
                   value: 3,
                   child: Row(
                     children: [
-                      Icon(Icons.logout, color: Colors.red),
-                      SizedBox(width: 10),
-                      Text("Logout"),
+                      Icon(Icons.logout_rounded, color: Color(0xFFE53935), size: 20),
+                      SizedBox(width: 12),
+                      Text(
+                        "Logout",
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
                     ],
                   ),
                 ),
