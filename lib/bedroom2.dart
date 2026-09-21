@@ -25,11 +25,13 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
         title: const Text(
           "Bedroom 2",
           style: TextStyle(
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

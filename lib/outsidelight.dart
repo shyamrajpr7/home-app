@@ -21,11 +21,13 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
         title: const Text(
           "Outside Lights",
           style: TextStyle(
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

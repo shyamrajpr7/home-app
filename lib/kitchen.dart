@@ -27,11 +27,13 @@ class _KitchenPageState extends State<KitchenPage> {
         title: const Text(
           "Kitchen",
           style: TextStyle(
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

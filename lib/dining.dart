@@ -27,11 +27,13 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
         title: const Text(
           "Dining Room",
           style: TextStyle(
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

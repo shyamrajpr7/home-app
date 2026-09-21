@@ -196,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.4,
-                    color: Colors.black45,
+                    color: Color(0xFF6C63FF),
                   ),
                 ),
               ),
