@@ -196,16 +196,30 @@ class _FeatureCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C2E),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white10),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 26),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 22),
+          ),
           const SizedBox(height: 8),
           Text(
             label,
             style: const TextStyle(
-              color: Colors.white70,
+              color: Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
