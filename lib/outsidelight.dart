@@ -51,7 +51,7 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 image: AssetImage("images/outside.jpeg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
+                  Colors.black.withValues(alpha: 0.35),
                   BlendMode.darken,
                 ),
               ),
@@ -66,7 +66,10 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 // ── Lights On Count ──
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(18),
@@ -76,10 +79,17 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.light_mode_rounded,
-                        color: Color(0xFFFFD54F),
-                        size: 20,
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFD54F).withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.light_mode_rounded,
+                          color: Color(0xFFFFD54F),
+                          size: 18,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
