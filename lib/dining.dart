@@ -57,7 +57,7 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
                 image: const AssetImage("images/dining.jpeg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
+                  Colors.black.withValues(alpha: 0.35),
                   BlendMode.darken,
                 ),
               ),
@@ -101,12 +101,44 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
                           ),
                         ),
                       ),
-                      Text(
-                        "Fan: ${_fanOn ? "ON" : "OFF"}",
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: _fanOn
+                              ? const Color(0xFF1E88E5).withValues(alpha: 0.25)
+                              : Colors.white.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _fanOn
+                                ? const Color(0xFF1E88E5).withValues(alpha: 0.5)
+                                : Colors.white24,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.mode_fan_off_rounded,
+                              size: 13,
+                              color: _fanOn
+                                  ? const Color(0xFF64B5F6)
+                                  : Colors.white70,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "Fan: ${_fanOn ? "ON" : "OFF"}",
+                              style: TextStyle(
+                                color: _fanOn
+                                    ? const Color(0xFF64B5F6)
+                                    : Colors.white70,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
