@@ -32,6 +32,7 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
           ),
         ),
         centerTitle: true,
+        
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -55,7 +56,7 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
                 image: const AssetImage("images/bedroom2.jpg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
+                  Colors.black.withValues(alpha: 0.35),
                   BlendMode.darken,
                 ),
               ),
@@ -106,22 +107,30 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 7,
+                            horizontal: 14,
+                            vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF4CAF50).withValues(alpha: 0.18),
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.22),
+                            borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: const Color(0xFF4CAF50).withValues(alpha: 0.4),
+                              color: const Color(0xFF4CAF50).withValues(alpha: 0.5),
+                              width: 1.2,
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
                                 Icons.power_settings_new_rounded,
-                                size: 14,
+                                size: 15,
                                 color: Color(0xFF4CAF50),
                               ),
                               SizedBox(width: 5),
@@ -149,22 +158,30 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 7,
+                            horizontal: 14,
+                            vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFEF5350).withValues(alpha: 0.18),
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFFEF5350).withValues(alpha: 0.22),
+                            borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: const Color(0xFFEF5350).withValues(alpha: 0.4),
+                              color: const Color(0xFFEF5350).withValues(alpha: 0.5),
+                              width: 1.2,
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFEF5350).withValues(alpha: 0.15),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
                                 Icons.power_off_rounded,
-                                size: 14,
+                                size: 15,
                                 color: Color(0xFFEF5350),
                               ),
                               SizedBox(width: 5),
