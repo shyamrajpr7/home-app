@@ -17,10 +17,26 @@ class CCTVPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "CCTV Dashboard",
-          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.5),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.8,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: const Color(0xFF1C1C2E),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1C1C2E), Color(0xFF2C2C4E)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
