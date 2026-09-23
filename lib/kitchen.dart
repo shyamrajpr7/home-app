@@ -57,7 +57,7 @@ class _KitchenPageState extends State<KitchenPage> {
                 image: const AssetImage("images/kitchen.jpeg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
+                  Colors.black.withValues(alpha: 0.3),
                   BlendMode.darken,
                 ),
               ),
@@ -69,7 +69,7 @@ class _KitchenPageState extends State<KitchenPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
-                // ── Device Stats Summary ──
+                // ── Device Stats & Quick Actions Summary ──
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(14),
@@ -80,32 +80,76 @@ class _KitchenPageState extends State<KitchenPage> {
                       color: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      const Icon(
-                        Icons.monitor_heart_rounded,
-                        color: Color(0xFFFFD54F),
-                        size: 20,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.monitor_heart_rounded,
+                            color: Color(0xFFFFD54F),
+                            size: 20,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "${_countDevicesOn()} of 5 devices ON",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          _buildStatusDot(_light1On),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_light2On),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_fanOn),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_fridgeOn),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_ovenOn),
+                        ],
                       ),
-                      const SizedBox(width: 10),
-                      Text(
-                        "${_countDevicesOn()} of 5 devices ON",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildQuickButton(
+                              label: "All On",
+                              icon: Icons.power_settings_new_rounded,
+                              color: const Color(0xFF4CAF50),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light2On = true;
+                                  _fanOn = true;
+                                  _fridgeOn = true;
+                                  _ovenOn = true;
+                                });
+                                _showSnack("All kitchen devices turned ON");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildQuickButton(
+                              label: "All Off",
+                              icon: Icons.power_off_rounded,
+                              color: const Color(0xFFEF5350),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = false;
+                                  _light2On = false;
+                                  _fanOn = false;
+                                  _fridgeOn = false;
+                                  _ovenOn = false;
+                                });
+                                _showSnack("All kitchen devices turned OFF");
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      _buildStatusDot(_light1On),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_light2On),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_fanOn),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_fridgeOn),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_ovenOn),
                     ],
                   ),
                 ),
@@ -288,13 +332,39 @@ class _KitchenPageState extends State<KitchenPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: isOn ? Colors.black87 : Colors.black54,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: isOn ? Colors.black87 : Colors.black54,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isOn
+                                  ? accent.withValues(alpha: 0.15)
+                                  : Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              isOn ? "ON" : "OFF",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: isOn ? accent : Colors.grey.shade500,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 3),
                       Row(
@@ -417,6 +487,41 @@ class _KitchenPageState extends State<KitchenPage> {
                 ),
               ]
             : null,
+      ),
+    );
+  }
+
+  /// Quick Action Button
+  Widget _buildQuickButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.18),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 16, color: color),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
