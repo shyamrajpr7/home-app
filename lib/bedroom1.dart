@@ -52,10 +52,10 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/bedroom1.jpg"),
+                image: const AssetImage("images/bedroom1.jpg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3),
+                  Colors.black.withValues(alpha: 0.3),
                   BlendMode.darken,
                 ),
               ),
@@ -85,13 +85,41 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                         color: Color(0xFFFFD54F),
                         size: 20,
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       const Text(
                         "Quick Actions",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: _countDevicesOn() > 0
+                              ? const Color(0xFF4CAF50).withValues(alpha: 0.25)
+                              : Colors.white.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: _countDevicesOn() > 0
+                                ? const Color(0xFF4CAF50).withValues(alpha: 0.5)
+                                : Colors.white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Text(
+                          "${_countDevicesOn()}/3 Active",
+                          style: TextStyle(
+                            color: _countDevicesOn() > 0
+                                ? const Color(0xFF81C784)
+                                : Colors.white70,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const Spacer(),
@@ -277,13 +305,39 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: isOn ? Colors.black87 : Colors.black54,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: isOn ? Colors.black87 : Colors.black54,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isOn
+                                  ? accent.withValues(alpha: 0.15)
+                                  : Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              isOn ? "ON" : "OFF",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: isOn ? accent : Colors.grey.shade500,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 3),
                       Row(
@@ -417,6 +471,10 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
         ),
       ),
     );
+  }
+
+  int _countDevicesOn() {
+    return [_lightOn, _fanOn, _acOn].where((on) => on).length;
   }
 
   /// Snackbar helper
