@@ -183,6 +183,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+
+            // ── SMART HOME STATS ──────────
+            Row(
+              children: [
+                _buildStatItem(
+                  icon: Icons.meeting_room_rounded,
+                  label: "Rooms",
+                  value: "6 Total",
+                  color: const Color(0xFF6C63FF),
+                ),
+                const SizedBox(width: 10),
+                _buildStatItem(
+                  icon: Icons.devices_rounded,
+                  label: "Devices",
+                  value: "14 Units",
+                  color: const Color(0xFF00ACC1),
+                ),
+                const SizedBox(width: 10),
+                _buildStatItem(
+                  icon: Icons.wifi_rounded,
+                  label: "ESP32",
+                  value: "Online",
+                  color: const Color(0xFF4CAF50),
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
 
             // ── SECTION LABEL ────────────
@@ -337,6 +364,64 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Color(0xFF1A1A2E),
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+          border: Border.all(
+            color: color.withValues(alpha: 0.2),
+            width: 1.2,
+          ),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 18),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1A1A2E),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
