@@ -247,7 +247,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                 image: AssetImage("images/living.jpg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.25),
+                  Colors.black.withValues(alpha: 0.25),
                   BlendMode.darken,
                 ),
               ),
@@ -257,7 +257,127 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                const SizedBox(height: 20),
+                // ── Status & Quick Actions Bar ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6C63FF).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.bolt_rounded,
+                              color: Color(0xFFFFD54F),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "${[_led1, _led2, _led3, _led4].where((e) => e).length}/4 Active",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _led1 = true;
+                            _led2 = true;
+                            _led3 = true;
+                            _led4 = true;
+                          });
+                          for (final k in _ledNames) {
+                            _setLed(k, true);
+                          }
+                          _toast("All Living Room lights ON");
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.25),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: const Color(0xFF4CAF50).withValues(alpha: 0.45),
+                            ),
+                          ),
+                          child: const Text(
+                            "All ON",
+                            style: TextStyle(
+                              color: Color(0xFF81C784),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _led1 = false;
+                            _led2 = false;
+                            _led3 = false;
+                            _led4 = false;
+                          });
+                          for (final k in _ledNames) {
+                            _setLed(k, false);
+                          }
+                          _toast("All Living Room lights OFF");
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.red.withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: const Text(
+                            "All OFF",
+                            style: TextStyle(
+                              color: Color(0xFFE57373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 _buildLedCard(
                   title: "LED 1",
                   subtitle: "D1 — Pin 5",
@@ -442,7 +562,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
     required MaterialColor color,
     required Function(bool) onChanged,
   }) {
-    final accent = isOn ? Color(color.shade600.value) : Colors.grey;
+    final accent = isOn ? color[600] ?? color : Colors.grey;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
@@ -494,13 +614,44 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: isOn ? Colors.white : Colors.white70,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: isOn ? Colors.white : Colors.white70,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isOn
+                              ? color.withValues(alpha: 0.25)
+                              : Colors.white.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isOn
+                                ? color.withValues(alpha: 0.5)
+                                : Colors.white.withValues(alpha: 0.15),
+                          ),
+                        ),
+                        child: Text(
+                          isOn ? "ON" : "OFF",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: isOn ? color[300] ?? Colors.white : Colors.white38,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 3),
                   Row(
