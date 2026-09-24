@@ -20,6 +20,80 @@ class homePage extends StatefulWidget {
 }
 
 class homePageState extends State<homePage> {
+  String _selectedScene = "Home";
+
+  Widget _buildSceneChip(String name, IconData icon, Color color) {
+    final isSelected = _selectedScene == name;
+    return InkWell(
+      onTap: () {
+        setState(() => _selectedScene = name);
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(icon, color: Colors.white, size: 18),
+                const SizedBox(width: 8),
+                Text("$name scene activated"),
+              ],
+            ),
+            duration: const Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: color.withValues(alpha: 0.9),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? color.withValues(alpha: 0.35)
+              : Colors.white.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? color.withValues(alpha: 0.8)
+                : Colors.white.withValues(alpha: 0.2),
+            width: 1.2,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 15,
+              color: isSelected ? Colors.white : Colors.white70,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              name,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.white70,
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _onMenuSelected(int value) {
     if (value == 0) {
       Navigator.push(
@@ -284,7 +358,26 @@ class homePageState extends State<homePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 12),
+              // ── Quick Scene Modes ──
+              SizedBox(
+                height: 38,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    _buildSceneChip("Home", Icons.home_filled, const Color(0xFF6C63FF)),
+                    const SizedBox(width: 10),
+                    _buildSceneChip("Night", Icons.nightlight_round, const Color(0xFF5C6BC0)),
+                    const SizedBox(width: 10),
+                    _buildSceneChip("Away", Icons.flight_takeoff_rounded, const Color(0xFFFF7043)),
+                    const SizedBox(width: 10),
+                    _buildSceneChip("Party", Icons.celebration_rounded, const Color(0xFFEC407A)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
