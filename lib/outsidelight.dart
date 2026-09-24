@@ -63,7 +63,7 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
-                // ── Lights On Count ──
+                // ── Lights On Count & Quick Actions ──
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.symmetric(
@@ -77,38 +77,128 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                       color: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFD54F).withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.light_mode_rounded,
-                          color: Color(0xFFFFD54F),
-                          size: 18,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "${_countLightsOn()} of 4 lights on",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFD54F).withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.light_mode_rounded,
+                              color: Color(0xFFFFD54F),
+                              size: 18,
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              "${_countLightsOn()} of 4 lights on",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          _buildStatusDot(_gateLightOn),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_gardenLightOn),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_garageLightOn),
+                          const SizedBox(width: 5),
+                          _buildStatusDot(_balconyLightOn),
+                        ],
                       ),
-                      _buildStatusDot(_gateLightOn),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_gardenLightOn),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_garageLightOn),
-                      const SizedBox(width: 5),
-                      _buildStatusDot(_balconyLightOn),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _gateLightOn = true;
+                                  _gardenLightOn = true;
+                                  _garageLightOn = true;
+                                  _balconyLightOn = true;
+                                });
+                                _showSnack("💡 All Outside Lights ON");
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF4CAF50).withValues(alpha: 0.25),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: const Color(0xFF4CAF50).withValues(alpha: 0.45),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.power_settings_new_rounded,
+                                        size: 15, color: Color(0xFF81C784)),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      "Turn All On",
+                                      style: TextStyle(
+                                        color: Color(0xFF81C784),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _gateLightOn = false;
+                                  _gardenLightOn = false;
+                                  _garageLightOn = false;
+                                  _balconyLightOn = false;
+                                });
+                                _showSnack("💡 All Outside Lights OFF");
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.red.withValues(alpha: 0.4),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.power_off_rounded,
+                                        size: 15, color: Color(0xFFE57373)),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      "Turn All Off",
+                                      style: TextStyle(
+                                        color: Color(0xFFE57373),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -241,13 +331,44 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: isOn ? Colors.black87 : Colors.black54,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: isOn ? Colors.black87 : Colors.black54,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isOn
+                              ? accent.withValues(alpha: 0.15)
+                              : Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isOn
+                                ? accent.withValues(alpha: 0.4)
+                                : Colors.grey.shade300,
+                          ),
+                        ),
+                        child: Text(
+                          isOn ? "ON" : "OFF",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: isOn ? accent : Colors.grey.shade500,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 3),
                   Row(
