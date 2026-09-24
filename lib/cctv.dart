@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CCTVPage extends StatelessWidget {
+class CCTVPage extends StatefulWidget {
   const CCTVPage({super.key});
 
-  static const List<Map<String, String>> _cameraLocations = [
-    {"name": "Camera 1", "location": "Front Door"},
-    {"name": "Camera 2", "location": "Backyard"},
-    {"name": "Camera 3", "location": "Garage"},
-    {"name": "Camera 4", "location": "Hallway"},
+  @override
+  State<CCTVPage> createState() => _CCTVPageState();
+}
+
+class _CCTVPageState extends State<CCTVPage> {
+  String _selectedFilter = "All";
+
+  static const List<Map<String, String>> _allCameras = [
+    {"name": "Camera 1", "location": "Front Door", "type": "Outdoor"},
+    {"name": "Camera 2", "location": "Backyard", "type": "Outdoor"},
+    {"name": "Camera 3", "location": "Garage", "type": "Indoor"},
+    {"name": "Camera 4", "location": "Hallway", "type": "Indoor"},
   ];
+
+  List<Map<String, String>> get _filteredCameras {
+    if (_selectedFilter == "All") return _allCameras;
+    return _allCameras
+        .where((c) => c["type"] == _selectedFilter)
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +56,7 @@ class CCTVPage extends StatelessWidget {
         children: [
           // ── STATUS STRIP ─────────────
           Container(
-            margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+            margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: const Color(0xFF1C1C2E),
@@ -97,7 +111,22 @@ class CCTVPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+
+          // ── FILTER CHIPS ─────────────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            child: Row(
+              children: [
+                _buildFilterChip("All", "All (${_allCameras.length})"),
+                const SizedBox(width: 8),
+                _buildFilterChip("Outdoor", "Outdoor (2)"),
+                const SizedBox(width: 8),
+                _buildFilterChip("Indoor", "Indoor (2)"),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
@@ -107,9 +136,9 @@ class CCTVPage extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 0.95,
               ),
-              itemCount: 4,
+              itemCount: _filteredCameras.length,
               itemBuilder: (context, index) {
-                final cam = _cameraLocations[index];
+                final cam = _filteredCameras[index];
                 return CCTVFeedTile(
                   cameraName: cam["name"]!,
                   location: cam["location"]!,
@@ -118,6 +147,41 @@ class CCTVPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String filterKey, String label) {
+    final isSelected = _selectedFilter == filterKey;
+    return Expanded(
+      child: InkWell(
+        onTap: () => setState(() => _selectedFilter = filterKey),
+        borderRadius: BorderRadius.circular(12),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color(0xFF6C63FF).withValues(alpha: 0.3)
+                : const Color(0xFF1C1C2E),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected
+                  ? const Color(0xFF6C63FF).withValues(alpha: 0.8)
+                  : Colors.white12,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? const Color(0xFF9FA8DA) : Colors.white60,
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
