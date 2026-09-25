@@ -79,123 +79,123 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
                       color: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      const Icon(
-                        Icons.bolt_rounded,
-                        color: Color(0xFFFFD54F),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        "Quick Actions",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _lightOn = true;
-                            _fanOn = true;
-                            _acOn = true;
-                          });
-                          _showSnackBar("All devices turned ON");
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 8,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.bolt_rounded,
+                            color: Color(0xFFFFD54F),
+                            size: 20,
                           ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF4CAF50).withValues(alpha: 0.22),
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: const Color(0xFF4CAF50).withValues(alpha: 0.5),
-                              width: 1.2,
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Quick Actions",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.power_settings_new_rounded,
-                                size: 15,
-                                color: Color(0xFF4CAF50),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "All On",
-                                style: TextStyle(
-                                  color: Color(0xFF4CAF50),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _lightOn = false;
-                            _fanOn = false;
-                            _acOn = false;
-                          });
-                          _showSnackBar("All devices turned OFF");
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEF5350).withValues(alpha: 0.22),
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: const Color(0xFFEF5350).withValues(alpha: 0.5),
-                              width: 1.2,
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFFEF5350).withValues(alpha: 0.15),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
+                            decoration: BoxDecoration(
+                              color: _countDevicesOn() > 0
+                                  ? const Color(0xFF4DB6AC).withValues(alpha: 0.25)
+                                  : Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: _countDevicesOn() > 0
+                                    ? const Color(0xFF4DB6AC).withValues(alpha: 0.6)
+                                    : Colors.white.withValues(alpha: 0.2),
                               ),
-                            ],
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.power_off_rounded,
-                                size: 15,
-                                color: Color(0xFFEF5350),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "All Off",
-                                style: TextStyle(
-                                  color: Color(0xFFEF5350),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 7,
+                                  height: 7,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _countDevicesOn() > 0
+                                        ? const Color(0xFF80CBC4)
+                                        : Colors.white38,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 5),
+                                Text(
+                                  "${_countDevicesOn()}/3 Active",
+                                  style: TextStyle(
+                                    color: _countDevicesOn() > 0
+                                        ? const Color(0xFFB2DFDB)
+                                        : Colors.white70,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildQuickButton(
+                              label: "All On",
+                              icon: Icons.power_settings_new_rounded,
+                              color: const Color(0xFF4CAF50),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = true;
+                                  _fanOn = true;
+                                  _acOn = true;
+                                });
+                                _showSnackBar("All devices turned ON");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildQuickButton(
+                              label: "Sleep",
+                              icon: Icons.nightlight_round_rounded,
+                              color: const Color(0xFF80CBC4),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = false;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                  _acOn = true;
+                                  _acTemp = 25;
+                                });
+                                _showSnackBar("Sleep Mode activated 🌙");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildQuickButton(
+                              label: "All Off",
+                              icon: Icons.power_off_rounded,
+                              color: const Color(0xFFEF5350),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = false;
+                                  _fanOn = false;
+                                  _acOn = false;
+                                });
+                                _showSnackBar("All devices turned OFF");
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -470,6 +470,63 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
     );
   }
 
+  /// Active devices counter
+  int _countDevicesOn() {
+    int count = 0;
+    if (_lightOn) count++;
+    if (_fanOn) count++;
+    if (_acOn) count++;
+    return count;
+  }
+
+  /// Quick Action Button helper
+  Widget _buildQuickButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.18),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: color.withValues(alpha: 0.45),
+            width: 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.12),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 15, color: color),
+            const SizedBox(width: 5),
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Snackbar helper
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -485,3 +542,4 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
     );
   }
 }
+
