@@ -69,13 +69,10 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
             child: Column(
               children: [
-                // ── Lights Summary ──
+                // ── Lights Summary & Ambience Scenes ──
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(18),
@@ -83,63 +80,136 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
                       color: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.lightbulb_rounded,
-                        color: Color(0xFFFFD54F),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "${_countLightsOn()} of 3 lights on",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.restaurant_rounded,
+                            color: Color(0xFFFFD54F),
+                            size: 20,
                           ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _fanOn
-                              ? const Color(0xFF1E88E5).withValues(alpha: 0.25)
-                              : Colors.white.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: _fanOn
-                                ? const Color(0xFF1E88E5).withValues(alpha: 0.5)
-                                : Colors.white24,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.mode_fan_off_rounded,
-                              size: 13,
-                              color: _fanOn
-                                  ? const Color(0xFF64B5F6)
-                                  : Colors.white70,
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Dining Ambience",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              "Fan: ${_fanOn ? "ON" : "OFF"}",
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _countLightsOn() > 0
+                                  ? const Color(0xFFFF8F00).withValues(alpha: 0.28)
+                                  : Colors.white.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: _countLightsOn() > 0
+                                    ? const Color(0xFFFF8F00).withValues(alpha: 0.6)
+                                    : Colors.white24,
+                              ),
+                            ),
+                            child: Text(
+                              "${_countLightsOn()}/3 Lights • Fan ${_fanOn ? 'ON' : 'OFF'}",
                               style: TextStyle(
-                                color: _fanOn
-                                    ? const Color(0xFF64B5F6)
+                                color: _countLightsOn() > 0
+                                    ? const Color(0xFFFFE082)
                                     : Colors.white70,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Dinner",
+                              icon: Icons.wine_bar_rounded,
+                              color: const Color(0xFFFF8F00),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light1Intensity = 45;
+                                  _light2On = true;
+                                  _light2Intensity = 65;
+                                  _light3On = false;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                });
+                                _showSnackBar("Dinner Ambience set 🍷");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Cozy",
+                              icon: Icons.local_cafe_rounded,
+                              color: const Color(0xFFFFB300),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light1Intensity = 30;
+                                  _light2On = true;
+                                  _light2Intensity = 30;
+                                  _light3On = true;
+                                  _light3Intensity = 30;
+                                  _fanOn = false;
+                                });
+                                _showSnackBar("Cozy Ambient Mode activated ☕");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Bright",
+                              icon: Icons.wb_sunny_rounded,
+                              color: const Color(0xFF66BB6A),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light1Intensity = 90;
+                                  _light2On = true;
+                                  _light2Intensity = 90;
+                                  _light3On = true;
+                                  _light3Intensity = 90;
+                                  _fanOn = true;
+                                  _fanSpeed = 3;
+                                });
+                                _showSnackBar("Bright Mode enabled ☀️");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "All Off",
+                              icon: Icons.power_off_rounded,
+                              color: const Color(0xFFEF5350),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = false;
+                                  _light2On = false;
+                                  _light3On = false;
+                                  _fanOn = false;
+                                });
+                                _showSnackBar("All dining devices turned OFF");
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -423,6 +493,54 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
     return [_light1On, _light2On, _light3On].where((on) => on).length;
   }
 
+  /// Scene preset action button
+  Widget _buildSceneButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 4),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.18),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: color.withValues(alpha: 0.45),
+            width: 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.15),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 4),
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Snackbar helper
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -438,3 +556,4 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
     );
   }
 }
+
