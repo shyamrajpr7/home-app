@@ -78,77 +78,141 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                       color: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      const Icon(
-                        Icons.bolt_rounded,
-                        color: Color(0xFFFFD54F),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "Quick Actions",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _countDevicesOn() > 0
-                              ? const Color(0xFF4CAF50).withValues(alpha: 0.25)
-                              : Colors.white.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: _countDevicesOn() > 0
-                                ? const Color(0xFF4CAF50).withValues(alpha: 0.5)
-                                : Colors.white.withValues(alpha: 0.2),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.bolt_rounded,
+                            color: Color(0xFFFFD54F),
+                            size: 20,
                           ),
-                        ),
-                        child: Text(
-                          "${_countDevicesOn()}/3 Active",
-                          style: TextStyle(
-                            color: _countDevicesOn() > 0
-                                ? const Color(0xFF81C784)
-                                : Colors.white70,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Quick Actions",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _countDevicesOn() > 0
+                                  ? const Color(0xFF4CAF50).withValues(alpha: 0.25)
+                                  : Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: _countDevicesOn() > 0
+                                    ? const Color(0xFF4CAF50).withValues(alpha: 0.5)
+                                    : Colors.white.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            child: Text(
+                              "${_countDevicesOn()}/3 Active",
+                              style: TextStyle(
+                                color: _countDevicesOn() > 0
+                                    ? const Color(0xFF81C784)
+                                    : Colors.white70,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          _buildQuickButton(
+                            label: "All On",
+                            icon: Icons.power_settings_new_rounded,
+                            color: const Color(0xFF4CAF50),
+                            onTap: () {
+                              setState(() {
+                                _lightOn = true;
+                                _fanOn = true;
+                                _acOn = true;
+                              });
+                              _showSnackBar("All devices turned ON");
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          _buildQuickButton(
+                            label: "All Off",
+                            icon: Icons.power_off_rounded,
+                            color: const Color(0xFFEF5350),
+                            onTap: () {
+                              setState(() {
+                                _lightOn = false;
+                                _fanOn = false;
+                                _acOn = false;
+                              });
+                              _showSnackBar("All devices turned OFF");
+                            },
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      _buildQuickButton(
-                        label: "All On",
-                        icon: Icons.power_settings_new_rounded,
-                        color: const Color(0xFF4CAF50),
-                        onTap: () {
-                          setState(() {
-                            _lightOn = true;
-                            _fanOn = true;
-                            _acOn = true;
-                          });
-                          _showSnackBar("All devices turned ON");
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      _buildQuickButton(
-                        label: "All Off",
-                        icon: Icons.power_off_rounded,
-                        color: const Color(0xFFEF5350),
-                        onTap: () {
-                          setState(() {
-                            _lightOn = false;
-                            _fanOn = false;
-                            _acOn = false;
-                          });
-                          _showSnackBar("All devices turned OFF");
-                        },
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Reading",
+                              icon: Icons.menu_book_rounded,
+                              color: const Color(0xFFFFB300),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = true;
+                                  _lightIntensity = 80;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                  _acOn = true;
+                                  _acTemp = 24;
+                                });
+                                _showSnackBar("📖 Reading Mode activated");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Cozy Night",
+                              icon: Icons.bedtime_rounded,
+                              color: const Color(0xFFAB47BC),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = true;
+                                  _lightIntensity = 25;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                  _acOn = true;
+                                  _acTemp = 22;
+                                });
+                                _showSnackBar("🌙 Cozy Night Mode activated");
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSceneButton(
+                              label: "Chill / AC",
+                              icon: Icons.ac_unit_rounded,
+                              color: const Color(0xFF26C6DA),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = false;
+                                  _fanOn = true;
+                                  _fanSpeed = 3;
+                                  _acOn = true;
+                                  _acTemp = 20;
+                                });
+                                _showSnackBar("❄️ Chill / AC Mode activated");
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -465,6 +529,45 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                 color: color,
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Ambience Scene Button
+  Widget _buildSceneButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withValues(alpha: 0.45)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 5),
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
