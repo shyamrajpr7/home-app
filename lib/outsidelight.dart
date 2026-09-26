@@ -13,6 +13,7 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
   bool _gardenLightOn = false;
   bool _garageLightOn = false;
   bool _balconyLightOn = false;
+  bool _autoSchedule = true;
 
   @override
   Widget build(BuildContext context) {
@@ -198,6 +199,89 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ── Dusk-to-Dawn Smart Schedule Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: _autoSchedule
+                          ? const Color(0xFF00BCD4).withValues(alpha: 0.4)
+                          : Colors.white.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: _autoSchedule
+                              ? const Color(0xFF00BCD4).withValues(alpha: 0.25)
+                              : Colors.white.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          _autoSchedule
+                              ? Icons.nightlight_round
+                              : Icons.schedule_outlined,
+                          color: _autoSchedule
+                              ? const Color(0xFF80DEEA)
+                              : Colors.white70,
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Dusk-to-Dawn Auto Schedule",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              _autoSchedule
+                                  ? "Active • 6:30 PM to 6:00 AM"
+                                  : "Disabled • Manual control only",
+                              style: TextStyle(
+                                color: _autoSchedule
+                                    ? const Color(0xFF80DEEA)
+                                    : Colors.white60,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        value: _autoSchedule,
+                        activeThumbColor: Colors.white,
+                        activeTrackColor: const Color(0xFF00BCD4),
+                        inactiveThumbColor: Colors.white,
+                        inactiveTrackColor: Colors.white24,
+                        onChanged: (val) {
+                          setState(() => _autoSchedule = val);
+                          _showSnack(
+                            val
+                                ? "🌙 Dusk-to-Dawn schedule activated"
+                                : "⚙️ Dusk-to-Dawn schedule deactivated",
+                          );
+                        },
                       ),
                     ],
                   ),
