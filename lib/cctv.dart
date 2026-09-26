@@ -112,6 +112,68 @@ class _CCTVPageState extends State<CCTVPage> {
             ),
           ),
 
+          // ── STORAGE & AI SUMMARY ─────
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: const Color(0xFF161626),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.sd_storage_rounded,
+                  size: 16,
+                  color: Color(0xFF64B5F6),
+                ),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    "NVR Storage: 1.4 TB / 2.0 TB (70%)",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.shield_outlined,
+                        size: 12,
+                        color: Color(0xFF81C784),
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        "AI Guard Active",
+                        style: TextStyle(
+                          color: Color(0xFF81C784),
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           // ── FILTER CHIPS ─────────────
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
