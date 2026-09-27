@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final _nameCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   bool _passVisible = false;
+  bool _rememberMe = true;
 
   static const accent = Color(0xFF6C63FF);
 
@@ -157,8 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                       boxShadow: [
                         BoxShadow(
                           color: isDark
-                              ? Colors.black.withOpacity(0.4)
-                              : Colors.black.withOpacity(0.07),
+                              ? Colors.black.withValues(alpha: 0.4)
+                              : Colors.black.withValues(alpha: 0.07),
                           blurRadius: 20,
                           offset: const Offset(0, 6),
                         ),
@@ -193,25 +194,57 @@ class _LoginPageState extends State<LoginPage> {
                                 setState(() => _passVisible = !_passVisible),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const ForgotPasswordPage(),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: Checkbox(
+                                    value: _rememberMe,
+                                    activeColor: accent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    onChanged: (val) => setState(
+                                      () => _rememberMe = val ?? true,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  "Remember me",
+                                  style: TextStyle(
+                                    color: textSub,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const ForgotPasswordPage(),
+                                ),
+                              ),
+                              child: const Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: accent,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
-                            child: const Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                color: accent,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 12),
                         Container(
                           width: double.infinity,
                           height: 54,
@@ -249,6 +282,54 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 20),
+                        // ── SOCIAL OR BIOMETRIC QUICK LOGIN ──
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: isDark ? Colors.white12 : Colors.grey.shade300,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                "OR QUICK SIGN IN",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.0,
+                                  color: textSub,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: isDark ? Colors.white12 : Colors.grey.shade300,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildQuickAuthButton(
+                              icon: Icons.fingerprint_rounded,
+                              label: "Biometric",
+                              isDark: isDark,
+                              onTap: _login,
+                            ),
+                            const SizedBox(width: 14),
+                            _buildQuickAuthButton(
+                              icon: Icons.g_mobiledata_rounded,
+                              label: "Google",
+                              isDark: isDark,
+                              iconSize: 28,
+                              onTap: _login,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -285,6 +366,44 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildQuickAuthButton({
+    required IconData icon,
+    required String label,
+    required bool isDark,
+    required VoidCallback onTap,
+    double iconSize = 22,
+  }) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(14),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: isDark ? Colors.white.withValues(alpha: 0.07) : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isDark ? Colors.white12 : Colors.grey.shade300,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: iconSize, color: accent),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white70 : Colors.grey.shade800,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
