@@ -448,42 +448,49 @@ class homePageState extends State<homePage> {
                   children: const [
                     _RoomTile(
                       title: "Living Room",
+                      deviceCount: "4 Devices",
                       icon: Icons.weekend_rounded,
                       page: LivingRoomPage(),
                       colors: [Color(0xFF6C63FF), Color(0xFF4A90D9)],
                     ),
                     _RoomTile(
                       title: "Bedroom 1",
+                      deviceCount: "3 Devices",
                       icon: Icons.bed_rounded,
                       page: Bedroom1Page(),
                       colors: [Color(0xFF9C27B0), Color(0xFF673AB7)],
                     ),
                     _RoomTile(
                       title: "Bedroom 2",
+                      deviceCount: "3 Devices",
                       icon: Icons.bedroom_parent_rounded,
                       page: Bedroom2Page(),
                       colors: [Color(0xFF00897B), Color(0xFF4DB6AC)],
                     ),
                     _RoomTile(
                       title: "Dining Room",
+                      deviceCount: "2 Devices",
                       icon: Icons.table_bar_rounded,
                       page: DiningRoomPage(),
                       colors: [Color(0xFFFF8F00), Color(0xFFFFB300)],
                     ),
                     _RoomTile(
                       title: "Kitchen",
+                      deviceCount: "3 Devices",
                       icon: Icons.kitchen_rounded,
                       page: KitchenPage(),
                       colors: [Color(0xFFE53935), Color(0xFFFF7043)],
                     ),
                     _RoomTile(
                       title: "Outside Lights",
+                      deviceCount: "4 Lights",
                       icon: Icons.light_mode_rounded,
                       page: OutsideLightsPage(),
                       colors: [Color(0xFF0288D1), Color(0xFF00BCD4)],
                     ),
                     _RoomTile(
                       title: "CCTV",
+                      deviceCount: "2 Cameras",
                       icon: Icons.videocam_rounded,
                       page: CCTVPage(),
                       colors: [Color(0xFF37474F), Color(0xFF546E7A)],
@@ -501,12 +508,14 @@ class homePageState extends State<homePage> {
 
 class _RoomTile extends StatefulWidget {
   final String title;
+  final String deviceCount;
   final IconData icon;
   final Widget page;
   final List<Color> colors;
 
   const _RoomTile({
     required this.title,
+    required this.deviceCount,
     required this.icon,
     required this.page,
     required this.colors,
@@ -584,6 +593,33 @@ class _RoomTileState extends State<_RoomTile> {
                   ),
                 ),
               ),
+              // Device count tag in top right
+              Positioned(
+                top: 14,
+                right: 14,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.22),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Text(
+                    widget.deviceCount,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(18),
                 child: Column(
@@ -591,8 +627,8 @@ class _RoomTileState extends State<_RoomTile> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      width: 56,
-                      height: 56,
+                      width: 54,
+                      height: 54,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.22),
                         shape: BoxShape.circle,
@@ -611,13 +647,13 @@ class _RoomTileState extends State<_RoomTile> {
                       child: Icon(
                         widget.icon,
                         color: Colors.white,
-                        size: 28,
+                        size: 26,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 12),
                     Text(
                       widget.title,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 16,
@@ -631,7 +667,7 @@ class _RoomTileState extends State<_RoomTile> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.18),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.35),
@@ -642,7 +678,7 @@ class _RoomTileState extends State<_RoomTile> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Open",
+                            "Manage",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -652,9 +688,9 @@ class _RoomTileState extends State<_RoomTile> {
                           ),
                           SizedBox(width: 3),
                           Icon(
-                            Icons.chevron_right_rounded,
+                            Icons.arrow_forward_rounded,
                             color: Colors.white,
-                            size: 14,
+                            size: 13,
                           ),
                         ],
                       ),
