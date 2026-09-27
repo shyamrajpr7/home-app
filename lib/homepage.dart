@@ -245,30 +245,54 @@ class homePageState extends State<homePage> {
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
-                        vertical: 7,
+                        vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.14),
+                        color: Colors.white.withValues(alpha: 0.16),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.25),
+                          color: Colors.white.withValues(alpha: 0.28),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
-                      child: const Row(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF00E676),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF00E676).withValues(alpha: 0.8),
+                                  blurRadius: 6,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          const Icon(
                             Icons.wifi_rounded,
-                            size: 16,
+                            size: 15,
                             color: Color(0xFFFFD54F),
                           ),
-                          SizedBox(width: 7),
-                          Text(
-                            "8 devices online",
+                          const SizedBox(width: 6),
+                          const Text(
+                            "8 Devices Online",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              letterSpacing: 0.2,
+                              letterSpacing: 0.3,
                             ),
                           ),
                         ],
@@ -278,14 +302,21 @@ class homePageState extends State<homePage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.14),
+                        color: Colors.white.withValues(alpha: 0.16),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.25),
+                          color: Colors.white.withValues(alpha: 0.28),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: const Icon(
-                        Icons.notifications_none_rounded,
+                        Icons.notifications_active_outlined,
                         color: Colors.white,
                         size: 20,
                       ),
@@ -294,7 +325,7 @@ class homePageState extends State<homePage> {
                 ),
               ),
               const Spacer(),
-              // ── Greeting + Temperature ──
+              // ── Greeting + Temperature & Environmental Stats ──
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 4),
                 child: Row(
@@ -306,8 +337,8 @@ class homePageState extends State<homePage> {
                         children: [
                           Text(
                             _getGreeting(),
-                            style: TextStyle(
-                              fontSize: 22,
+                            style: const TextStyle(
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               letterSpacing: 0.3,
@@ -318,7 +349,7 @@ class homePageState extends State<homePage> {
                             "What would you like to control?",
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white54,
+                              color: Colors.white70,
                             ),
                           ),
                         ],
@@ -326,26 +357,54 @@ class homePageState extends State<homePage> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
+                        horizontal: 14,
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.14),
-                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white.withValues(alpha: 0.16),
+                        borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: Colors.white.withValues(alpha: 0.25),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.15),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: const Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.thermostat_rounded,
-                            size: 18,
+                            size: 17,
                             color: Color(0xFFFF8A65),
                           ),
-                          SizedBox(width: 5),
+                          SizedBox(width: 4),
                           Text(
                             "27°C",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            "|",
+                            style: TextStyle(color: Colors.white38, fontSize: 12),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.water_drop_rounded,
+                            size: 15,
+                            color: Color(0xFF4FC3F7),
+                          ),
+                          SizedBox(width: 3),
+                          Text(
+                            "48%",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,
