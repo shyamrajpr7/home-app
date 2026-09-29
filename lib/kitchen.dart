@@ -99,6 +99,39 @@ class _KitchenPageState extends State<KitchenPage> {
                             ),
                           ),
                           const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFB300).withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color(0xFFFFB300).withValues(alpha: 0.4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.flash_on_rounded,
+                                  color: Color(0xFFFFD54F),
+                                  size: 13,
+                                ),
+                                const SizedBox(width: 3),
+                                Text(
+                                  "${_calculatePowerDraw()} W",
+                                  style: const TextStyle(
+                                    color: Color(0xFFFFE082),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
                           _buildStatusDot(_light1On),
                           const SizedBox(width: 5),
                           _buildStatusDot(_light2On),
@@ -149,6 +182,123 @@ class _KitchenPageState extends State<KitchenPage> {
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ── Kitchen Smart Preset Scenes Strip ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, bottom: 8),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome_rounded,
+                              color: Color(0xFFFF8A65),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 6),
+                            const Text(
+                              "Kitchen Smart Scenes",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildSceneChip(
+                              icon: Icons.restaurant_rounded,
+                              label: "Chef Mode",
+                              color: const Color(0xFFFF7043),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light1Intensity = 100;
+                                  _light2On = true;
+                                  _light2Intensity = 100;
+                                  _fanOn = true;
+                                  _fanSpeed = 3;
+                                  _ovenOn = true;
+                                  _fridgeOn = true;
+                                });
+                                _showSnack("🍳 Chef Cooking Mode activated");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildSceneChip(
+                              icon: Icons.coffee_rounded,
+                              label: "Morning Coffee",
+                              color: const Color(0xFFFFB74D),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = false;
+                                  _light2On = true;
+                                  _light2Intensity = 65;
+                                  _fanOn = false;
+                                  _fridgeOn = true;
+                                  _ovenOn = false;
+                                });
+                                _showSnack("☕ Morning Coffee Mode activated");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildSceneChip(
+                              icon: Icons.nightlight_round,
+                              label: "Night Snack",
+                              color: const Color(0xFF81D4FA),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = false;
+                                  _light2On = true;
+                                  _light2Intensity = 25;
+                                  _fanOn = false;
+                                  _ovenOn = false;
+                                  _fridgeOn = true;
+                                });
+                                _showSnack("🌙 Night Snack Mode activated");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildSceneChip(
+                              icon: Icons.cleaning_services_rounded,
+                              label: "Clean Up",
+                              color: const Color(0xFF80CBC4),
+                              onTap: () {
+                                setState(() {
+                                  _light1On = true;
+                                  _light1Intensity = 90;
+                                  _light2On = true;
+                                  _light2Intensity = 90;
+                                  _fanOn = true;
+                                  _fanSpeed = 4;
+                                  _ovenOn = false;
+                                  _fridgeOn = true;
+                                });
+                                _showSnack("🧹 Kitchen Clean Up Mode activated");
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -526,6 +676,58 @@ class _KitchenPageState extends State<KitchenPage> {
     );
   }
 
+  int _calculatePowerDraw() {
+    int watts = 0;
+    if (_light1On) watts += (_light1Intensity * 0.12).round();
+    if (_light2On) watts += (_light2Intensity * 0.12).round();
+    if (_fanOn) watts += (_fanSpeed * 15).round();
+    if (_fridgeOn) watts += 140;
+    if (_ovenOn) watts += 1850;
+    return watts;
+  }
+
+  /// Scene Preset Chip
+  Widget _buildSceneChip({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: color.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: color, size: 16),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.95),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   /// Snackbar helper
   void _showSnack(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -541,3 +743,4 @@ class _KitchenPageState extends State<KitchenPage> {
     );
   }
 }
+
