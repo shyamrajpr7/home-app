@@ -378,6 +378,112 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                     ],
                   ),
                 ),
+
+                // ── Ambience Scenes Preset Selector ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.38),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2, bottom: 8),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.palette_rounded,
+                              color: Color(0xFFB388FF),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 6),
+                            const Text(
+                              "Ambience Presets",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildScenePill(
+                              label: "Cinema Night",
+                              icon: Icons.movie_filter_rounded,
+                              accent: const Color(0xFFAB47BC),
+                              onTap: () {
+                                _applyScene(
+                                  l1: false,
+                                  l2: false,
+                                  l3: false,
+                                  l4: true,
+                                  name: "🎬 Cinema Night",
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Party Glow",
+                              icon: Icons.celebration_rounded,
+                              accent: const Color(0xFF29B6F6),
+                              onTap: () {
+                                _applyScene(
+                                  l1: false,
+                                  l2: true,
+                                  l3: false,
+                                  l4: true,
+                                  name: "🎉 Party Glow",
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Cozy Warm",
+                              icon: Icons.local_fire_department_rounded,
+                              accent: const Color(0xFFFFB74D),
+                              onTap: () {
+                                _applyScene(
+                                  l1: true,
+                                  l2: false,
+                                  l3: true,
+                                  l4: false,
+                                  name: "🕯️ Cozy Warm",
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Focus Study",
+                              icon: Icons.menu_book_rounded,
+                              accent: const Color(0xFF66BB6A),
+                              onTap: () {
+                                _applyScene(
+                                  l1: true,
+                                  l2: true,
+                                  l3: true,
+                                  l4: false,
+                                  name: "📖 Focus Study",
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 _buildLedCard(
                   title: "LED 1",
                   subtitle: "D1 — Pin 5",
@@ -696,4 +802,68 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
       ),
     );
   }
+
+  Widget _buildScenePill({
+    required String label,
+    required IconData icon,
+    required Color accent,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: accent.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: accent.withValues(alpha: 0.5),
+              width: 1.2,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: accent, size: 16),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _applyScene({
+    required bool l1,
+    required bool l2,
+    required bool l3,
+    required bool l4,
+    required String name,
+  }) {
+    setState(() {
+      _led1 = l1;
+      _led2 = l2;
+      _led3 = l3;
+      _led4 = l4;
+    });
+    _dbRef.update({
+      "led1": l1,
+      "led2": l2,
+      "led3": l3,
+      "led4": l4,
+    });
+    _toast("$name activated");
+  }
 }
+
