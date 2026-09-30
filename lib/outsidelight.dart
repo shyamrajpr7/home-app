@@ -286,6 +286,176 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                     ],
                   ),
                 ),
+
+                // ── Solar Power & Battery Health Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFFFFD54F).withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFD54F).withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.solar_power_rounded,
+                          color: Color(0xFFFFD54F),
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Solar Battery Backup",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              "94% Stored • Solar Generating 48W",
+                              style: TextStyle(
+                                color: Color(0xFFFFECB3),
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.5),
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.bolt_rounded, size: 12, color: Color(0xFF81C784)),
+                            Text(
+                              "Optimal",
+                              style: TextStyle(
+                                color: Color(0xFF81C784),
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ── Outdoor Quick Scene Presets Strip ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 2, bottom: 8),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.tune_rounded,
+                              color: Color(0xFF80DEEA),
+                              size: 15,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              "Outdoor Lighting Presets",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildOutdoorScenePill(
+                              label: "Perimeter Security",
+                              icon: Icons.shield_rounded,
+                              accent: const Color(0xFFFF8F00),
+                              onTap: () {
+                                setState(() {
+                                  _gateLightOn = true;
+                                  _garageLightOn = true;
+                                  _gardenLightOn = false;
+                                  _balconyLightOn = false;
+                                });
+                                _showSnack("🛡️ Perimeter Security Mode active");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildOutdoorScenePill(
+                              label: "Garden Ambience",
+                              icon: Icons.park_rounded,
+                              accent: const Color(0xFF81C784),
+                              onTap: () {
+                                setState(() {
+                                  _gateLightOn = false;
+                                  _gardenLightOn = true;
+                                  _balconyLightOn = true;
+                                  _garageLightOn = false;
+                                });
+                                _showSnack("🌿 Garden Ambience Mode active");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildOutdoorScenePill(
+                              label: "Welcome Gate",
+                              icon: Icons.meeting_room_rounded,
+                              accent: const Color(0xFF4FC3F7),
+                              onTap: () {
+                                setState(() {
+                                  _gateLightOn = true;
+                                  _gardenLightOn = false;
+                                  _garageLightOn = false;
+                                  _balconyLightOn = false;
+                                });
+                                _showSnack("🚪 Welcome Gate Light active");
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 _buildControlCard(
                   title: "Gate Light",
                   subtitle: "Main entrance",
@@ -525,6 +695,47 @@ class _OutsideLightsPageState extends State<OutsideLightsPage> {
                 ),
               ]
             : null,
+      ),
+    );
+  }
+
+  Widget _buildOutdoorScenePill({
+    required String label,
+    required IconData icon,
+    required Color accent,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: accent.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: accent.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: accent, size: 16),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
