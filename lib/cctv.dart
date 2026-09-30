@@ -9,6 +9,8 @@ class CCTVPage extends StatefulWidget {
 
 class _CCTVPageState extends State<CCTVPage> {
   String _selectedFilter = "All";
+  bool _isCompactGrid = true;
+  bool _irNightVision = true;
 
   static const List<Map<String, String>> _allCameras = [
     {"name": "Camera 1", "location": "Front Door", "type": "Outdoor"},
@@ -22,6 +24,18 @@ class _CCTVPageState extends State<CCTVPage> {
     return _allCameras
         .where((c) => c["type"] == _selectedFilter)
         .toList();
+  }
+
+  void _showSnackBar(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: const Color(0xFF6C63FF),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(milliseconds: 1400),
+      ),
+    );
   }
 
   @override
@@ -51,6 +65,24 @@ class _CCTVPageState extends State<CCTVPage> {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            icon: Icon(
+              _isCompactGrid
+                  ? Icons.view_agenda_rounded
+                  : Icons.grid_view_rounded,
+              color: Colors.white70,
+              size: 22,
+            ),
+            tooltip: _isCompactGrid ? "Large View" : "Grid View",
+            onPressed: () {
+              setState(() => _isCompactGrid = !_isCompactGrid);
+              _showSnackBar(
+                _isCompactGrid ? "Switched to Grid View" : "Switched to Large Feed View",
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -174,6 +206,35 @@ class _CCTVPageState extends State<CCTVPage> {
             ),
           ),
 
+          // ── QUICK ACTIONS STRIP ───────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildQuickPill(
+                    icon: Icons.camera_alt_rounded,
+                    label: "Snapshot",
+                    color: const Color(0xFF64B5F6),
+                    onTap: () => _showSnackBar("📸 Saved snapshot from all cameras"),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildQuickPill(
+                    icon: _irNightVision ? Icons.nightlight_round_rounded : Icons.wb_sunny_rounded,
+                    label: _irNightVision ? "IR Night: ON" : "IR Night: OFF",
+                    color: _irNightVision ? const Color(0xFF80CBC4) : Colors.white60,
+                    onTap: () {
+                      setState(() => _irNightVision = !_irNightVision);
+                      _showSnackBar(_irNightVision ? "🌙 IR Night Vision active" : "☀️ IR Night Vision disabled");
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           // ── FILTER CHIPS ─────────────
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -192,11 +253,11 @@ class _CCTVPageState extends State<CCTVPage> {
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: _isCompactGrid ? 2 : 1,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: 0.95,
+                childAspectRatio: _isCompactGrid ? 0.95 : 1.45,
               ),
               itemCount: _filteredCameras.length,
               itemBuilder: (context, index) {
@@ -209,6 +270,47 @@ class _CCTVPageState extends State<CCTVPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildQuickPill({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: color.withValues(alpha: 0.35),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: color, size: 14),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
