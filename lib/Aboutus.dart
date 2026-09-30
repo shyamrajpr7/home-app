@@ -299,6 +299,108 @@ class HomePage extends StatelessWidget {
               imageUrl: "images/WhatsApp Image 2025-08-28 at 12.06.29.jpeg",
               color: const Color(0xFFFF7043),
             ),
+            const SizedBox(height: 24),
+
+            // ── TECH STACK & ENGINE ────
+            const Text(
+              "ENGINE & ARCHITECTURE",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.6,
+                color: Colors.orangeAccent,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1C1C2E),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white12),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildTechBadge(
+                        label: "Flutter 3.x",
+                        icon: Icons.flutter_dash_rounded,
+                        accent: const Color(0xFF29B6F6),
+                      ),
+                      const SizedBox(width: 8),
+                      _buildTechBadge(
+                        label: "Firebase RTDB",
+                        icon: Icons.local_fire_department_rounded,
+                        accent: const Color(0xFFFFAB00),
+                      ),
+                      const SizedBox(width: 8),
+                      _buildTechBadge(
+                        label: "MQTT Broker",
+                        icon: Icons.hub_rounded,
+                        accent: const Color(0xFF00E676),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.verified_rounded,
+                        color: Color(0xFF6C63FF),
+                        size: 14,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        "Smart Home App • Crafted with care",
+                        style: TextStyle(
+                          color: Colors.white54,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildTechBadge({
+    required String label,
+    required IconData icon,
+    required Color accent,
+  }) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        decoration: BoxDecoration(
+          color: accent.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: accent.withValues(alpha: 0.35),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: accent, size: 18),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: accent,
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
       ),
