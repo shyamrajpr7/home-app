@@ -200,6 +200,199 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
                     ],
                   ),
                 ),
+                // ── Climate & Room Comfort Status Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFF4DB6AC).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00897B).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFF00897B).withValues(alpha: 0.45),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.thermostat_rounded,
+                          color: Color(0xFF80CBC4),
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Bedroom Climate Comfort",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              _acOn
+                                  ? "Target Temp ${_acTemp.toInt()}°C · AC Active"
+                                  : "AC Idle · Fan ${_fanOn ? 'Lv ${_fanSpeed.toInt()}' : 'Off'}",
+                              style: TextStyle(
+                                color: _acOn
+                                    ? const Color(0xFF80CBC4)
+                                    : Colors.white60,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00897B).withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.water_drop_rounded,
+                                color: Color(0xFF80DEEA), size: 12),
+                            SizedBox(width: 3),
+                            Text(
+                              "52% RH",
+                              style: TextStyle(
+                                color: Color(0xFFE0F2F1),
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ── Smart Scene Mood Presets Strip ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2, bottom: 8),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome_rounded,
+                              color: Color(0xFF80CBC4),
+                              size: 15,
+                            ),
+                            const SizedBox(width: 6),
+                            const Text(
+                              "Bedroom Presets",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildScenePill(
+                              label: "Deep Sleep",
+                              icon: Icons.bedtime_rounded,
+                              accent: const Color(0xFF80CBC4),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = false;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                  _acOn = true;
+                                  _acTemp = 24;
+                                });
+                                _showSnackBar("🌙 Deep Sleep Mode enabled");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Focus Study",
+                              icon: Icons.auto_stories_rounded,
+                              accent: const Color(0xFFFFB74D),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = true;
+                                  _lightIntensity = 85;
+                                  _fanOn = true;
+                                  _fanSpeed = 2;
+                                  _acOn = true;
+                                  _acTemp = 23;
+                                });
+                                _showSnackBar("📖 Study & Focus Mode enabled");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Turbo Cool",
+                              icon: Icons.ac_unit_rounded,
+                              accent: const Color(0xFF29B6F6),
+                              onTap: () {
+                                setState(() {
+                                  _fanOn = true;
+                                  _fanSpeed = 5;
+                                  _acOn = true;
+                                  _acTemp = 18;
+                                });
+                                _showSnackBar("❄️ Turbo Cool activated");
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            _buildScenePill(
+                              label: "Wake Up",
+                              icon: Icons.wb_sunny_rounded,
+                              accent: const Color(0xFFFFD54F),
+                              onTap: () {
+                                setState(() {
+                                  _lightOn = true;
+                                  _lightIntensity = 95;
+                                  _fanOn = false;
+                                  _acOn = false;
+                                });
+                                _showSnackBar("☀️ Wake Up Ambience enabled");
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // 🔆 Light Control
                 _buildControlCard(
                   title: "Light",
@@ -527,6 +720,48 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
     );
   }
 
+  /// Scene Pill helper
+  Widget _buildScenePill({
+    required String label,
+    required IconData icon,
+    required Color accent,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: accent.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: accent.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: accent, size: 16),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   /// Snackbar helper
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -542,4 +777,5 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
     );
   }
 }
+
 
