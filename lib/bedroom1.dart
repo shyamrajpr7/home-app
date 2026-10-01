@@ -217,6 +217,91 @@ class _Bedroom1PageState extends State<Bedroom1Page> {
                     ],
                   ),
                 ),
+                // ── Bedroom 1 Climate & Air Comfort Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFF9C27B0).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF7B1FA2).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFF9C27B0).withValues(alpha: 0.45),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.thermostat_rounded,
+                          color: Color(0xFFCE93D8),
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Master Suite Comfort",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              _acOn
+                                  ? "Target Temp ${_acTemp.toInt()}°C • Cooling"
+                                  : "AC Standby • Fan ${_fanOn ? 'Lvl ${_fanSpeed.toInt()}' : 'Off'}",
+                              style: TextStyle(
+                                color: _acOn
+                                    ? const Color(0xFFCE93D8)
+                                    : Colors.white60,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF7B1FA2).withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.air_rounded,
+                                color: Color(0xFFE1BEE7), size: 12),
+                            SizedBox(width: 3),
+                            Text(
+                              "AQI 24 • Good",
+                              style: TextStyle(
+                                color: Color(0xFFF3E5F5),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // Light
                 _buildControlCard(
                   title: "Light",
