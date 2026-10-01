@@ -390,6 +390,127 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+
+            // ── HUB NETWORK & DIAGNOSTICS CARD ────────────
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 14,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+                border: Border.all(
+                  color: const Color(0xFF00ACC1).withValues(alpha: 0.2),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00ACC1).withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.router_rounded,
+                          size: 18,
+                          color: Color(0xFF00838F),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        "Hub Diagnostics & Mesh Network",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1A1A2E),
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                "⚡ Hub telemetry synced • Latency 11ms",
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF00ACC1).withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.refresh_rounded,
+                                  size: 12, color: Color(0xFF00838F)),
+                              SizedBox(width: 3),
+                              Text(
+                                "SYNC",
+                                style: TextStyle(
+                                  color: Color(0xFF00838F),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildSecurityBadge(
+                        icon: Icons.speed_rounded,
+                        label: "Latency",
+                        status: "11 ms",
+                        color: const Color(0xFF00897B),
+                      ),
+                      _buildSecurityBadge(
+                        icon: Icons.wifi_tethering_rounded,
+                        label: "Mesh Nodes",
+                        status: "6 Active",
+                        color: const Color(0xFF3949AB),
+                      ),
+                      _buildSecurityBadge(
+                        icon: Icons.memory_rounded,
+                        label: "Hub CPU",
+                        status: "18% Load",
+                        color: const Color(0xFFFB8C00),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
