@@ -303,6 +303,94 @@ class _KitchenPageState extends State<KitchenPage> {
                     ],
                   ),
                 ),
+                // ── Kitchen Safety & Ventilation Status Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFFFF7043).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE64A19).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFFFF7043).withValues(alpha: 0.45),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.shield_rounded,
+                          color: Color(0xFFFFAB91),
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Kitchen Safety Guard",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              _ovenOn
+                                  ? "Oven In Use • Exhaust Auto Sync On"
+                                  : "LPG & Smoke Detector • All Clear",
+                              style: TextStyle(
+                                color: _ovenOn
+                                    ? const Color(0xFFFFAB91)
+                                    : const Color(0xFF81C784),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.22),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.check_circle_rounded,
+                                color: Color(0xFF81C784), size: 12),
+                            SizedBox(width: 4),
+                            Text(
+                              "Safe",
+                              style: TextStyle(
+                                color: Color(0xFFC8E6C9),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // 🔆 Light 1
                 _buildControlCard(
                   title: "Light 1",
