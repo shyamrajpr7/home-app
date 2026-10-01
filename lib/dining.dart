@@ -214,6 +214,87 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
                     ],
                   ),
                 ),
+                // ── Dining Room Atmosphere & Power Card ──
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFFFFB300).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFF8F00).withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFFFFB300).withValues(alpha: 0.45),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.dinner_dining_rounded,
+                          color: Color(0xFFFFD54F),
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Dining Ambience Aura",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              _getDiningAmbienceTitle(),
+                              style: const TextStyle(
+                                color: Color(0xFFFFE082),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFF8F00).withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.bolt_rounded,
+                                color: Color(0xFFFFD54F), size: 12),
+                            const SizedBox(width: 3),
+                            Text(
+                              "${_calculateDiningPower()} W",
+                              style: const TextStyle(
+                                color: Color(0xFFFFF8E1),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // 🔆 Light 1
                 _buildControlCard(
                   title: "Light 1",
@@ -491,6 +572,27 @@ class _DiningRoomPageState extends State<DiningRoomPage> {
 
   int _countLightsOn() {
     return [_light1On, _light2On, _light3On].where((on) => on).length;
+  }
+
+  int _calculateDiningPower() {
+    int total = 0;
+    if (_light1On) total += (_light1Intensity * 0.4).round();
+    if (_light2On) total += (_light2Intensity * 0.25).round();
+    if (_light3On) total += (_light3Intensity * 0.25).round();
+    if (_fanOn) total += (_fanSpeed * 12).round();
+    return total;
+  }
+
+  String _getDiningAmbienceTitle() {
+    final active = _countLightsOn();
+    if (active == 0 && !_fanOn) return "Eco Standby • Everything Off";
+    if (_light1On && _light1Intensity >= 80 && _light2On && _light3On) {
+      return "Bright Festive Feast • Full Glow";
+    }
+    if (_light1On && _light1Intensity <= 50 && !_light3On) {
+      return "Warm Intimate Dinner • Relaxed";
+    }
+    return "$active Lights Active • Fan ${_fanOn ? 'Lvl ${_fanSpeed.toInt()}' : 'Off'}";
   }
 
   /// Scene preset action button
