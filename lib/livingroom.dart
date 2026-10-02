@@ -26,7 +26,7 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
   bool _ttsReady = false;
   String _lastWords = '';
 
-  // LED index lookup table for instant, unambiguous matching
+  String _audioScene = "Cinema";
   static const Map<String, int> _ledIndex = {
     "led 1": 0, "led one": 0, "light 1": 0, "light one": 0, "first": 0,
     "led 2": 1, "led two": 1, "light 2": 1, "light two": 1, "second": 1,
@@ -580,6 +580,96 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 16),
+                // ── Acoustics & Home Theater Mode Card ──
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color(0xFF6C63FF).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF6C63FF).withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.surround_sound_rounded,
+                              color: Color(0xFF9E95FF),
+                              size: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Acoustics & Ambience Mode",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  "Dolby Atmos & Spatial EQ Sync",
+                                  style: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF4CAF50).withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              "Hi-Res 96kHz",
+                              style: TextStyle(
+                                color: Color(0xFF81C784),
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildAudioPresetChip("Cinema", Icons.movie_filter_rounded, const Color(0xFFE53935)),
+                            const SizedBox(width: 8),
+                            _buildAudioPresetChip("Lounge", Icons.nightlife_rounded, const Color(0xFFFFB300)),
+                            const SizedBox(width: 8),
+                            _buildAudioPresetChip("Gaming", Icons.sports_esports_rounded, const Color(0xFF00E676)),
+                            const SizedBox(width: 8),
+                            _buildAudioPresetChip("Late Night", Icons.bedtime_rounded, const Color(0xFF42A5F5)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -835,6 +925,55 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
                   color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAudioPresetChip(String name, IconData icon, Color accent) {
+    final bool isSelected = _audioScene == name;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _audioScene = name;
+          });
+          _toast("Acoustics set to $name Preset");
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? accent.withValues(alpha: 0.28)
+                : Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected ? accent : Colors.white24,
+              width: isSelected ? 1.5 : 1.0,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? accent : Colors.white70,
+                size: 16,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                name,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.white70,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 ),
               ),
             ],
