@@ -23,7 +23,7 @@ class _Bedroom2PageState extends State<Bedroom2Page> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Bedroom 2",
+          "Bedroom 2 ",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
